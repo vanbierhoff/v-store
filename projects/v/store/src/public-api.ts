@@ -1,7 +1,10 @@
 /*
- * Public API Surface of store
+ * Public API Surface of v-store
  */
 
-export * from './lib/store.service';
-export * from './lib/store.component';
-export * from './lib/store.module';
+// Create store Fn
+export * from './store/create-store/create-store'
+
+// DECORATORS & MODELS
+export * from './store/decorators/store-field/store-field.decorator'
+export * from './store/decorators/store-instance/store-instance.decorator'
