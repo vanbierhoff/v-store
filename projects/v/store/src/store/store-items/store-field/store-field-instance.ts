@@ -1,15 +1,22 @@
-import { ValidationError, ValidatorInterface } from '../../../services/store/models/validation/validator.interface';
-import { StoreFieldDecoratorInterface } from '../models/store.field-decorator.interface';
+import { ValidationError, ValidatorInterface } from '../../services/store/models/validation/validator.interface';
 import { StoreFieldOptionsInterface } from './models/store-field-options.interface';
+import { StoreFieldMeta } from './models/store-field-meta';
 
 
 export class StoreFieldInstance<T = any> {
 
     protected storeValue: T;
 
-    protected options: StoreFieldOptionsInterface;
+    protected options: StoreFieldOptionsInterface = {} as StoreFieldOptionsInterface;
 
-    protected isValidStoreValue: boolean;
+    protected isValidStoreValue: boolean = false;
+
+    /**
+     * @protected
+     *
+     * Field name from source class
+     */
+    protected propertyName: string;
 
     /**
      * @protected
@@ -19,10 +26,12 @@ export class StoreFieldInstance<T = any> {
 
     protected policyFn: (() => Promise<boolean>) | undefined;
 
-    constructor(config: StoreFieldDecoratorInterface) {
+    constructor(config: StoreFieldMeta, value?: T) {
         this.options.strictSet = config.strictSet ?? false;
         this.validators = config.validators || undefined;
         this.policyFn = config.policy;
+        this.propertyName = config.propertyName;
+        this.setValue(value);
     }
 
     /**
@@ -39,13 +48,15 @@ export class StoreFieldInstance<T = any> {
      */
     async setValue(value: any): Promise<any> {
         if (this.options.strictSet) {
-            this.validate().then((res) => {
+            return this.validate().then((res) => {
                 if (res) {
                     this.storeValue = value;
+                    this.isValidStoreValue = true;
                     return value;
                 }
             });
         }
+        this.isValidStoreValue = true;
         this.storeValue = value;
         return value;
     }

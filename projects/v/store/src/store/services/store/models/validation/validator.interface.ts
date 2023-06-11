@@ -1,4 +1,4 @@
-import { StoreFieldInstance } from '../../../../decorators/store-field/field-instance/store-field-instance';
+import { StoreFieldInstance } from '../../../../store-items/store-field/store-field-instance';
 
 
 export type ValidationError = {

@@ -9,6 +9,7 @@ import {
 import { TestStore } from '../models/test-store';
 import { HttpClient } from '@angular/common/http';
 import { StoreService } from '../../../../../projects/v/store/src/store/services/store/store.service';
+import { createStore } from '../../../../../projects/v/store/src/store/create-store/create-store';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class TestStoreComponent implements OnInit {
     public name: Signal<string> = signal('test');
 
     ngOnInit() {
-        console.log(new TestStore(this.store));
+        console.log(createStore(TestStore, 'store'),[this.store]);
         setTimeout(() => {
             this.firstName.set('Den');
         }, 1000);

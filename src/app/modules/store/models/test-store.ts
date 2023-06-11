@@ -13,9 +13,10 @@ export class TestStore {
     }
 
     @StoreField
-    public data = 5;
+    public data: string = '5';
 
     @StoreField({
+        strictSet: true
     })
-    public data2 = 5;
+    public data2: number = 5;
 }
