@@ -1,6 +1,7 @@
 import { ValidationError, ValidatorInterface } from '../../services/store/models/validation/validator.interface';
 import { StoreFieldOptionsInterface } from './models/store-field-options.interface';
 import { StoreFieldMeta } from './models/store-field-meta';
+import { of } from 'rxjs';
 
 
 export class StoreFieldInstance<T = any> {
@@ -16,7 +17,7 @@ export class StoreFieldInstance<T = any> {
      *
      * Field name from source class
      */
-    protected propertyName: string;
+    public propertyName: string | symbol;
 
     /**
      * @protected
@@ -29,7 +30,7 @@ export class StoreFieldInstance<T = any> {
     constructor(config: StoreFieldMeta, value?: T) {
         this.options.strictSet = config.strictSet ?? false;
         this.validators = config.validators || undefined;
-        this.policyFn = config.policy;
+        this.policyFn = config.policy || undefined;
         this.propertyName = config.propertyName;
         this.setValue(value);
     }
@@ -54,6 +55,7 @@ export class StoreFieldInstance<T = any> {
                     this.isValidStoreValue = true;
                     return value;
                 }
+                throw new Error('Error validate in strict mode');
             });
         }
         this.isValidStoreValue = true;

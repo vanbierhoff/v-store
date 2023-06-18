@@ -16,8 +16,8 @@ module.exports = {
             extends: ["plugin:@angular-eslint/recommended"],
             rules: {
                 '@typescript-eslint/no-non-undefined-assertion': 'error',
-                // "no-use-before-define": 'off',
-                // "@typescript-tslint/no-use-before-define": 'off',
+                "no-use-before-define": 'off',
+                "@typescript-tslint/no-use-before-define": 'off',
             }
         },
         {

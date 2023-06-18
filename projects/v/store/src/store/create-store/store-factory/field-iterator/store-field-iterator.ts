@@ -3,7 +3,6 @@ import { StoreFieldInstance } from '../../../store-items/store-field/store-field
 
 
 export function* storeFieldIterator(targetArray: StoreFieldMeta[], storeInstance: any): any {
-    console.log(targetArray);
     for(let i = 0; targetArray.length > i; i++) {
         const fieldValue = storeInstance[targetArray[i].propertyName] || undefined;
         const field = new StoreFieldInstance({

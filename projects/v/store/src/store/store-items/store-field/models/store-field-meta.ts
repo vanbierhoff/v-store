@@ -3,5 +3,5 @@ import { StoreFieldDecoratorInterface } from '../../../decorators/store-field/mo
 
 export interface StoreFieldMeta extends StoreFieldDecoratorInterface{
     type?: any;
-    propertyName: string;
+    propertyName: string | symbol;
 }

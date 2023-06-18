@@ -4,13 +4,13 @@
   "compilerOptions": {
     "paths": {
       "@v/meta-helper": [
-        "dist/v/meta-helper"
+        "projects/v/meta-helper"
       ],
       "@v/r-types": [
-        "dist/v/r-types"
+        "projects/v/r-types"
       ],
       "@v/store": [
-        "dist/v/store"
+        "projects/v/store"
       ]
     },
     "baseUrl": "./",
