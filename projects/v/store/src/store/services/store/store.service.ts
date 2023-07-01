@@ -15,6 +15,8 @@ export class StoreService {
     }
 
     selectStore(storeKey: string | symbol) {
+        console.log(storeKey);
+        console.log(getMetadata<BaseDecoratedStoreItem>(STORE_ITEM_KEY, StoreService));
         const store: BaseDecoratedStoreItem = find(getMetadata<BaseDecoratedStoreItem>(STORE_ITEM_KEY, StoreService),
             item => item.key === storeKey);
         if (store) {

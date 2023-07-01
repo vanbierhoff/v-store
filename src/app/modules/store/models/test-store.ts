@@ -15,8 +15,18 @@ export class TestStore {
     @StoreField
     public data: string = '5';
 
-    @StoreField({
-        strictSet: true
-    })
+    @StoreField({})
     public data2: number = 5;
+
+
+    dataNotDec = 'notDecotr';
+
+
+    get dataNot() {
+        return this.dataNotDec;
+    }
+
+    method() {
+        console.log('datas');
+    }
 }

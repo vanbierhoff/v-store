@@ -28,8 +28,7 @@ export class StoreFieldInstance<T = any> {
     protected policyFn: (() => Promise<boolean>) | undefined;
 
     constructor(config: StoreFieldMeta, value?: T) {
-        this.options.strictSet = config.strictSet ?? false;
-        this.validators = config.validators || undefined;
+        this.validators = config.validators;
         this.policyFn = config.policy || undefined;
         this.propertyName = config.propertyName;
         this.setValue(value);
@@ -47,21 +46,11 @@ export class StoreFieldInstance<T = any> {
      * Setter function for update field value
      * @return value
      */
-    async setValue(value: any): Promise<any> {
-        if (this.options.strictSet) {
-            return this.validate().then((res) => {
-                if (res) {
-                    this.storeValue = value;
-                    this.isValidStoreValue = true;
-                    return value;
-                }
-                throw new Error('Error validate in strict mode');
-            });
-        }
-        this.isValidStoreValue = true;
+    setValue(value: any): void {
         this.storeValue = value;
         return value;
     }
+
 
     get isValid() {
         return this.isValidStoreValue;

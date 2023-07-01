@@ -21,6 +21,14 @@ export class FieldManager {
         return this.fields ?? null;
     }
 
+    set(key: string | symbol, value: any) {
+        const field = find(this.fields, keyField => keyField.propertyName === key);
+        if (!field) {
+            return;
+        }
+        field.setValue(key);
+    }
+
     /**
      *
      * @param key: string

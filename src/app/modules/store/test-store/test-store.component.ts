@@ -7,7 +7,6 @@ import {
     signal
 } from '@angular/core';
 import { TestStore } from '../models/test-store';
-import { HttpClient } from '@angular/common/http';
 import { StoreService } from '../../../../../projects/v/store/src/store/services/store/store.service';
 import { createStore } from '../../../../../projects/v/store/src/store/create-store/create-from-decorated';
 
@@ -31,17 +30,19 @@ export class TestStoreComponent implements OnInit {
 
     ngOnInit() {
         createStore(TestStore, 'store', [this.store]);
+        createStore('TestStore', 'store1');
         setTimeout(() => {
             this.firstName.set('Den');
         }, 1000);
 
         this.name = computed(() => this.firstName() + ' Family');
 
-        setTimeout(() => {
-            console.log(this.store.selectStore('store'));
-        },300)
-
-
+        const store = this.store.selectStore('store');
+        const store1 = this.store.selectStore('store1');
+        console.log(store1);
+        console.log(store);
+        store.method();
+        console.log(store.dataNot);
     }
 
 }

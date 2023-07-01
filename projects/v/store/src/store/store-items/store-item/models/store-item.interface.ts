@@ -3,13 +3,13 @@ import { StoreFieldInstance } from '../../store-field/store-field-instance';
 
 
 export interface StoreItemInterface<T> {
-    validate(): Promise<true | ValidationError[]>;
+    validate?(): Promise<true | ValidationError[]>;
 
     get(field?: string): StoreFieldInstance<T> | null;
 
     selectForStore(): T;
 
-    set(value: any): void;
+    set(value: any, key?: string | symbol): void;
 
-    isValid: boolean;
+    isValid?: boolean;
 }

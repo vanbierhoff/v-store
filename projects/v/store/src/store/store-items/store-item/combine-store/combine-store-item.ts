@@ -1,6 +1,4 @@
 import { BaseDecoratedStoreItem } from '../base-decorated-store-item';
-
-import { isPrimitive } from '../../../../../../r-types/src/helpers/is-primitive/is-primitive';
 import concat from 'lodash/concat';
 import { StoreFieldInstance } from '../../store-field/store-field-instance';
 import { FieldManager } from '../../store-field/field-manager/field-manager';
@@ -31,9 +29,6 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
 
 
     override selectForStore(): T {
-        if (isPrimitive(this.originalState)) {
-            return this.originalState;
-        }
         const origInstanceKeys = concat<string | symbol>(
             Object.keys(this.originalState),
             Object.getOwnPropertySymbols(this.originalState));
@@ -51,8 +46,13 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
      * @param value: any
      *
      * Set data in state.
+     * @param key
      */
-    override set(value: any) {
+    override set(value: any, key?: string | symbol) {
+        if (key) {
+            this.setByKey(value, key);
+            return;
+        }
         const keys = Object.keys(value);
         for(let key of keys) {
             const field = this.fieldsManager.get(key);
@@ -68,6 +68,18 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
                 this.fieldsManager.removeField(item.propertyName);
             }
         });
+    }
+
+    protected setByKey(value: any, key: string | symbol) {
+        const field = this.fieldsManager.get(key);
+        if (field) {
+            this.fieldsManager.set(key, value);
+            this.originalState[key] = value[key];
+            return;
+        }
+        this.originalState[key] = value;
+        this.fieldsManager.pushField(value, key);
+
     }
 
 }

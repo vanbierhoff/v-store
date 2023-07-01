@@ -3,10 +3,8 @@ import { ValidationError } from '../../services/store/models/validation/validato
 import { FieldManager } from '../store-field/field-manager/field-manager';
 import { StoreItemInterface } from './models/store-item.interface';
 import forEach from 'lodash/forEach';
+import concat from 'lodash/concat';
 
-
-// Нужны стратегии для работы с декорированными/недекороиванными полями
-// коррретная работа StoreFieldInstance с примитивными недекорированными данными
 
 export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
 
@@ -70,12 +68,14 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
      * Set data in state.
      */
     set(value: any) {
-        const keys = Object.keys(value);
+        const keys = concat<string | symbol>(
+            Object.keys(value),
+            Object.getOwnPropertySymbols(value));
         for(let key of keys) {
             const field = this.fieldsManager.get(key);
             if (field) {
-                field.setValue(value[key])
-                    .then(() => this.originalState[key] = value[key]);
+                field.setValue(value[key]);
+                this.originalState[key] = value[key];
             }
         }
     }
