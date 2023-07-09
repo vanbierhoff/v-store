@@ -7,7 +7,7 @@ import {
     signal
 } from '@angular/core';
 import { TestStore } from '../models/test-store';
-import { StoreService } from '../../../../../projects/v/store/src/store/services/store/store.service';
+import { SyncStoreService } from '../../../../../projects/v/store/src/store/services/store/sync-store.service';
 import { createStore } from '../../../../../projects/v/store/src/store/create-store/create-from-decorated';
 
 
@@ -16,17 +16,16 @@ import { createStore } from '../../../../../projects/v/store/src/store/create-st
     standalone: true,
     templateUrl: './test-store.component.html',
     styleUrls: ['./test-store.component.scss'],
-    providers: [StoreService],
+    providers: [SyncStoreService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TestStoreComponent implements OnInit {
 
-    constructor(protected store: StoreService) {
-    }
-
     public firstName = signal('Jane');
-
     public name: Signal<string> = signal('test');
+
+    constructor(protected store: SyncStoreService) {
+    }
 
     ngOnInit() {
         createStore(TestStore, 'store', [this.store]);
@@ -37,20 +36,24 @@ export class TestStoreComponent implements OnInit {
 
         this.name = computed(() => this.firstName() + ' Family');
 
-        const store = this.store.selectStore('store');
-        const store1 = this.store.selectStore('store1');
-        this.store.mutateStore('store', value => {
-            value.data = 99;
-            return value;
-        });
-        console.log(store1);
+        const store = this.store.syncSelectStore('store');
+
+        console.log(store);
         console.log(store.dataNotDec);
         store.data = 105;
         store.method();
         console.log(store.data);
+
+        const store1 = this.store.syncSelectStore('store1');
+        this.store.mutateStore('store', value => {
+            value.data = 99;
+            return value;
+        });
+
         setTimeout(() => {
-            console.log(this.store.selectStore('store'));
-        },3000)
+           const data = this.store.syncSelectStore('store')
+                console.log(data);
+        }, 3000);
 
     }
 

@@ -1,19 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StoreService } from './store.service';
+import { SyncStoreService } from './sync-store.service';
 
 describe('StoreService', () => {
-  let service: StoreService;
+  let service: SyncStoreService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
     providers: [
         {
-            provide: StoreService, useValue: StoreService
+            provide: SyncStoreService, useValue: SyncStoreService
         }
     ]
     });
-    service = TestBed.inject(StoreService);
+    service = TestBed.inject(SyncStoreService);
   });
 
   it('should be created', () => {

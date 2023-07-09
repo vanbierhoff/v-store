@@ -48,7 +48,7 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
     /**
      * Return original instance with set value form store
      */
-    selectForStore(): T {
+    selectForStore<T = any>(): T {
         let originalState: any;
         if (this.args) {
             originalState = new this.buildInstance(...this.args);

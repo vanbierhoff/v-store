@@ -7,9 +7,11 @@ export interface StoreItemInterface<T> {
 
     get(field?: string): StoreFieldInstance<T> | null;
 
-    selectForStore(): T;
+    selectForStore<S = any>(): S;
 
     set(value: any, key?: string | symbol): void;
+
+    key: string | symbol;
 
     isValid?: boolean;
 }

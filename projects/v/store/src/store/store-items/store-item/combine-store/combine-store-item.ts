@@ -18,7 +18,7 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
         this.key = key;
     }
 
-    override selectForStore(): T {
+    override selectForStore<T = any>(): T {
         let originalState;
         if (this.args) {
             originalState = new this.buildInstance(...this.args);
@@ -50,7 +50,10 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
             this.setByKey(value, key);
             return;
         }
-        const keys = Object.keys(value);
+        const keys = concat<string | symbol>(
+            Object.keys(value),
+            Object.getOwnPropertySymbols(value));
+
         for(let key of keys) {
             const field = this.fieldsManager.get(key);
             if (field) {
