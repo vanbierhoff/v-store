@@ -26,7 +26,7 @@ export class FieldManager {
         if (!field) {
             return;
         }
-        field.setValue(key);
+        field.setValue(value);
     }
 
     /**

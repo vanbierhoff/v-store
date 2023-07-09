@@ -5,10 +5,10 @@ import { getMetadata } from '../../../meta-helper/src/lib/meta-helpers/get-metad
 import { CombineStoreItem } from '../store/store-items/store-item/combine-store/combine-store-item';
 import { STORE_FIELD } from '../store/const/meta-keys/store-field/store-field';
 import forEach from 'lodash/forEach';
-import { filter, some } from 'lodash';
+import some from 'lodash/some';
 import { BaseDecoratedStoreItem } from '../store/store-items/store-item/base-decorated-store-item';
 import find from 'lodash/find';
-import { FieldManager } from '../store/store-items/store-field/field-manager/field-manager';
+
 import {
     PRIMITIVE_KEY,
     PrimitiveStoreItem
@@ -107,6 +107,27 @@ export class StoreInstanceBuilder {
         return this;
     }
 
+    public build(): any {
+        switch (this.configuration.typeStore) {
+            case TypeStore.COMBINE:
+                this.createInstance();
+                this.createStoreField();
+                return new CombineStoreItem(this.storeFields, this.constructorInstance, this.storeKey,
+                    this.args ?? undefined);
+
+            case TypeStore.DECORATED:
+                this.createInstance();
+                this.removeNotDecorated();
+                this.createStoreField();
+                return new BaseDecoratedStoreItem(this.storeFields, this.constructorInstance, this.storeKey,
+                    this.args ?? undefined);
+
+            case TypeStore.PRIMITIVE:
+                const field = new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue);
+                return new PrimitiveStoreItem([field], this.storeKey);
+        }
+    }
+
     protected createStoreField(): any {
         let allFields: any[] = [];
         const metaFields = getMetadata(STORE_FIELD, this.constructorInstance as object);
@@ -121,7 +142,6 @@ export class StoreInstanceBuilder {
                 }
             });
         }
-        console.log(allFields);
         for(let i = 0; allFields.length > i; i++) {
             const fieldValue = this.instance[allFields[i].propertyName] || undefined;
             const field = new StoreFieldInstance({
@@ -151,26 +171,5 @@ export class StoreInstanceBuilder {
             return;
         }
         this.instance = new this.constructorInstance();
-    }
-
-    public build(): any {
-        switch (this.configuration.typeStore) {
-            case TypeStore.COMBINE:
-                this.createInstance();
-                this.createStoreField();
-                return new CombineStoreItem(this.storeFields, this.instance, this.storeKey);
-
-            case TypeStore.DECORATED:
-                this.createInstance();
-                this.createStoreField();
-                this.removeNotDecorated();
-                return new BaseDecoratedStoreItem(this.storeFields, this.instance, this.storeKey);
-
-            case TypeStore.PRIMITIVE:
-                const field = new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue);
-                return new PrimitiveStoreItem([field], this.storeKey);
-
-        }
-
     }
 }

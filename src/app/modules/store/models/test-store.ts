@@ -21,11 +21,6 @@ export class TestStore {
 
     dataNotDec = 'notDecotr';
 
-
-    get dataNot() {
-        return this.dataNotDec;
-    }
-
     method() {
         console.log('datas');
     }

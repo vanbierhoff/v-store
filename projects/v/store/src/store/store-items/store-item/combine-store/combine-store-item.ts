@@ -10,36 +10,33 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
 
     public override key: string | symbol;
 
-    constructor(fields: StoreFieldInstance[], instance: any, key: string | symbol
+    constructor(fields: StoreFieldInstance[], override buildInstance: any, key: string | symbol,
+                override args?: any[]
     ) {
-        super(fields, instance, key);
+        super(fields, buildInstance, key);
         this.fieldsManager = new FieldManager(fields);
-        this.originalState = instance;
         this.key = key;
     }
 
-
-    override get(field: string) {
-        return this.fieldsManager.get(field);
-    }
-
-    override getAll() {
-        return this.fieldsManager.getAll();
-    }
-
-
     override selectForStore(): T {
+        let originalState;
+        if (this.args) {
+            originalState = new this.buildInstance(...this.args);
+        } else {
+            originalState = new this.buildInstance();
+        }
+
         const origInstanceKeys = concat<string | symbol>(
-            Object.keys(this.originalState),
-            Object.getOwnPropertySymbols(this.originalState));
+            Object.keys(originalState),
+            Object.getOwnPropertySymbols(originalState));
 
         for(let key of origInstanceKeys) {
             const fieldInstance = this.fieldsManager.get(key);
             if (fieldInstance) {
-                this.originalState[key] = fieldInstance.value;
+                originalState[key] = fieldInstance.value;
             }
         }
-        return this.originalState;
+        return originalState;
     }
 
     /**
@@ -58,7 +55,6 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
             const field = this.fieldsManager.get(key);
             if (field) {
                 field.setValue(value[key]);
-                this.originalState[key] = value[key];
                 continue;
             }
             this.fieldsManager.pushField(value[key], key);
@@ -74,10 +70,8 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
         const field = this.fieldsManager.get(key);
         if (field) {
             this.fieldsManager.set(key, value);
-            this.originalState[key] = value[key];
             return;
         }
-        this.originalState[key] = value;
         this.fieldsManager.pushField(value, key);
 
     }

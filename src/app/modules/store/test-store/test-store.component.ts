@@ -39,10 +39,19 @@ export class TestStoreComponent implements OnInit {
 
         const store = this.store.selectStore('store');
         const store1 = this.store.selectStore('store1');
+        this.store.mutateStore('store', value => {
+            value.data = 99;
+            return value;
+        });
         console.log(store1);
-        console.log(store);
+        console.log(store.dataNotDec);
+        store.data = 105;
         store.method();
-        console.log(store.dataNot);
+        console.log(store.data);
+        setTimeout(() => {
+            console.log(this.store.selectStore('store'));
+        },3000)
+
     }
 
 }

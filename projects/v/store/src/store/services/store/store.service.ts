@@ -3,6 +3,7 @@ import { BaseDecoratedStoreItem } from '../../store-items/store-item/base-decora
 import { getMetadata } from '../../../../../meta-helper/src/lib/meta-helpers/get-metadata/get-metadata';
 import { STORE_ITEM_KEY } from '../../const/meta-keys/store-item/store-item-key';
 import find from 'lodash/find';
+import { addMetaField } from '../../../../../meta-helper/src/lib/meta-helpers/add-meta/add-meta-field';
 
 
 @Injectable()
@@ -15,12 +16,17 @@ export class StoreService {
     }
 
     selectStore(storeKey: string | symbol) {
-        console.log(storeKey);
-        console.log(getMetadata<BaseDecoratedStoreItem>(STORE_ITEM_KEY, StoreService));
-        const store: BaseDecoratedStoreItem = find(getMetadata<BaseDecoratedStoreItem>(STORE_ITEM_KEY, StoreService),
+        const store = find(getMetadata<BaseDecoratedStoreItem>(STORE_ITEM_KEY, StoreService),
             item => item.key === storeKey);
         if (store) {
             return store.selectForStore();
         }
+    }
+
+    mutateStore<T = any>(storeKey: string | symbol, fn: (oldValue: T) => T) {
+        const store: any = find(getMetadata<BaseDecoratedStoreItem>(STORE_ITEM_KEY, StoreService));
+        const newStore = fn(store.selectForStore());
+        console.log(store.set(newStore));
+        addMetaField(StoreService, STORE_ITEM_KEY, newStore);
     }
 }
