@@ -45,7 +45,7 @@ export class TestStoreComponent implements OnInit {
         console.log(store.data);
 
         const store1 = this.store.syncSelectStore('store1');
-        this.store.mutateStore('store', value => {
+        this.store.syncMutateStore('store', value => {
             value.data = 99;
             return value;
         });

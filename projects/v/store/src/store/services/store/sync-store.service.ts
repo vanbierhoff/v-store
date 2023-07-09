@@ -24,7 +24,7 @@ export class SyncStoreService {
         throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
     }
 
-    mutateStore<T = any>(storeKey: string | symbol, fn: (oldValue: T) => T) {
+    syncMutateStore<T = any>(storeKey: string | symbol, fn: (oldValue: T) => T) {
         const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, SyncStoreService));
         if (!store) {
             throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);

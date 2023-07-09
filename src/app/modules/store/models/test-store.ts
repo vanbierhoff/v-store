@@ -1,5 +1,5 @@
 import { StoreInstanceDecorator } from '../../../../../projects/v/store/src/store/decorators/store-instance/store-instance.decorator';
-import { StoreService } from '../../../../../projects/v/store/src/store/services/store/store.service';
+import { SyncStoreService } from '../../../../../projects/v/store/src/store/services/store/sync-store.service';
 import { StoreField } from '../../../../../projects/v/store/src/store/decorators/store-field/store-field.decorator';
 
 
@@ -9,7 +9,7 @@ import { StoreField } from '../../../../../projects/v/store/src/store/decorators
 })
 export class TestStore {
 
-    constructor(protected store: StoreService) {
+    constructor(protected store: SyncStoreService) {
     }
 
     @StoreField
