@@ -5,6 +5,12 @@ import remove from 'lodash/remove';
 
 export class FieldManager {
 
+    /**
+     * Save additional data
+     */
+    public extra: any;
+
+
     constructor(protected fields: StoreFieldInstance[]) {
     }
 

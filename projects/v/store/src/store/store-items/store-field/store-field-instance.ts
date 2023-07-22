@@ -1,14 +1,13 @@
 import { ValidationError, ValidatorInterface } from '../../services/store/models/validation/validator.interface';
 import { StoreFieldOptionsInterface } from './models/store-field-options.interface';
 import { StoreFieldMeta } from './models/store-field-meta';
-import { of } from 'rxjs';
 
 
 export class StoreFieldInstance<T = any> {
 
     protected storeValue: T;
 
-    protected options: StoreFieldOptionsInterface = {} as StoreFieldOptionsInterface;
+    protected extra: StoreFieldOptionsInterface = {} as StoreFieldOptionsInterface;
 
     protected isValidStoreValue: boolean = false;
 

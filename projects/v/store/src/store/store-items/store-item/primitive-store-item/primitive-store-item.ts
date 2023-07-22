@@ -7,11 +7,12 @@ import { FieldManager } from '../../store-field/field-manager/field-manager';
 import { some } from 'lodash';
 import forEach from 'lodash/forEach';
 import { StoreItemInterface } from '../models/store-item.interface';
+import { ValidationError } from '../../../services/store/models/validation/validator.interface';
 
 
 export const PRIMITIVE_KEY = 'prim';
 
-export class PrimitiveStoreItem implements StoreItemInterface<any>{
+export class PrimitiveStoreItem implements StoreItemInterface<any> {
 
     public key: string | symbol;
     /**
@@ -30,6 +31,9 @@ export class PrimitiveStoreItem implements StoreItemInterface<any>{
     private readonly isValidStore: boolean = false;
 
 
+    public async validate(): Promise<true | ValidationError[]> {
+        return true;
+    }
 
     constructor(fields: StoreFieldInstance[], key: string | symbol
     ) {

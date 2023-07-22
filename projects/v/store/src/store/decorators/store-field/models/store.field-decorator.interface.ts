@@ -1,4 +1,5 @@
 import { ValidatorInterface } from '../../../services/store/models/validation/validator.interface';
+import { StoreFieldInstance } from '../../../store-items/store-field/store-field-instance';
 
 
 export interface StoreFieldDecoratorInterface {
@@ -10,5 +11,7 @@ export interface StoreFieldDecoratorInterface {
      * Function for check access the store
      */
     policy?: () => Promise<boolean>;
+
+    initHook?(field: StoreFieldInstance) : any;
 
 }

@@ -7,16 +7,16 @@ import { StoreItemInterface } from '../../store-items/store-item/models/store-it
 
 
 @Injectable()
-export class SyncStoreService {
+export class StoreService {
 
     protected store: StoreItemInterface<any>[];
 
     constructor() {
-        this.store = getMetadata(STORE_ITEM_KEY, SyncStoreService) as StoreItemInterface<any>[];
+        this.store = getMetadata(STORE_ITEM_KEY, StoreService) as StoreItemInterface<any>[];
     }
 
-    syncSelectStore<T = any>(storeKey: string | symbol): T {
-        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, SyncStoreService),
+    selectStore<T = any>(storeKey: string | symbol): T {
+        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, StoreService),
             item => item.key === storeKey);
         if (store) {
             return store.selectForStore<T>();
@@ -24,13 +24,22 @@ export class SyncStoreService {
         throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
     }
 
-    syncMutateStore<T = any>(storeKey: string | symbol, fn: (oldValue: T) => T) {
-        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, SyncStoreService));
+    selectStoreInstance<T = any>(storeKey: string | symbol): StoreItemInterface<T> {
+        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, StoreService),
+            item => item.key === storeKey);
+        if (store) {
+            return store;
+        }
+        throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
+    }
+
+    mutateStore<T = any>(storeKey: string | symbol, fn: (oldValue: T) => T) {
+        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, StoreService));
         if (!store) {
             throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
         }
         const newStore = fn(store.selectForStore<T>());
         store.set(newStore);
-        addMetaField(SyncStoreService, STORE_ITEM_KEY, newStore);
+        addMetaField(StoreService, STORE_ITEM_KEY, newStore);
     }
 }

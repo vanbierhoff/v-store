@@ -68,15 +68,4 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
             }
         });
     }
-
-    protected setByKey(value: any, key: string | symbol) {
-        const field = this.fieldsManager.get(key);
-        if (field) {
-            this.fieldsManager.set(key, value);
-            return;
-        }
-        this.fieldsManager.pushField(value, key);
-
-    }
-
 }

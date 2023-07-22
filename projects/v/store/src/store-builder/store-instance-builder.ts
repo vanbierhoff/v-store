@@ -150,6 +150,9 @@ export class StoreInstanceBuilder {
                     propertyName: allFields[i].propertyName
                 }, fieldValue
             );
+            if (allFields[i].initHook) {
+                allFields[i].initHook(field);
+            }
             this.storeFields.push(field);
         }
     }

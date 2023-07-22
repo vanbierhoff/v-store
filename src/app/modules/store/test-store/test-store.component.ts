@@ -7,7 +7,7 @@ import {
     signal
 } from '@angular/core';
 import { TestStore } from '../models/test-store';
-import { SyncStoreService } from '../../../../../projects/v/store/src/store/services/store/sync-store.service';
+import { StoreService } from '../../../../../projects/v/store/src/store/services/store/store.service';
 import { createStore } from '../../../../../projects/v/store/src/store/create-store/create-from-decorated';
 
 
@@ -16,7 +16,7 @@ import { createStore } from '../../../../../projects/v/store/src/store/create-st
     standalone: true,
     templateUrl: './test-store.component.html',
     styleUrls: ['./test-store.component.scss'],
-    providers: [SyncStoreService],
+    providers: [StoreService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TestStoreComponent implements OnInit {
@@ -24,7 +24,7 @@ export class TestStoreComponent implements OnInit {
     public firstName = signal('Jane');
     public name: Signal<string> = signal('test');
 
-    constructor(protected store: SyncStoreService) {
+    constructor(protected store: StoreService) {
     }
 
     ngOnInit() {
@@ -36,7 +36,7 @@ export class TestStoreComponent implements OnInit {
 
         this.name = computed(() => this.firstName() + ' Family');
 
-        const store = this.store.syncSelectStore('store');
+        const store = this.store.selectStore('store');
 
         console.log(store);
         console.log(store.dataNotDec);
@@ -44,15 +44,18 @@ export class TestStoreComponent implements OnInit {
         store.method();
         console.log(store.data);
 
-        const store1 = this.store.syncSelectStore('store1');
-        this.store.syncMutateStore('store', value => {
+        const store1 = this.store.selectStore('store1');
+        const storeInstance = this.store.selectStoreInstance('store');
+
+        this.store.mutateStore('store', value => {
             value.data = 99;
             return value;
         });
 
+        storeInstance.validate().then(res => console.log(res));
         setTimeout(() => {
-           const data = this.store.syncSelectStore('store')
-                console.log(data);
+            const data = this.store.selectStore('store');
+            console.log(data);
         }, 3000);
 
     }

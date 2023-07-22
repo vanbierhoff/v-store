@@ -15,15 +15,16 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
 
     public readonly key: string | symbol;
 
-    options: any;
+    extra: any;
 
     /**
      * Shows if all fields are valid. false if at least one field is invalid
      */
     private readonly isValidStore: boolean = false;
 
-    constructor(fields: StoreFieldInstance[], protected buildInstance: any, key: string | symbol,
-              protected args?: any[]
+    constructor(fields: StoreFieldInstance[],
+                protected buildInstance: any, key: string | symbol,
+                protected args?: any[]
     ) {
         this.fieldsManager = new FieldManager(fields);
         this.key = key;
@@ -34,6 +35,19 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
     }
 
     async validate(): Promise<true | ValidationError[]> {
+        const fields = this.fieldsManager.getAll();
+        const errors: ValidationError[] = [];
+
+        for(let field of fields) {
+            const result = await field.validate();
+            if (result !== true) {
+                errors.push(result);
+            }
+            if (errors.length > 0) {
+                return errors;
+            }
+        }
+
         return true;
     }
 
@@ -77,5 +91,14 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
                 field.setValue(value[key]);
             }
         }
+    }
+
+    setByKey(value: any, key: string | symbol) {
+        const field = this.fieldsManager.get(key);
+        if (field) {
+            this.fieldsManager.set(key, value);
+            return;
+        }
+        this.fieldsManager.pushField(value, key);
     }
 }
