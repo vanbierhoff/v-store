@@ -7,8 +7,10 @@ import {
     signal
 } from '@angular/core';
 import { TestStore } from '../models/test-store';
-import { StoreService } from '../../../../../projects/v/store/src/store/services/store/store.service';
 import { createStore } from '../../../../../projects/v/store/src/store/create-store/create-from-decorated';
+import { StoreService } from '../../../../../projects/v/store/src/store/services/store-service/store.service';
+import { StoreDataService } from '../../../../../projects/v/store/src/store/services/store/store-data.service';
+import { StoreSubscribersService } from '../../../../../projects/v/store/src/store/services/store-subscribers/store-subscribers.service';
 
 
 @Component({
@@ -16,7 +18,8 @@ import { createStore } from '../../../../../projects/v/store/src/store/create-st
     standalone: true,
     templateUrl: './test-store.component.html',
     styleUrls: ['./test-store.component.scss'],
-    providers: [StoreService],
+    providers: [StoreService, StoreDataService,
+        StoreSubscribersService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TestStoreComponent implements OnInit {
@@ -47,10 +50,17 @@ export class TestStoreComponent implements OnInit {
         const store1 = this.store.selectStore('store1');
         const storeInstance = this.store.selectStoreInstance('store');
 
+        this.store.listenChange('store').subscribe(data => {
+            console.log('changeStoreSub', data);
+        });
+
         this.store.mutateStore('store', value => {
             value.data = 99;
             return value;
         });
+
+
+
 
         storeInstance.validate().then(res => console.log(res));
         setTimeout(() => {

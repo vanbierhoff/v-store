@@ -1,5 +1,5 @@
 import { addMetaField } from '../../../../meta-helper/src/lib/meta-helpers/add-meta/add-meta-field';
-import { StoreService } from '../services/store/store.service';
+import { StoreDataService } from '../services/store/store-data.service';
 import { STORE_ITEM_KEY } from '../const/meta-keys/store-item/store-item-key';
 import { isPrimitive, PrimitiveType } from '../../../../r-types/src/public-api';
 import { StoreInstanceBuilder } from '../../store-builder/store-instance-builder';
@@ -31,5 +31,5 @@ export function createStore<T = any>(storeInstance: StoreConstructor<T> | Primit
         storeBuilder.setTypeStore(
             getMetadata(STORE_META_KEY, storeInstance as object) ? TypeStore.DECORATED : TypeStore.COMBINE);
     }
-    addMetaField(StoreService, STORE_ITEM_KEY, storeBuilder.build());
+    addMetaField(StoreDataService, STORE_ITEM_KEY, storeBuilder.build());
 }

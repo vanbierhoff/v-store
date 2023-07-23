@@ -34,20 +34,18 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
         return this.isValidStore;
     }
 
-    async validate(): Promise<true | ValidationError[]> {
+    async validate(): Promise<true | Record<string | symbol, ValidationError[]>> {
         const fields = this.fieldsManager.getAll();
-        const errors: ValidationError[] = [];
-
+        const errors: Record<string | symbol, ValidationError[]> = {};
         for(let field of fields) {
             const result = await field.validate();
             if (result !== true) {
-                errors.push(result);
-            }
-            if (errors.length > 0) {
-                return errors;
+                errors[field.propertyName] = result;
             }
         }
-
+        if (Object.keys(errors).length > 0) {
+            return errors;
+        }
         return true;
     }
 

@@ -3,7 +3,7 @@ import { StoreFieldInstance } from '../../store-field/store-field-instance';
 
 
 export interface StoreItemInterface<T> {
-    validate(): Promise<true | ValidationError[]>;
+    validate(): Promise<true | Record<string | symbol, ValidationError[]>>
 
     get(field?: string): StoreFieldInstance<T> | null;
 

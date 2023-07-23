@@ -1,11 +1,5 @@
-import { BaseDecoratedStoreItem } from '../base-decorated-store-item';
-
-import { isPrimitive } from '../../../../../../r-types/src/helpers/is-primitive/is-primitive';
-import concat from 'lodash/concat';
 import { StoreFieldInstance } from '../../store-field/store-field-instance';
 import { FieldManager } from '../../store-field/field-manager/field-manager';
-import { some } from 'lodash';
-import forEach from 'lodash/forEach';
 import { StoreItemInterface } from '../models/store-item.interface';
 import { ValidationError } from '../../../services/store/models/validation/validator.interface';
 
@@ -30,19 +24,24 @@ export class PrimitiveStoreItem implements StoreItemInterface<any> {
      */
     private readonly isValidStore: boolean = false;
 
-
-    public async validate(): Promise<true | ValidationError[]> {
-        return true;
-    }
-
     constructor(fields: StoreFieldInstance[], key: string | symbol
     ) {
         this.fieldsManager = new FieldManager(fields);
         this.key = key;
     }
 
+    public async validate(): Promise<true | Record<string | symbol, ValidationError[]>> {
+        const field = this.fieldsManager.getAll()[0];
+        const result = await field.validate();
+        if (result !== true) {
+            return {
+                [field.propertyName]: result
+            };
+        }
+        return true;
+    }
 
-    public get(field: string) {
+    public get(field?: string) {
         return this.fieldsManager.get('primitive');
     }
 
