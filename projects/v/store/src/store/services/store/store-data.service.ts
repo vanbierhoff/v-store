@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import { getMetadata } from '../../../../../meta-helper/src/lib/meta-helpers/get-metadata/get-metadata';
+import { Injectable, InjectionToken } from '@angular/core';
+import { getMetadata } from '@v/meta-helper';
 import { STORE_ITEM_KEY } from '../../const/meta-keys/store-item/store-item-key';
 import find from 'lodash/find';
-import { addMetaField } from '../../../../../meta-helper/src/lib/meta-helpers/add-meta/add-meta-field';
+import { addMetaField } from '@v/meta-helper';
 import { StoreItemInterface } from '../../store-items/store-item/models/store-item.interface';
 
+export const STORE_DATA_SERVICE_TOKEN =
+    new InjectionToken<StoreDataService>('store:storeDataService')
 
 @Injectable()
 export class StoreDataService {

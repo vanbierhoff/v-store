@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 import { filter, Observable, of, Subject, switchMap } from 'rxjs';
 import { getMetadata } from '../../../../../meta-helper/src/lib/meta-helpers/get-metadata/get-metadata';
 import { STORE_ITEM_KEY } from '../../const/meta-keys/store-item/store-item-key';
@@ -6,6 +6,9 @@ import { StoreItemInterface } from '../../store-items/store-item/models/store-it
 import { StoreDataService } from '../store/store-data.service';
 import find from 'lodash/find';
 
+
+export const STORE_SUBSCRIBERS_TOKEN =
+    new InjectionToken<StoreSubscribersService>('store:subscribers');
 
 @Injectable()
 export class StoreSubscribersService {

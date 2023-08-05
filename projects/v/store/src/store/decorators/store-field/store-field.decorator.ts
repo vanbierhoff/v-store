@@ -1,7 +1,7 @@
 import { StoreFieldDecoratorInterface } from './models/store.field-decorator.interface';
-import { addMetaField } from '../../../../../meta-helper/src/lib/meta-helpers/add-meta/add-meta-field';
 import { STORE_FIELD } from '../../const/meta-keys/store-field/store-field';
 import { StoreFieldMeta } from '../../store-items/store-field/models/store-field-meta';
+import { addMetaField } from '@v/meta-helper';
 
 
 

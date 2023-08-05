@@ -4,10 +4,11 @@ import { StoreItemInterface } from '../../store-items/store-item/models/store-it
 import { Injectable } from '@angular/core';
 
 
+
 @Injectable()
 export class StoreService {
 
-    public anyChanges$ = this.storeSubscribers.anyChanges$;
+    public readonly anyChanges$ = this.storeSubscribers.anyChanges$;
 
     constructor(
         protected storeData: StoreDataService,

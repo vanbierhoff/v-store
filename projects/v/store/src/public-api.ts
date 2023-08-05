@@ -3,10 +3,17 @@
  */
 
 // Create store Fn
-export * from './store/create-store/create-from-decorated';
+export * from './store/create-store/create-store';
 
 // DECORATORS & MODELS
 export * from './store/decorators/store-field/store-field.decorator';
 export * from './store/decorators/store-instance/store-instance.decorator';
 export * from './store/decorators/store-field/models/store.field-decorator.interface';
 export * from './store/decorators/store-instance/models/store-instance/store-instance.interface';
+
+
+// STORE SERVICES
+export * from './store/services'
+
+// INJECTOR
+export  * from './store/injector/injector'

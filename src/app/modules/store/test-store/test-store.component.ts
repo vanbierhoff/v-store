@@ -7,7 +7,7 @@ import {
     signal
 } from '@angular/core';
 import { TestStore } from '../models/test-store';
-import { createStore } from '../../../../../projects/v/store/src/store/create-store/create-from-decorated';
+import { createStore } from '../../../../../projects/v/store/src/store/create-store/create-store';
 import { StoreService } from '../../../../../projects/v/store/src/store/services/store-service/store.service';
 import { StoreDataService } from '../../../../../projects/v/store/src/store/services/store/store-data.service';
 import { StoreSubscribersService } from '../../../../../projects/v/store/src/store/services/store-subscribers/store-subscribers.service';
@@ -53,6 +53,10 @@ export class TestStoreComponent implements OnInit {
         this.store.listenChange('store').subscribe(data => {
             console.log('changeStoreSub', data);
         });
+
+        this.store.anyChanges$.subscribe(data => {
+            console.log('anyChanges$', data)
+        })
 
         this.store.mutateStore('store', value => {
             value.data = 99;
