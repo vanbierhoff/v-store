@@ -75,7 +75,7 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
     }
 
     /**
-     * @param value: any
+     * @param value - any
      *
      * Set data in state.
      */
