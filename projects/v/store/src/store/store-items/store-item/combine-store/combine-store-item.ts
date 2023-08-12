@@ -40,10 +40,10 @@ export class CombineStoreItem<T> extends BaseDecoratedStoreItem<T> {
     }
 
     /**
-     * @param value: any
+     * @param value - value for all store or target field
      *
      * Set data in state.
-     * @param key
+     * @param key - key for target field
      */
     override set(value: any, key?: string | symbol) {
         if (key) {

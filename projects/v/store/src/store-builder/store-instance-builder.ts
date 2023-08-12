@@ -151,6 +151,7 @@ export class StoreInstanceBuilder {
                     propertyName: allFields[i].propertyName
                 }, fieldValue
             );
+            // call the initialization hook on the field if it exists
             if (allFields[i].initHook) {
                 allFields[i].initHook(field);
             }

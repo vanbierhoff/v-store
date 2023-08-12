@@ -55,7 +55,7 @@ export class PrimitiveStoreItem implements StoreItemInterface<any> {
     }
 
     /**
-     * @param value: any
+     * @param value - any
      *
      * Set data in state.
      */
