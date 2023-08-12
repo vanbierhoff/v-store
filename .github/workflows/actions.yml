@@ -32,5 +32,8 @@ jobs:
         run: yarn install
       - name: build project
         run: yarn run build
+      - name: build store
+        run: yarn run build:store
       - name: unit test
         run: npm run test-store:ci
+

@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:meta": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build @v/meta-helper",
+    "build:store": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build @v/store",
     "build:release": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build @v/meta-helper",
     "test-store:ci": "ng test @v/store --browsers=ChromeHeadlessCI --progress=false --watch=false --code-coverage --source-map=false",
     "test-meta:ci": "ng test @v/meta-helper --browsers=ChromeHeadlessCI --progress=false --watch=false --code-coverage --source-map=false",

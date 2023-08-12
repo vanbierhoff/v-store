@@ -1,5 +1,5 @@
 import { StoreInstanceDecorator } from '../../../../../projects/v/store/src/store/decorators/store-instance/store-instance.decorator';
-import { StoreService } from '../../../../../projects/v/store/src/store/services/store/store.service';
+import { StoreDataService } from '../../../../../projects/v/store/src/store/services/store/store-data.service';
 import { StoreField } from '../../../../../projects/v/store/src/store/decorators/store-field/store-field.decorator';
 import { JsType } from '../../../../../projects/v/r-types/src/validators/type-validators/models/js-type';
 import { typeStoreValidator } from '../../../../../projects/v/store/src/store/validators/type-validator';
@@ -20,7 +20,7 @@ export class TestStore {
     public data2: number = 5;
     dataNotDec = 'notDecotr';
 
-    constructor(protected store: StoreService) {
+    constructor(protected store: StoreDataService) {
     }
 
     method() {

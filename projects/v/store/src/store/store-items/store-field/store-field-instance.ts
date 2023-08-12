@@ -5,19 +5,15 @@ import { StoreFieldMeta } from './models/store-field-meta';
 
 export class StoreFieldInstance<T = any> {
 
-    protected storeValue: T;
-
-    protected extra: StoreFieldOptionsInterface = {} as StoreFieldOptionsInterface;
-
-    protected isValidStoreValue: boolean = false;
-
     /**
      * @protected
      *
      * Field name from source class
      */
     public propertyName: string | symbol;
-
+    protected storeValue: T;
+    protected extra: StoreFieldOptionsInterface = {} as StoreFieldOptionsInterface;
+    protected isValidStoreValue: boolean = false;
     /**
      * @protected
      * Validators responsible for checking the value of a field
@@ -41,16 +37,6 @@ export class StoreFieldInstance<T = any> {
         return this.storeValue;
     }
 
-    /**
-     * Setter function for update field value
-     * @return value
-     */
-    setValue(value: any): void {
-        this.storeValue = value;
-        return value;
-    }
-
-
     get isValid() {
         return this.isValidStoreValue;
     }
@@ -60,10 +46,20 @@ export class StoreFieldInstance<T = any> {
     }
 
     /**
+     * Setter function for update field value
+     * @return value
+     */
+    setValue(value: any): void {
+        this.storeValue = value;
+        return value;
+    }
+
+    /**
      * Function for validate field value
      * @return Promise<boolean>
      */
-    public async validate(): Promise<true | ValidationError> {
+    public async validate(): Promise<true | ValidationError[]> {
+        const errors: ValidationError[] = [];
         if (!this.validators) {
             return this.isValidStoreValue = true;
         }
@@ -72,8 +68,12 @@ export class StoreFieldInstance<T = any> {
             let res = await validator(this);
             if (res !== true) {
                 this.isValidStoreValue = false;
-                return res;
+                errors.push(res);
             }
+        }
+        if (errors.length > 0) {
+            this.isValidStoreValue = false;
+            return errors;
         }
         return this.isValidStoreValue = true;
     }

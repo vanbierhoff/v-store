@@ -1,7 +1,6 @@
 import { BuildConfiguration, TypeStore } from './models/build-config/build-configuration';
-import { StoreConstructor } from '../store/create-store/create-from-decorated';
+import { StoreConstructor } from '../store/create-store/create-store';
 import { StoreFieldInstance } from '../store/store-items/store-field/store-field-instance';
-import { getMetadata } from '../../../meta-helper/src/lib/meta-helpers/get-metadata/get-metadata';
 import { CombineStoreItem } from '../store/store-items/store-item/combine-store/combine-store-item';
 import { STORE_FIELD } from '../store/const/meta-keys/store-field/store-field';
 import forEach from 'lodash/forEach';
@@ -13,6 +12,7 @@ import {
     PRIMITIVE_KEY,
     PrimitiveStoreItem
 } from '../store/store-items/store-item/primitive-store-item/primitive-store-item';
+import { getMetadata } from '@v/meta-helper/src/lib/meta-helpers/get-metadata/get-metadata';
 
 
 export class StoreInstanceBuilder {
@@ -99,7 +99,7 @@ export class StoreInstanceBuilder {
 
     /**
      *
-     * @param key: string | symbol
+     * @param key - string | symbol
      * Set storage key, that can be used to access the storage
      */
     public setKey(key: string | symbol) {
@@ -107,8 +107,9 @@ export class StoreInstanceBuilder {
         return this;
     }
 
+
     public build(): any {
-        switch (this.configuration.typeStore) {
+        switch (this.configuration.typeStore as string) {
             case TypeStore.COMBINE:
                 this.createInstance();
                 this.createStoreField();

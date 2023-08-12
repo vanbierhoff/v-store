@@ -2,7 +2,8 @@ import { StoreInstanceInterface } from './models/store-instance/store-instance.i
 import { STORE_META_KEY } from '../../const/meta-keys/store-instance/store-isnatnce';
 import { getGlobalInjector } from '../../injector/injector';
 import map from 'lodash/map';
-import { addMetaField } from '../../../../../meta-helper/src/public-api';
+import { addMetaField } from '@v/meta-helper';
+
 
 
 
