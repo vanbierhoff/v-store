@@ -37,5 +37,5 @@ jobs:
       - name: unit test store:ci
         run: npm run test-store:ci
       - name: unit test r-type:ci
-        run: npm run test test-r-type:ci
+        run: npm run test-r-type:ci
 
