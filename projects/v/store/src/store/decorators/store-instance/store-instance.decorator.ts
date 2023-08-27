@@ -20,6 +20,7 @@ export function StoreInstanceDecorator(options?: StoreInstanceInterface): any {
                  * with ES6, such parameters aren’t supported. With this language, you need to supply a static getter for the parameter property.
                  */
                 const designedArgs: any[] = (Reflect as any).getMetadata('design:paramtypes', target) || [];
+               console.log(designedArgs)
                 if (injector && designedArgs.length > 0 && args.length === 0) {
                     args = map(designedArgs, (arg, index) => {
                         return injector.get(arg, index, target);

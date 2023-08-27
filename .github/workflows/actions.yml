@@ -34,6 +34,8 @@ jobs:
         run: yarn run build
       - name: build store
         run: yarn run build:store
-      - name: unit test
+      - name: unit test store:ci
         run: npm run test-store:ci
+      - name: unit test r-type:ci
+        run: npm run test-r-type:ci
 

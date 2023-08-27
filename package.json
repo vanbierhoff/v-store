@@ -11,7 +11,10 @@
     "build:store": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build @v/store",
     "build:release": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build @v/meta-helper",
     "test-store:ci": "ng test @v/store --browsers=ChromeHeadlessCI --progress=false --watch=false --code-coverage --source-map=false",
+    "test-store": "ng test @v/store --browsers=ChromeHeadlessCI --progress=false --watch=false --code-coverage --source-map=false",
     "test-meta:ci": "ng test @v/meta-helper --browsers=ChromeHeadlessCI --progress=false --watch=false --code-coverage --source-map=false",
+    "test-r-type:ci": "ng test @v/r-types --browsers=ChromeHeadlessCI --progress=false --watch=false --code-coverage --source-map=false",
+    "test-r-type": "ng test @v/r-types  --code-coverage --source-map=false",
     "lint": "ng lint"
   },
   "private": true,
@@ -24,10 +27,12 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "@types/validator": "^13.11.1",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "validator": "^13.11.0",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {

@@ -8,4 +8,9 @@ export const MODULES_ROUTES: Route[] = [
             .then(m => m.TestStoreComponent)
     },
 
+    {
+        path: 'r-type',
+        loadComponent: () => import('./r-types/r-type.demo/r-type.demo.component').then(c => c.RTypeDemoComponent)
+    }
+
 ];

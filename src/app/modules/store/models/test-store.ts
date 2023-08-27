@@ -3,6 +3,7 @@ import { StoreDataService } from '../../../../../projects/v/store/src/store/serv
 import { StoreField } from '../../../../../projects/v/store/src/store/decorators/store-field/store-field.decorator';
 import { JsType } from '../../../../../projects/v/r-types/src/validators/type-validators/models/js-type';
 import { typeStoreValidator } from '../../../../../projects/v/store/src/store/validators/type-validator';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -20,7 +21,7 @@ export class TestStore {
     public data2: number = 5;
     dataNotDec = 'notDecotr';
 
-    constructor(protected store: StoreDataService) {
+    constructor(protected store: StoreDataService, protected hhtp: HttpClient) {
     }
 
     method() {
