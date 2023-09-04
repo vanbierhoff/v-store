@@ -33,4 +33,16 @@ export class StoreService {
         return this.storeSubscribers.listenChange(key);
     }
 
+    /**
+     * @param key
+     * Validate store data
+     */
+    public validate(key: string | symbol) {
+        const store = this.storeData.getStoreByKey(key);
+        if (!store) {
+            throw new Error(`Store with key ${key.toString()} doesn't exist`);
+        }
+        return store.validate();
+    }
+
 }
