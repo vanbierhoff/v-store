@@ -19,9 +19,10 @@ export class TestStore {
     public data: string = '5';
     @StoreField({})
     public data2: number = 5;
+
     dataNotDec = 'notDecotr';
 
-    constructor(protected store: StoreDataService, protected hhtp: HttpClient) {
+    constructor(protected store: StoreDataService, protected http: HttpClient) {
     }
 
     method() {

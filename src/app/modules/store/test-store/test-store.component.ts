@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    computed,
+    computed, Injector,
     OnInit,
     Signal,
     signal
@@ -11,6 +11,7 @@ import { createStore } from '../../../../../projects/v/store/src/store/create-st
 import { StoreService } from '../../../../../projects/v/store/src/store/services/store-service/store.service';
 import { StoreDataService } from '../../../../../projects/v/store/src/store/services/store/store-data.service';
 import { StoreSubscribersService } from '../../../../../projects/v/store/src/store/services/store-subscribers/store-subscribers.service';
+import {  setGlobalInjector } from '../../../../../projects/v/store/src/store/injector/injector';
 
 
 @Component({
@@ -27,11 +28,13 @@ export class TestStoreComponent implements OnInit {
     public firstName = signal('Jane');
     public name: Signal<string> = signal('test');
 
-    constructor(protected store: StoreService) {
+    constructor(protected store: StoreService, injector: Injector, storeData: StoreDataService) {
+        setGlobalInjector(injector);
+        console.log(storeData)
     }
 
     ngOnInit() {
-        createStore(TestStore, 'store', [this.store]);
+        createStore(TestStore, 'store');
         createStore('TestStore', 'store1');
         setTimeout(() => {
             this.firstName.set('Den');
@@ -42,10 +45,10 @@ export class TestStoreComponent implements OnInit {
         const store = this.store.selectStore('store');
 
         console.log(store);
-        console.log(store.dataNotDec);
+        // console.log(store.dataNotDec);
         store.data = 105;
         store.method();
-        console.log(store.data);
+        // console.log(store.data);
 
         const store1 = this.store.selectStore('store1');
         const storeInstance = this.store.selectStoreInstance('store');
@@ -55,15 +58,14 @@ export class TestStoreComponent implements OnInit {
         });
 
         this.store.anyChanges$.subscribe(data => {
-            console.log('anyChanges$', data)
-        })
+            console.log('anyChanges$', data);
+        });
 
         this.store.mutateStore('store', value => {
             value.data = 99;
+            value.dataNotDec = 'update'
             return value;
         });
-
-
 
 
         storeInstance.validate().then(res => console.log(res));

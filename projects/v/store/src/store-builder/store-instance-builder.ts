@@ -1,11 +1,9 @@
 import { BuildConfiguration, TypeStore } from './models/build-config/build-configuration';
 import { StoreConstructor } from '../store/create-store/create-store';
 import { StoreFieldInstance } from '../store/store-items/store-field/store-field-instance';
-import { CombineStoreItem } from '../store/store-items/store-item/combine-store/combine-store-item';
 import { STORE_FIELD } from '../store/const/meta-keys/store-field/store-field';
 import forEach from 'lodash/forEach';
 import some from 'lodash/some';
-import { BaseDecoratedStoreItem } from '../store/store-items/store-item/base-decorated-store-item';
 import find from 'lodash/find';
 
 import {
@@ -13,6 +11,10 @@ import {
     PrimitiveStoreItem
 } from '../store/store-items/store-item/primitive-store-item/primitive-store-item';
 import { getMetadata } from '@v/meta-helper/src/lib/meta-helpers/get-metadata/get-metadata';
+import { StoreStrategy, StoreStrategyInstance } from '../store/store-items/store-item/models/store-strategy';
+import { FieldManager } from '../store/store-items/store-field/field-manager/field-manager';
+import { StoreItem } from '../store/store-items/store-item/store-item';
+import { PrimitiveStoreStrategy } from '../store/store-items/strategies/primitive-store.strategy';
 
 
 export class StoreInstanceBuilder {
@@ -35,6 +37,19 @@ export class StoreInstanceBuilder {
      * Store item is not a class
      */
     protected storeValue: any;
+
+    /**
+     * @protected
+     *
+     * storeStrategy instance
+     */
+    protected storeStrategy: StoreStrategy<any>;
+    /**
+     * @protected
+     *
+     * instance from which will be created storeStrategy
+     */
+    protected storeStrategyInstance: StoreStrategyInstance<any>;
 
     /**
      * @protected
@@ -107,27 +122,26 @@ export class StoreInstanceBuilder {
         return this;
     }
 
+    public setStrategy(strategy: StoreStrategyInstance) {
+        this.storeStrategyInstance = strategy;
+    }
 
     public build(): any {
         switch (this.configuration.typeStore as string) {
-            case TypeStore.COMBINE:
+            case TypeStore.INSTANCE:
                 this.createInstance();
                 this.createStoreField();
-                return new CombineStoreItem(this.storeFields, this.constructorInstance, this.storeKey,
-                    this.args ?? undefined);
-
-            case TypeStore.DECORATED:
-                this.createInstance();
-                this.removeNotDecorated();
-                this.createStoreField();
-                return new BaseDecoratedStoreItem(this.storeFields, this.constructorInstance, this.storeKey,
-                    this.args ?? undefined);
+                this.createStrategy();
+                return new StoreItem(this.storeStrategy, this.storeKey);
 
             case TypeStore.PRIMITIVE:
-                const field = new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue);
-                return new PrimitiveStoreItem([field], this.storeKey);
+               this.storeFields.push(new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue));
+               this.createStrategy();
+                return new StoreItem(this.storeStrategy, this.storeKey);
         }
     }
+
+
 
     protected createStoreField(): any {
         let allFields: any[] = [];
@@ -157,6 +171,12 @@ export class StoreInstanceBuilder {
             }
             this.storeFields.push(field);
         }
+    }
+
+    protected createStrategy() {
+        const fieldManager = new FieldManager(this.storeFields);
+        this.storeStrategy = new this.storeStrategyInstance(
+            fieldManager, this.constructorInstance, this.args);
     }
 
     protected removeNotDecorated() {

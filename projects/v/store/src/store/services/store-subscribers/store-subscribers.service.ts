@@ -13,6 +13,9 @@ export const STORE_SUBSCRIBERS_TOKEN =
 @Injectable()
 export class StoreSubscribersService {
 
+    constructor(protected storeData: StoreDataService) {
+    }
+
 
     public readonly emitChange$ = new Subject<string | symbol>();
     readonly anyChanges$ = this.emitChange$.pipe(
@@ -20,8 +23,6 @@ export class StoreSubscribersService {
             return of(this.getStore<any>(key));
         }));
 
-    constructor() {
-    }
 
     public listenChange<T>(key: string | symbol) {
         return this.emitChange$.pipe(
@@ -32,8 +33,7 @@ export class StoreSubscribersService {
     }
 
     protected getStore<T>(storeKey: string | symbol) {
-        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, StoreDataService),
-            item => item.key === storeKey);
+        const store = this.storeData.getStoreByKey(storeKey)
         if (store) {
             return store.selectForStore();
         }

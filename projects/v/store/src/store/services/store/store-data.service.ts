@@ -4,44 +4,78 @@ import { STORE_ITEM_KEY } from '../../const/meta-keys/store-item/store-item-key'
 import find from 'lodash/find';
 import { addMetaField } from '@v/meta-helper';
 import { StoreItemInterface } from '../../store-items/store-item/models/store-item.interface';
+import some from 'lodash/some';
+import { findIndex } from 'lodash';
+
 
 export const STORE_DATA_SERVICE_TOKEN =
-    new InjectionToken<StoreDataService>('store:storeDataService')
+    new InjectionToken<StoreDataService>('store:storeDataService');
 
-@Injectable()
+
+// СДЕЛАТЬ ДОБАВЛЕНИЕ ЧЕРЕЗ МЕТОД, ПОИСК ПО КЛЮЧУ И ВНЕСЕНИЕ ИЗМЕНЕНИЕЙ ТУДА
+// ДОБАВИТЬ REMOVE_META_DATA METHOD?
+
+@Injectable({providedIn: 'root'})
 export class StoreDataService {
 
-    protected store: StoreItemInterface<any>[];
+    protected store: StoreItemInterface<any>[] = [];
 
     constructor() {
-        this.store = getMetadata(STORE_ITEM_KEY, StoreDataService) as StoreItemInterface<any>[];
     }
 
-   public selectStore<T = any>(storeKey: string | symbol): T {
-        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, StoreDataService),
-            item => item.key === storeKey);
+    public addStore(item: StoreItemInterface<any>) {
+        let storeItem = find(this.store, storeItem => storeItem.key === item.key);
+        if (storeItem) {
+            console.warn(`Item with ${item.key.toString()} exist`);
+            storeItem = item;
+            return;
+        }
+        this.store.push(item);
+    }
+
+    public selectStore<T = any>(storeKey: string | symbol): T {
+        const store = this.getStoreByKey(storeKey);
         if (store) {
             return store.selectForStore<T>();
         }
         throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
     }
 
-   public selectStoreInstance<T = any>(storeKey: string | symbol): StoreItemInterface<T> {
-        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, StoreDataService),
-            item => item.key === storeKey);
+    /**
+     *
+     * @param storeKey - key for access to store
+     * method returns a StoreItem. This is a "functional wrapper" for the data added to the storage.
+     * Instance have methods for: validation, get any field, serialized for other operations on data
+     */
+    public selectStoreInstance<T = any>(storeKey: string | symbol): StoreItemInterface<T> {
+        const store = this.getStoreByKey(storeKey);
         if (store) {
             return store;
         }
         throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
     }
 
-   public mutateStore<T = any>(storeKey: string | symbol, fn: (oldValue: T) => T) {
-        const store = find(getMetadata<StoreItemInterface<T>[]>(STORE_ITEM_KEY, StoreDataService));
+    public mutateStore<T = any>(storeKey: string | symbol, fn: (oldValue: T) => T) {
+        let store: StoreItemInterface<T> | null = this.getStoreByKey(storeKey);
         if (!store) {
             throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
         }
         const newStore = fn(store.selectForStore<T>());
         store.set(newStore);
-        addMetaField(StoreDataService, STORE_ITEM_KEY, newStore);
+    }
+
+    public getStoreByKey<T = any>(key: string | symbol): StoreItemInterface<T> | null {
+        const store = find(this.store, item => item.key === key);
+        if (store) {
+            return store as StoreItemInterface<T>;
+        }
+        return null;
+    }
+
+    protected updateSture(store: StoreItemInterface<any>, key: string | symbol) {
+        const index = findIndex(this.store, storeItem => storeItem.key === key);
+        if (index >= 0) {
+            this.store[index] = store;
+        }
     }
 }

@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { APP_ROUTES } from './app/app-routing';
 import { CommonModule } from '@angular/common';
 import { setGlobalInjector } from '../projects/v/store/src/store/injector/injector';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 bootstrapApplication(AppComponent, {
@@ -19,7 +20,7 @@ bootstrapApplication(AppComponent, {
             multi: true,
             useFactory: (injector: Injector) => {
                 setGlobalInjector({
-                    get(token: any, order: number): any {
+                    get(token: any, order?: number, originalFormConstructor?: any): any {
                         const notFound = Symbol('notFound');
                         const value = injector.get(token, notFound);
                         if (value === notFound) {
@@ -35,9 +36,13 @@ bootstrapApplication(AppComponent, {
                 Injector
             ]
         },
-
+        HttpClientModule,
         CommonModule,
-        importProvidersFrom(RouterModule.forRoot(APP_ROUTES)),
+        importProvidersFrom([
+                RouterModule.forRoot(APP_ROUTES),
+                HttpClientModule
+            ]
+        ),
         provideZoneChangeDetection({
             eventCoalescing: true,
             runCoalescing: true
