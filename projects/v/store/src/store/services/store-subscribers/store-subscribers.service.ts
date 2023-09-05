@@ -1,8 +1,5 @@
 import { Injectable, InjectionToken, OnDestroy, signal, WritableSignal } from '@angular/core';
 import { filter, Observable, of, Subject, Subscription, switchMap, tap } from 'rxjs';
-import { getMetadata } from '../../../../../meta-helper/src/lib/meta-helpers/get-metadata/get-metadata';
-import { STORE_ITEM_KEY } from '../../const/meta-keys/store-item/store-item-key';
-import { StoreItemInterface } from '../../store-items/store-item/models/store-item.interface';
 import { StoreDataService } from '../store/store-data.service';
 import find from 'lodash/find';
 import concat from 'lodash/concat';

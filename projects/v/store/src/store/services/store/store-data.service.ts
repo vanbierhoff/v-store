@@ -1,11 +1,6 @@
 import { Injectable, InjectionToken } from '@angular/core';
-import { getMetadata } from '@v/meta-helper';
-import { STORE_ITEM_KEY } from '../../const/meta-keys/store-item/store-item-key';
 import find from 'lodash/find';
-import { addMetaField } from '@v/meta-helper';
 import { StoreItemInterface } from '../../store-items/store-item/models/store-item.interface';
-import some from 'lodash/some';
-import { findIndex } from 'lodash';
 
 
 export const STORE_DATA_SERVICE_TOKEN =
