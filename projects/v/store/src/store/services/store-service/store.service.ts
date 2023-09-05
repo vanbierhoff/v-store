@@ -29,6 +29,10 @@ export class StoreService {
         this.storeSubscribers.emitChange$.next(storeKey);
     }
 
+    public selectSignal(key: string | symbol) {
+        return this.storeSubscribers.selectSignal(key);
+    }
+
     public listenChange<T>(key: string | symbol) {
         return this.storeSubscribers.listenChange(key);
     }

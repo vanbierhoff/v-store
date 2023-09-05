@@ -79,7 +79,6 @@ export class BaseStoreStrategy<T> implements StoreStrategy<T> {
             this.setByKey(value, key);
             return;
         }
-        console.log('SET DATA')
         const designedArgs: any[] = (Reflect as any).getMetadata('design:paramtypes', value.constructor) || [];
 
         const keys = concat<string | symbol>(

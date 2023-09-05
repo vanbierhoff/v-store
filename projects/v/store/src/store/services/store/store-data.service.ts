@@ -71,11 +71,4 @@ export class StoreDataService {
         }
         return null;
     }
-
-    protected updateSture(store: StoreItemInterface<any>, key: string | symbol) {
-        const index = findIndex(this.store, storeItem => storeItem.key === key);
-        if (index >= 0) {
-            this.store[index] = store;
-        }
-    }
 }

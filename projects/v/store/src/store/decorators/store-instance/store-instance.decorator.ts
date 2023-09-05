@@ -25,7 +25,6 @@ export function StoreInstanceDecorator(options?: StoreInstanceInterface): any {
                         return injector.get(arg, index, target);
                     });
                 }
-                console.log(args)
                 super(...args);
             }
         };
