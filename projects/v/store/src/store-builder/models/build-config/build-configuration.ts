@@ -1,7 +1,6 @@
 export enum TypeStore {
     COMBINE = 'combine',
     PRIMITIVE = 'primitive',
-    DECORATED = 'decorated',
     INSTANCE = 'instance'
 }
 

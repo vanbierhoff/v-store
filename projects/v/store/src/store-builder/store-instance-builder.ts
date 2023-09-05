@@ -2,19 +2,11 @@ import { BuildConfiguration, TypeStore } from './models/build-config/build-confi
 import { StoreConstructor } from '../store/create-store/create-store';
 import { StoreFieldInstance } from '../store/store-items/store-field/store-field-instance';
 import { STORE_FIELD } from '../store/const/meta-keys/store-field/store-field';
-import forEach from 'lodash/forEach';
-import some from 'lodash/some';
-import find from 'lodash/find';
-
-import {
-    PRIMITIVE_KEY,
-    PrimitiveStoreItem
-} from '../store/store-items/store-item/primitive-store-item/primitive-store-item';
 import { getMetadata } from '@v/meta-helper/src/lib/meta-helpers/get-metadata/get-metadata';
 import { StoreStrategy, StoreStrategyInstance } from '../store/store-items/store-item/models/store-strategy';
 import { FieldManager } from '../store/store-items/store-field/field-manager/field-manager';
 import { StoreItem } from '../store/store-items/store-item/store-item';
-import { PrimitiveStoreStrategy } from '../store/store-items/strategies/primitive-store.strategy';
+import { PRIMITIVE_KEY } from '../store/const/primitive-store-key';
 
 
 export class StoreInstanceBuilder {
@@ -142,21 +134,11 @@ export class StoreInstanceBuilder {
     }
 
 
-
     protected createStoreField(): any {
         let allFields: any[] = [];
         const metaFields = getMetadata(STORE_FIELD, this.constructorInstance as object);
         allFields.push(...metaFields);
-        if (this.configuration.typeStore === TypeStore.COMBINE) {
-            forEach(Object.keys(this.instance), key => {
-                if (some(metaFields, meta => meta.propertyName !== key) &&
-                    typeof this.instance[key] !== 'function') {
-                    allFields.push({
-                        propertyName: key
-                    });
-                }
-            });
-        }
+
         for(let i = 0; allFields.length > i; i++) {
             const fieldValue = this.instance[allFields[i].propertyName] || undefined;
             const field = new StoreFieldInstance({
@@ -177,17 +159,6 @@ export class StoreInstanceBuilder {
         const fieldManager = new FieldManager(this.storeFields);
         this.storeStrategy = new this.storeStrategyInstance(
             fieldManager, this.constructorInstance, this.args);
-    }
-
-    protected removeNotDecorated() {
-        const metaFields = getMetadata(STORE_FIELD, this.constructorInstance as object);
-        forEach(Object.keys(this.instance), key => {
-            const field = find(metaFields, meta => meta.propertyName === key);
-            if (field) {
-                return;
-            }
-            delete this.instance[key];
-        });
     }
 
     protected createInstance() {
