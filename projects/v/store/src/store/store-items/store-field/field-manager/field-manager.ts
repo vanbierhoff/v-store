@@ -11,12 +11,13 @@ export class FieldManager {
     public extra: any;
 
 
-    constructor(protected fields: StoreFieldInstance[]) {
+    constructor(protected fields: StoreFieldInstance[], extra?: any) {
+        this.extra = extra;
     }
 
     /**
      *
-     * @param key: string
+     * @param key string
      * Get field from store by key
      */
     get(key: string | symbol): StoreFieldInstance | null {
@@ -37,7 +38,7 @@ export class FieldManager {
 
     /**
      *
-     * @param key: string
+     * @param key string
      *  Validate the field by key
      */
     async validate(key: string) {
@@ -51,20 +52,20 @@ export class FieldManager {
 
     /**
      *
-     * @param value: any
-     * @param key: string | symbol
+     * @param value any
+     * @param key  string | symbol
      *
      * For dynamic added new fields in manager
      */
     public pushField(value: any, key: string | symbol) {
         const field = new StoreFieldInstance({
             propertyName: key
-        });
+        }, value);
         this.fields.push(field);
     }
 
     /**
-     * @param key: string | symbol
+     * @param key string | symbol
      *
      * For dynamic remove fields from manager
      */

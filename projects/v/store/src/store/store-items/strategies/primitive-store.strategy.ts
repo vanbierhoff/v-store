@@ -1,17 +1,14 @@
-import { StoreFieldInstance } from '../../store-field/store-field-instance';
-import { FieldManager } from '../../store-field/field-manager/field-manager';
-import { StoreItemInterface } from '../models/store-item.interface';
-import { ValidationError } from '../../../services/store/models/validation/validator.interface';
+import { FieldManager } from '../store-field/field-manager/field-manager';
+import { ValidationError } from '../../services';
+import { StoreStrategy } from '../store-item/models/store-strategy';
+
+
 
 
 export const PRIMITIVE_KEY = 'prim';
 
-export class PrimitiveStoreItem implements StoreItemInterface<any> {
+export class PrimitiveStoreStrategy<T> implements StoreStrategy<T> {
 
-    public key: string | symbol;
-    /**
-     * Manager all fields in the store
-     */
     public fieldsManager: FieldManager;
 
     /**
@@ -22,16 +19,21 @@ export class PrimitiveStoreItem implements StoreItemInterface<any> {
     /**
      * Shows if all fields are valid. false if at least one field is invalid
      */
-    private readonly isValidStore: boolean = false;
+    protected isValidStore: boolean = false;
 
-    constructor(fields: StoreFieldInstance[], key: string | symbol
-    ) {
-        this.fieldsManager = new FieldManager(fields);
-        this.key = key;
+    constructor(fields: FieldManager, _args: any[]) {
+        this.fieldsManager = fields;
+    }
+
+    get isValid(): boolean {
+        return this.isValidStore;
     }
 
     public async validate(): Promise<true | Record<string | symbol, ValidationError[]>> {
-        const field = this.fieldsManager.getAll()[0];
+        const field = this.fieldsManager.get(PRIMITIVE_KEY);
+        if (!field) {
+            throw new Error(`Field doesn't exist`);
+        }
         const result = await field.validate();
         if (result !== true) {
             return {
@@ -42,7 +44,7 @@ export class PrimitiveStoreItem implements StoreItemInterface<any> {
     }
 
     public get(field?: string) {
-        return this.fieldsManager.get('primitive');
+        return this.fieldsManager.get(PRIMITIVE_KEY);
     }
 
     public getAll() {

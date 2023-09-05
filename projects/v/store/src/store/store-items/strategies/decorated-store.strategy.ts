@@ -1,33 +1,24 @@
-import { StoreFieldInstance } from '../store-field/store-field-instance';
 import { ValidationError } from '../../services/store/models/validation/validator.interface';
 import { FieldManager } from '../store-field/field-manager/field-manager';
-import { StoreItemInterface } from './models/store-item.interface';
 import forEach from 'lodash/forEach';
 import concat from 'lodash/concat';
+import { StoreStrategy } from '../store-item/models/store-strategy';
 
 
-export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
+export class DecoratedStoreStrategy<T = any> implements StoreStrategy<T> {
 
     /**
      * Manager all fields in the store
      */
     public fieldsManager: FieldManager;
 
-    public readonly key: string | symbol;
-
-    extra: any;
-
     /**
      * Shows if all fields are valid. false if at least one field is invalid
      */
-    private readonly isValidStore: boolean = false;
+    protected isValidStore: boolean = false;
 
-    constructor(fields: StoreFieldInstance[],
-                protected buildInstance: any, key: string | symbol,
-                protected args?: any[]
-    ) {
-        this.fieldsManager = new FieldManager(fields);
-        this.key = key;
+    constructor(fields: FieldManager, protected buildInstance: any, protected args?: any[]) {
+        this.fieldsManager = fields;
     }
 
     get isValid(): boolean {
@@ -40,21 +31,19 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
         for(let field of fields) {
             const result = await field.validate();
             if (result !== true) {
+                this.isValidStore = false;
                 errors[field.propertyName] = result;
             }
         }
         if (Object.keys(errors).length > 0) {
             return errors;
         }
+        this.isValidStore = true;
         return true;
     }
 
     get(field: string) {
         return this.fieldsManager.get(field);
-    }
-
-    getAll() {
-        return this.fieldsManager.getAll();
     }
 
     /**
@@ -78,8 +67,12 @@ export class BaseDecoratedStoreItem<T = any> implements StoreItemInterface<T> {
      * @param value - any
      *
      * Set data in state.
+     * @param key - key field for access to value
      */
-    set(value: any) {
+    set(value: any, key: string | symbol) {
+        if (key) {
+            return this.setByKey(value, key);
+        }
         const keys = concat<string | symbol>(
             Object.keys(value),
             Object.getOwnPropertySymbols(value));

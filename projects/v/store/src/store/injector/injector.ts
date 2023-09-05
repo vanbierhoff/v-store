@@ -2,7 +2,7 @@
  * Injection function. Can be used to provide arguments for form constructor.
  */
 export interface VInjectionProvider {
-  get(token: any, order: number, originalConstructor: any): any;
+  get(token: any, order?: number, originalConstructor?: any): any;
 }
 
 let VGlobalInjector: VInjectionProvider | false = false;

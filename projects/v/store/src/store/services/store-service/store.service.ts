@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class StoreService {
 
     public readonly anyChanges$ = this.storeSubscribers.anyChanges$;
@@ -29,8 +29,24 @@ export class StoreService {
         this.storeSubscribers.emitChange$.next(storeKey);
     }
 
+    public selectSignal(key: string | symbol) {
+        return this.storeSubscribers.selectSignal(key);
+    }
+
     public listenChange<T>(key: string | symbol) {
         return this.storeSubscribers.listenChange(key);
+    }
+
+    /**
+     * @param key
+     * Validate store data
+     */
+    public validate(key: string | symbol) {
+        const store = this.storeData.getStoreByKey(key);
+        if (!store) {
+            throw new Error(`Store with key ${key.toString()} doesn't exist`);
+        }
+        return store.validate();
     }
 
 }
