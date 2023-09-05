@@ -11,7 +11,8 @@ export class FieldManager {
     public extra: any;
 
 
-    constructor(protected fields: StoreFieldInstance[]) {
+    constructor(protected fields: StoreFieldInstance[], extra?: any) {
+        this.extra = extra;
     }
 
     /**

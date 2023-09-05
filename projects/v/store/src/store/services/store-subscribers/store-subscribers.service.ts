@@ -32,7 +32,6 @@ export class StoreSubscribersService implements OnDestroy {
     readonly anyChanges$;
 
     /**
-     *
      * @param key key for access to store
      * emit new store data after emit change event
      * @return observable : Observable<T>
@@ -45,7 +44,12 @@ export class StoreSubscribersService implements OnDestroy {
             }));
     }
 
-    public selectSignal(key: string | symbol) {
+    /**
+     * @param key key for access to store
+     *  select store and return store value as Signal
+     * @return observable : WritableSignal<T>
+     */
+    public selectSignal<T>(key: string | symbol): WritableSignal<T> {
         const storeItem = this.getStore(key);
         if (!storeItem) {
             console.warn(`item with key  ${key.toString()}  doesn't exist`);
