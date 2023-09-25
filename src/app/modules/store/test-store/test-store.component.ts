@@ -11,8 +11,12 @@ import { createStore } from '../../../../../projects/v/store/src/store/create-st
 import { StoreService } from '../../../../../projects/v/store/src/store/services/store-service/store.service';
 import { StoreDataService } from '../../../../../projects/v/store/src/store/services/store/store-data.service';
 import { StoreSubscribersService } from '../../../../../projects/v/store/src/store/services/store-subscribers/store-subscribers.service';
-import {  setGlobalInjector } from '../../../../../projects/v/store/src/store/injector/injector';
+import { getGlobalInjector, setGlobalInjector } from '../../../../../projects/v/store/src/store/injector/injector';
 import { JsonPipe } from '@angular/common';
+import { CUSTOM_STORE_ITEM_TOKEN } from '../../../../../projects/v/store/src/store/const/tokens/custom-store-item.token';
+import { StoreItem } from '../../../../../projects/v/store/src/store/store-items/store-item/store-item';
+import { FIELD_MANAGER_TOKEN } from '../../../../../projects/v/store/src/store/const';
+import { FieldManager } from '../../../../../projects/v/store/src/store/store-items/store-field/field-manager/field-manager';
 
 
 @Component({
@@ -21,7 +25,16 @@ import { JsonPipe } from '@angular/common';
     templateUrl: './test-store.component.html',
     styleUrls: ['./test-store.component.scss'],
     providers: [StoreService, StoreDataService,
-        StoreSubscribersService],
+        StoreSubscribersService,
+        {
+            provide: CUSTOM_STORE_ITEM_TOKEN,
+            useValue: StoreItem
+        },
+        {
+            provide: FIELD_MANAGER_TOKEN,
+            useValue: FieldManager
+        }
+    ],
     imports: [
         JsonPipe
     ],
@@ -30,16 +43,19 @@ import { JsonPipe } from '@angular/common';
 export class TestStoreComponent implements OnInit {
 
     public firstName = signal('Jane');
-    public storeSignal: WritableSignal<any>
-    public storeItem: any;
+    public storeSignal: WritableSignal<any>;
+    public storeItem: TestStore;
+    public storeCustom: any;
     public name: Signal<string> = signal('test');
 
     constructor(protected store: StoreService, injector: Injector) {
         setGlobalInjector(injector);
+
     }
 
     ngOnInit() {
         createStore(TestStore, 'store');
+        createStore(TestStore, 'customStore', true);
         createStore('TestStore', 'store1');
         setTimeout(() => {
             this.firstName.set('Den');
@@ -47,7 +63,10 @@ export class TestStoreComponent implements OnInit {
 
         this.name = computed(() => this.firstName() + ' Family');
 
-         this.storeItem = this.store.selectStore('store');
+        this.storeItem = this.store.selectStore('store');
+        this.storeCustom = this.store.selectStore('customStore');
+        console.log('customStore', this.storeCustom);
+
         this.storeSignal = this.store.selectSignal('store');
 
         // console.log(store);
@@ -60,7 +79,8 @@ export class TestStoreComponent implements OnInit {
         const store1 = this.store.selectStore('store1');
         const storeInstance = this.store.selectStoreInstance('store');
 
-        this.store.listenChange('store').subscribe(data => {
+        this.store.listenChange<TestStore>('store').subscribe(
+            (data: TestStore) => {
             this.storeItem = data;
         });
 
@@ -71,10 +91,10 @@ export class TestStoreComponent implements OnInit {
         setTimeout(() => {
             this.store.mutateStore('store', value => {
                 value.data = 99;
-                value.dataNotDec = 'update'
+                value.dataNotDec = 'update';
                 return value;
             });
-        }, 2500)
+        }, 2500);
 
 
 

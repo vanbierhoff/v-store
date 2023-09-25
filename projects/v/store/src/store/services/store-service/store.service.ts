@@ -34,7 +34,7 @@ export class StoreService {
     }
 
     public listenChange<T>(key: string | symbol) {
-        return this.storeSubscribers.listenChange(key);
+        return this.storeSubscribers.listenChange<T>(key);
     }
 
     /**

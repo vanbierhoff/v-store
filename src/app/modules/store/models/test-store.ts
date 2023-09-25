@@ -16,7 +16,7 @@ export class TestStore {
         initHook: (field) => console.log(field),
         validators: [typeStoreValidator(JsType.string, 'errorMsh')]
     })
-    public data: string = '5';
+    public data: any = '5';
     @StoreField({})
     public data2: number = 5;
 

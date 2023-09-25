@@ -1,7 +1,7 @@
 export enum TypeStore {
-    COMBINE = 'combine',
     PRIMITIVE = 'primitive',
-    INSTANCE = 'instance'
+    INSTANCE = 'instance',
+    CUSTOM = 'custom'
 }
 
 export interface BuildConfiguration {

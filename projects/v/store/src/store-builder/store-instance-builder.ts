@@ -7,9 +7,29 @@ import { StoreStrategy, StoreStrategyInstance } from '../store/store-items/store
 import { FieldManager } from '../store/store-items/store-field/field-manager/field-manager';
 import { StoreItem } from '../store/store-items/store-item/store-item';
 import { PRIMITIVE_KEY } from '../store/const/primitive-store-key';
+import { Inject, Optional } from '@angular/core';
+import { FIELD_MANAGER_TOKEN } from '../store/const';
+import { CUSTOM_STORE_ITEM_TOKEN } from '../store/const/tokens/custom-store-item.token';
+import { StoreItemInstance } from '../store/store-items/store-item/models/store-item.interface';
+import { InjectDepsDecorator } from '../helpers/inject-deps/inject-deps.decorator';
 
 
+@InjectDepsDecorator([
+    {field: 'fieldManager', token: FIELD_MANAGER_TOKEN, optional: true},
+    {field: 'customStoreItem', token: CUSTOM_STORE_ITEM_TOKEN}
+])
 export class StoreInstanceBuilder {
+
+
+    constructor(@Optional() @Inject(FIELD_MANAGER_TOKEN)
+                protected fieldManager?: typeof FieldManager,
+                @Optional() @Inject(CUSTOM_STORE_ITEM_TOKEN)
+                protected customStoreItem?: StoreItemInstance<any>
+    ) {
+        if (!(this.fieldManager instanceof  FieldManager)) {
+            this.fieldManager = FieldManager;
+        }
+    }
 
     /**
      * @protected
@@ -127,9 +147,20 @@ export class StoreInstanceBuilder {
                 return new StoreItem(this.storeStrategy, this.storeKey);
 
             case TypeStore.PRIMITIVE:
-               this.storeFields.push(new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue));
-               this.createStrategy();
+                this.storeFields.push(new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue));
+                this.createStrategy();
                 return new StoreItem(this.storeStrategy, this.storeKey);
+
+            case TypeStore.CUSTOM:
+                this.storeFields.push(new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue));
+                this.createStrategy();
+                this.createInstance();
+                this.createStoreField();
+                this.createStrategy();
+                if (this.customStoreItem) {
+                    return new this.customStoreItem(this.storeStrategy, this.storeKey);
+                }
+
         }
     }
 
@@ -156,7 +187,7 @@ export class StoreInstanceBuilder {
     }
 
     protected createStrategy() {
-        const fieldManager = new FieldManager(this.storeFields);
+        const fieldManager = new this.fieldManager!(this.storeFields);
         this.storeStrategy = new this.storeStrategyInstance(
             fieldManager, this.constructorInstance, this.args);
     }
