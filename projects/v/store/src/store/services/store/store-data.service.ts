@@ -1,6 +1,7 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import find from 'lodash/find';
 import { StoreItemInterface } from '../../store-items/store-item/models/store-item.interface';
+import remove from 'lodash/remove';
 
 
 export const STORE_DATA_SERVICE_TOKEN =
@@ -65,5 +66,19 @@ export class StoreDataService {
             return store as StoreItemInterface<T>;
         }
         return null;
+    }
+
+    public destroyStore(key: string | symbol): boolean {
+        try {
+            remove(this.store, storeItem => storeItem.key === key);
+            return true;
+        }
+        catch (e) {
+            console.log(e);
+            const keyStore = typeof key === 'string' ? key : key.description;
+            console.error(`Failed to delete store by key ${keyStore}. Make sure such a store exists`);
+            return false;
+        }
+
     }
 }

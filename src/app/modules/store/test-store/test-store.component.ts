@@ -19,6 +19,8 @@ import { FIELD_MANAGER_TOKEN } from '../../../../../projects/v/store/src/store/c
 import { FieldManager } from '../../../../../projects/v/store/src/store/store-items/store-field/field-manager/field-manager';
 
 
+const symbolStoreKey = Symbol('storeKey');
+
 @Component({
     selector: 'app-test-store',
     standalone: true,
@@ -45,6 +47,7 @@ export class TestStoreComponent implements OnInit {
     public firstName = signal('Jane');
     public storeSignal: WritableSignal<any>;
     public storeItem: TestStore;
+    public symbolStore: TestStore;
     public storeCustom: any;
     public name: Signal<string> = signal('test');
 
@@ -56,6 +59,7 @@ export class TestStoreComponent implements OnInit {
     ngOnInit() {
         createStore(TestStore, 'store');
         createStore(TestStore, 'customStore', true);
+        createStore(TestStore, symbolStoreKey, true);
         createStore('TestStore', 'store1');
         setTimeout(() => {
             this.firstName.set('Den');
@@ -65,24 +69,26 @@ export class TestStoreComponent implements OnInit {
 
         this.storeItem = this.store.selectStore('store');
         this.storeCustom = this.store.selectStore('customStore');
-        console.log('customStore', this.storeCustom);
+        this.symbolStore = this.store.selectStore(symbolStoreKey);
+        // console.log('customStore', this.storeCustom);
+        console.log('SYMBOL STORE', this.symbolStore);
 
         this.storeSignal = this.store.selectSignal('store');
 
-        // console.log(store);
+
         console.log(this.storeSignal());
-        // console.log(store.dataNotDec);
+
         this.storeItem.data = 105;
         this.storeItem.method();
-        // console.log(store.data);
 
-        const store1 = this.store.selectStore('store1');
+
+        // const store1 = this.store.selectStore('store1');
         const storeInstance = this.store.selectStoreInstance('store');
 
         this.store.listenChange<TestStore>('store').subscribe(
             (data: TestStore) => {
-            this.storeItem = data;
-        });
+                this.storeItem = data;
+            });
 
         this.store.anyChanges$.subscribe(data => {
             console.log('anyChanges$', data);
@@ -94,6 +100,11 @@ export class TestStoreComponent implements OnInit {
                 value.dataNotDec = 'update';
                 return value;
             });
+
+            this.store.mutateStore(symbolStoreKey, value => {
+                value.dataNotDec = 'SYMBOLS STORE'
+                return value;
+            })
         }, 2500);
 
 
@@ -101,9 +112,11 @@ export class TestStoreComponent implements OnInit {
         storeInstance.validate().then(res => console.log(res));
         setTimeout(() => {
             const data = this.store.selectStore('store');
+            const symStore = this.store.selectStore(symbolStoreKey);
             const dataSignal = this.store.selectSignal('store');
             console.log(data);
             console.log(dataSignal());
+            console.log('SYMBOL UPDATED', symStore);
             console.log(data.store.selectStore('store'));
         }, 4000);
 

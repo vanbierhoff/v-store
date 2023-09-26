@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 
 
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class StoreService {
 
     public readonly anyChanges$ = this.storeSubscribers.anyChanges$;

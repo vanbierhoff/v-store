@@ -15,18 +15,17 @@ import { InjectDepsDecorator } from '../helpers/inject-deps/inject-deps.decorato
 
 
 @InjectDepsDecorator([
-    {field: 'fieldManager', token: FIELD_MANAGER_TOKEN, optional: true},
+    {field: 'fieldManager', token: FIELD_MANAGER_TOKEN},
     {field: 'customStoreItem', token: CUSTOM_STORE_ITEM_TOKEN}
 ])
 export class StoreInstanceBuilder {
-
 
     constructor(@Optional() @Inject(FIELD_MANAGER_TOKEN)
                 protected fieldManager?: typeof FieldManager,
                 @Optional() @Inject(CUSTOM_STORE_ITEM_TOKEN)
                 protected customStoreItem?: StoreItemInstance<any>
     ) {
-        if (!(this.fieldManager instanceof  FieldManager)) {
+        if (!(this.fieldManager instanceof FieldManager)) {
             this.fieldManager = FieldManager;
         }
     }

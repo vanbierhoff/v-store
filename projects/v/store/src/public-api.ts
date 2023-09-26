@@ -25,3 +25,6 @@ export * from './helpers/inject-deps/inject-deps.decorator';
 
 // CONFIGURATION VALUES
 export * from './store/const';
+
+// HELPERS
+export * from './helpers'
