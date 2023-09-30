@@ -1,4 +1,4 @@
-import { ValidatorInterface } from '../../../services/store/models/validation/validator.interface';
+import { ValidatorInterface } from '../../../services';
 import { StoreFieldInstance } from '../../../store-items/store-field/store-field-instance';
 
 

@@ -1,9 +1,6 @@
 import map from 'lodash/map';
 import { getGlobalInjector } from '../../store/injector/injector';
 import { ManualInjectInterface } from './models/manual-inject.interface';
-import forEach from 'lodash/forEach';
-import findIndex from 'lodash/findIndex';
-
 
 
 

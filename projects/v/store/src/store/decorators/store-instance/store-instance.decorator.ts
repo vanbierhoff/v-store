@@ -3,7 +3,6 @@ import { STORE_META_KEY } from '../../const/meta-keys/store-instance/store-isnat
 import { getGlobalInjector } from '../../injector/injector';
 import map from 'lodash/map';
 import { addMetaField } from '@v/meta-helper';
-import { Injector } from '@angular/core';
 
 
 

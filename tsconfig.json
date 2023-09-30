@@ -3,16 +3,16 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@v/meta-helper": [
+      "@v/short-meta-helper": [
         "projects/v/meta-helper"
       ],
-      "@v/meta-helper/*": [
+      "@v/short-meta-helper/*": [
         "projects/v/meta-helper/*"
       ],
-      "@v/r-types": [
+      "@v/short-types": [
         "projects/v/r-types"
       ],
-      "@v/store": [
+      "@v/short-store": [
         "projects/v/store"
       ]
     },
