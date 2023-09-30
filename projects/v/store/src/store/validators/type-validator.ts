@@ -1,8 +1,8 @@
 
 import { StoreFieldInstance } from '../store-items/store-field/store-field-instance';
 import { ValidationError } from '../services/store/models/validation/validator.interface';
-import { typeValidator } from '@v/r-types';
-import { JsType } from '@v/r-types/validators/type-validators/models/js-type';
+import { JsType, typeValidator } from '@v/r-types';
+
 
 
 

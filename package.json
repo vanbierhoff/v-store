@@ -34,7 +34,7 @@
     "@angular/router": "^16.0.0",
     "@types/validator": "^13.11.1",
     "@v/meta-helper": "^0.0.1",
-    "@v/r-types": "^0.0.2",
+    "@v/r-types": "^0.0.3",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
