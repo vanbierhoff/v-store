@@ -10,3 +10,4 @@ export * from './helpers/is-primitive/models/primitive-type';
 
 // VALIDATORS
 export * from './validators/type-validators/type-validator';
+export * from './validators/type-validators/type-validator';
