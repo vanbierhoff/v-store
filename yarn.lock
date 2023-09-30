@@ -2025,10 +2025,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@v/r-types@^0.0.1":
-  version "0.0.1"
-  resolved "http://se25e1b4a.fastvps-server.com/@v/r-types/-/r-types-0.0.1.tgz#ed2d0c9d93142b8ae2893c75ed891666839ed135"
-  integrity sha512-GjOKcUP94gSqDykzmcxwq6YsZeb/dAYJ36hyWu2P87UezqhF/ME4PgMSI6UEGqRGX0qfXTZypDAi947640Qh5w==
+"@v/r-types@^0.0.2":
+  version "0.0.2"
+  resolved "http://se25e1b4a.fastvps-server.com/@v/r-types/-/r-types-0.0.2.tgz#0fe5a5c5c8006f4dfea9aa1f6e4bc8b9e0831aa0"
+  integrity sha512-SvHNnhKlBpofL3R/c+DDpZsl9D3/cB09lhPYQMTLk/9PFdKC4z1Mm4KpPUGrgrHIaooo3QbhPF4j7nis0d0iYg==
   dependencies:
     tslib "^2.3.0"
 
