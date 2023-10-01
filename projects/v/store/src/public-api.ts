@@ -13,7 +13,18 @@ export * from './store/decorators/store-instance/models/store-instance/store-ins
 
 
 // STORE SERVICES
-export * from './store/services'
+export * from './store/services';
 
 // INJECTOR
-export  * from './store/injector/injector'
+export * from './store/injector/injector';
+
+
+// ADDITIONAL FEATURE
+export * from './helpers/inject-deps/inject-deps.decorator';
+
+
+// CONFIGURATION VALUES
+export * from './store/const';
+
+// HELPERS
+export * from './helpers'

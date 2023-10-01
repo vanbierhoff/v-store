@@ -1,7 +1,8 @@
-import { JsType } from '../../../../r-types/src/validators/type-validators/models/js-type';
-import { typeValidator } from '../../../../r-types/src/validators/type-validators/type-validator';
+
 import { StoreFieldInstance } from '../store-items/store-field/store-field-instance';
 import { ValidationError } from '../services/store/models/validation/validator.interface';
+import { JsType, typeValidator } from '@v/r-types';
+
 
 
 

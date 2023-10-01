@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { APP_ROUTES } from './app/app-routing';
 import { CommonModule } from '@angular/common';
 import { setGlobalInjector } from '../projects/v/store/src/store/injector/injector';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {  HttpClientModule } from '@angular/common/http';
 
 
 bootstrapApplication(AppComponent, {

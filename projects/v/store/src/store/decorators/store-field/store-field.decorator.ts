@@ -4,7 +4,6 @@ import { StoreFieldMeta } from '../../store-items/store-field/models/store-field
 import { addMetaField } from '@v/meta-helper';
 
 
-
 export function StoreField<T = any>(options?: StoreFieldDecoratorInterface): PropertyDecorator;
 export function StoreField<T = any>(target: any, key: string): any;
 export function StoreField(optionsOrTarget: any = {}, key?: string) {

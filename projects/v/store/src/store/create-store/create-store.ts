@@ -3,8 +3,7 @@ import { TypeStore } from '../../store-builder/models/build-config/build-configu
 import { STORE_META_KEY } from '../const/meta-keys/store-instance/store-isnatnce';
 import { getMetadata } from '@v/meta-helper';
 import { StoreDataService } from '../services';
-import { PrimitiveType } from '@v/r-types';
-import { isPrimitive } from '@v/r-types';
+import { isPrimitive, PrimitiveType } from '@v/r-types';
 import { PrimitiveStoreStrategy } from '../store-items/strategies/primitive-store.strategy';
 import { BaseStoreStrategy } from '../store-items/strategies/base-store.strategy';
 import { getGlobalInjector } from '../injector/injector';
@@ -16,7 +15,8 @@ export type StoreConstructor<T> = new(...args: any[]) => T;
  *  Created store from decorated instance for created of [[createStore]] for sync operations.
  */
 export function createStore<T = any>(storeInstance: StoreConstructor<T> | PrimitiveType,
-                                     key: string | symbol, args?: any[]): void {
+                                     key: string | symbol, custom = false,
+                                     args?: any[]): void {
 
     const storeBuilder = new StoreInstanceBuilder()
         .setConstructorInstance<T>(storeInstance as StoreConstructor<T>)
@@ -36,7 +36,7 @@ export function createStore<T = any>(storeInstance: StoreConstructor<T> | Primit
             throw new Error(`instance ${storeInstance as string} doesn't have StoreInstanceDecorator decorator`);
         }
         storeBuilder.setStrategy(BaseStoreStrategy);
-        storeBuilder.setTypeStore(TypeStore.INSTANCE);
+        storeBuilder.setTypeStore(custom ? TypeStore.CUSTOM : TypeStore.INSTANCE);
     }
     const injector = getGlobalInjector();
     if (!injector) {

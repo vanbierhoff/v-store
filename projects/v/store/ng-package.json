@@ -3,5 +3,10 @@
   "dest": "../../../dist/v/store",
   "lib": {
     "entryFile": "../../index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "lodash",
+    "@v/meta-helper",
+    "@v/r-types"
+  ]
 }

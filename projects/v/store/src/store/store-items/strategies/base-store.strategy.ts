@@ -3,7 +3,6 @@ import concat from 'lodash/concat';
 import { FieldManager } from '../store-field/field-manager/field-manager';
 import { ValidationError } from '../../services';
 import { StoreStrategy } from '../store-item/models/store-strategy';
-import find from 'lodash/find';
 import some from 'lodash/some';
 import { isPrimitive } from '@v/r-types';
 
