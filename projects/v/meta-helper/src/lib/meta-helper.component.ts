@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-meta-helper',
+  selector: 'v-meta-helper',
   template: `
     <p>
       meta-helper works!

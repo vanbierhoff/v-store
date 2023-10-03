@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'r-types',
+  selector: 'v-event-stack',
   template: `
     <p>
-      r-types works!
+      event-stack works!
     </p>
   `,
   styles: [
   ]
 })
-export class RTypesComponent {
+export class EventStackComponent {
 
 }
