@@ -21,7 +21,7 @@ export class EventStackManager implements EventStackManagerInterface {
         return stackItem;
     }
 
-    removeStackItem(item: EventStackItemInterface): void {
+    public removeStackItem(item: EventStackItemInterface): void {
         if (!this.items[item.name]) {
             return;
         }
@@ -29,14 +29,10 @@ export class EventStackManager implements EventStackManagerInterface {
             item.id === stackItem.stackItem.id);
     }
 
-    emit<T>(event: string | number, data: T) {
+    public emit<T>(event: string | number, data: T) {
         if (!this.items[event]) {
             return;
         }
         forEach(this.items[event], item => item.callback(data));
     }
-
-
-
-
 }
