@@ -28,3 +28,7 @@ export * from './store/const';
 
 // HELPERS
 export * from './helpers'
+
+
+// instances
+export * from './store/store-items/store-field/field-manager/field-manager'
