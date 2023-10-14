@@ -1,14 +1,11 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModuleInterface } from './models/store-module.interface';
-import {
-    FIELD_MANAGER_TOKEN,
-    FieldManager,
-    StoreDataService,
-    StoreSubscribersService
-} from '@v/short-store';
 import { CUSTOM_STORE_ITEM_TOKEN } from './const/tokens/custom-store-item.token';
 import { StoreItem } from './store-items/store-item/store-item';
+import { StoreDataService, StoreSubscribersService } from './services';
+import { FIELD_MANAGER_TOKEN } from './const';
+import { FieldManager } from './store-items/store-field/field-manager/field-manager';
 
 
 
