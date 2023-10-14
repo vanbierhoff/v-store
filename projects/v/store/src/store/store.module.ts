@@ -16,7 +16,7 @@ import { FieldManager } from './store-items/store-field/field-manager/field-mana
 })
 export class StoreModule {
 
-    static forChild(config: StoreModuleInterface): ModuleWithProviders<any> {
+    static forChild(config?: StoreModuleInterface): ModuleWithProviders<any> {
         return {
             ngModule: StoreModule,
             providers: [
@@ -39,7 +39,7 @@ export class StoreModule {
      * Метод который будет вызван когда модуль импортиться в root модуле
      * @param config - конфигурация, в данном случае задается имя пользователя
      */
-    static forRoot(config: StoreModuleInterface): ModuleWithProviders<any> {
+    static forRoot(config?: StoreModuleInterface): ModuleWithProviders<any> {
         return {
             ngModule: StoreModule,
             providers: [
