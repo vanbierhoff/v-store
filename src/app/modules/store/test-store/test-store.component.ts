@@ -26,7 +26,9 @@ const symbolStoreKey = Symbol('storeKey');
     standalone: true,
     templateUrl: './test-store.component.html',
     styleUrls: ['./test-store.component.scss'],
-    providers: [StoreService, StoreDataService,
+    providers: [
+        StoreService,
+        StoreDataService,
         StoreSubscribersService,
         {
             provide: CUSTOM_STORE_ITEM_TOKEN,
