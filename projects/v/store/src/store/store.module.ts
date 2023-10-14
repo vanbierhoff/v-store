@@ -12,6 +12,18 @@ import { FieldManager } from './store-items/store-field/field-manager/field-mana
 @NgModule({
     imports: [
         CommonModule
+    ],
+    providers: [
+        StoreDataService,
+        StoreSubscribersService,
+        {
+            provide: CUSTOM_STORE_ITEM_TOKEN,
+            useValue: StoreItem
+        },
+        {
+            provide: FIELD_MANAGER_TOKEN,
+            useValue: FieldManager
+        }
     ]
 })
 export class StoreModule {
