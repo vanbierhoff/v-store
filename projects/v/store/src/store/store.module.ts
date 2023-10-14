@@ -15,7 +15,7 @@ import { FieldManager } from './store-items/store-field/field-manager/field-mana
     ]
 })
 export class StoreModule {
-    static forChild(config?: StoreModuleInterface): ModuleWithProviders<StoreModule> {
+    static forChild(config?: StoreModuleInterface): StoreModule {
         return {
             ngModule: StoreModule,
             providers: [
