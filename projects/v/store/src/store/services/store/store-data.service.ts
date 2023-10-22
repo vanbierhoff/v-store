@@ -28,7 +28,7 @@ export class StoreDataService {
         }
         this.store.push(item);
     }
-
+     // конфиг на strict режим с исключением
     public selectStore<T = any>(storeKey: string | symbol): T {
         const store = this.getStoreByKey(storeKey);
         if (store) {

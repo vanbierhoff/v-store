@@ -20,7 +20,7 @@ export class BaseStoreStrategy<T> implements StoreStrategy<T> {
     get isValid() {
         return this.isValidStore;
     }
-
+ // делать сет по метадате для филдов без иницйиализации(филд без значения не сщуествует в классе
     public selectForStore<T = any>(): T {
         let originalState;
         if (this.args) {
@@ -29,7 +29,7 @@ export class BaseStoreStrategy<T> implements StoreStrategy<T> {
             originalState = new this.buildInstance();
 
         }
-
+       // цикл по полям мета если они есть, проставлять им def value?
         const origInstanceKeys = concat<string | symbol>(
             Object.keys(originalState),
             Object.getOwnPropertySymbols(originalState));
@@ -90,6 +90,7 @@ export class BaseStoreStrategy<T> implements StoreStrategy<T> {
                 field.setValue(value[key]);
                 continue;
             }
+            // if value[key] is deps injectable, field not created
             if(designedArgs && !isPrimitive(value[key]) &&
                 some(designedArgs, arg => arg === value[key].constructor)) {
                 continue;
