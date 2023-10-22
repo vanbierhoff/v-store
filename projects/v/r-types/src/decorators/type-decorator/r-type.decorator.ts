@@ -1,6 +1,6 @@
-import { RTypes } from '../../validators/type-validators';
+import { RTypes, typeValidator } from '../../validators/type-validators';
 import set from 'lodash/set';
-import { typeValidator } from '@v/r-types';
+
 import { RTypeValidatorInterface } from '../../validators/r-validators';
 
 // Сделать weakRef реализацию
