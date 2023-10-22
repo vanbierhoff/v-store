@@ -11,7 +11,7 @@ import { RouterOutlet } from '@angular/router';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'store_v2';
+  title = 'store_v';
 
 
 }
