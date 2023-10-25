@@ -23,12 +23,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+        with:
+          repository: http://potato.myfast.host
       - name: Use Node.js ${{ matrix.node-version }}
         # Setup nodejs
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          repository: http://potato.myfast.host
       - name: install modules
         run: yarn install
       - name: build project
