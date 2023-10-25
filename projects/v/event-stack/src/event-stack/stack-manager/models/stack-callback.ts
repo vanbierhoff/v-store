@@ -1,3 +1,3 @@
 
 
-export type StackCallback<T> = (value: any) => void
+export type StackCallback<T = any> = (value: T) => void

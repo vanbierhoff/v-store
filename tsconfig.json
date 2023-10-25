@@ -15,6 +15,9 @@
       "@v/short-meta-helper/*": [
         "projects/v/meta-helper/*"
       ],
+      "@v/short-stack/*": [
+        "projects/v/event-stack/*"
+      ],
       "@v/short-types": [
         "projects/v/r-types"
       ],

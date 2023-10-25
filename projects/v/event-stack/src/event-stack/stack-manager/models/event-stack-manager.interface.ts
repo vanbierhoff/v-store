@@ -2,9 +2,9 @@ import { EventStackItemInterface } from '../../stack-item/models/event-stack.ite
 
 
 export interface EventStackManagerInterface {
-    subscribe?<T>(event: string | number, callback: ((value: T) => void)): EventStackItemInterface;
+    subscribe?<T>(event: string | number, callback: ((value: T) => void)): EventStackItemInterface<any>;
 
-    removeStackItem(item: EventStackItemInterface): void;
+    removeStackItem(item: EventStackItemInterface<any>): void;
 
 
 }

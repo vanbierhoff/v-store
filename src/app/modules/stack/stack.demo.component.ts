@@ -1,16 +1,23 @@
-import { EventStackItemInterface, EventStackManager } from 'projects/v/event-stack/src/event-stack';
+import {
+    EventStackManager,
+    EventStackSubscription
+} from 'projects/v/event-stack/src/event-stack';
 import { StackCallback } from 'projects/v/event-stack/src/event-stack/stack-manager/models/stack-callback';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 
 class AbstractField {
 
+    constructor() {
+        this.manager.add<number>('change');
+    }
+
     manager = new EventStackManager();
 
     _value: any;
 
-    public subscribe(event: string, callback: StackCallback<any>) {
-        return this.manager.add(event, callback);
+    listen(event: string, cb: StackCallback<number>): EventStackSubscription {
+        return this.manager.listen(event, cb);
     }
 
     set value(data: any) {
@@ -25,8 +32,8 @@ class TestStack {
     constructor(public field: AbstractField) {
     }
 
-    subscribe(name: string, cb: StackCallback<any>): EventStackItemInterface {
-        return this.field.subscribe(name, cb);
+    subscribe(event: string, cb: StackCallback<number>): EventStackSubscription {
+        return this.field.listen(event, cb);
     }
 
     updateValue(value: any) {
@@ -53,10 +60,14 @@ export class StackDemoComponent implements OnInit {
         const sub = field.subscribe('change', (data) => {
             console.log(data);
         });
+        const sub2 = field.subscribe('change', (data) => {
+            console.log('sub2 ' + data);
+        });
         field.updateValue(100);
         field.updateValue(200);
         sub.unsubscribe();
         field.updateValue(300);
+        sub2.unsubscribe()
     }
 
 
