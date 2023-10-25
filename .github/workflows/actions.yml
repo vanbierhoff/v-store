@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          registry: http://potato.myfast.host
+          repository: http://potato.myfast.host
       - name: install modules
         run: yarn install
       - name: build project
