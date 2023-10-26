@@ -30,7 +30,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: http://potato.myfast.host/
       - name: install modules
-        run: yarn install
+        run:  yarn install
       - name: build project
         run: yarn run build
       - name: build store
