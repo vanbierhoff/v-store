@@ -1,5 +1,5 @@
 import { BuildConfiguration, TypeStore } from './models/build-config/build-configuration';
-import { StoreConstructor } from '@v/short-store';
+
 import { StoreFieldInstance } from '../store/store-items/store-field/store-field-instance';
 import { STORE_FIELD } from '../store/const/meta-keys/store-field/store-field';
 import { StoreStrategy, StoreStrategyInstance } from '../store/store-items/store-item/models/store-strategy';
@@ -10,8 +10,9 @@ import { Inject, Optional } from '@angular/core';
 import { FIELD_MANAGER_TOKEN } from '../store/const';
 import { CUSTOM_STORE_ITEM_TOKEN } from '../store/const/tokens/custom-store-item.token';
 import { StoreItemInstance } from '../store/store-items/store-item/models/store-item.interface';
-import { InjectDepsDecorator } from '@v/short-store';
 import { getMetadata } from '@v/meta-helper';
+import { InjectDepsDecorator } from '../helpers/inject-deps/inject-deps.decorator';
+import { StoreConstructor } from '../store/create-store/create-store';
 
 
 @InjectDepsDecorator([

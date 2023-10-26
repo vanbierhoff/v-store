@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-r-types',
+  selector: 'r-types',
   template: `
     <p>
       r-types works!

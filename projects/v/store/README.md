@@ -1,24 +1,39 @@
 # Store
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
+State manager for angular 16+
 
-## Code scaffolding
+### Base settings after start:
+In main.ts or app/core module set injector
+```typescript
+  providers: [
+    {
+        provide: APP_INITIALIZER,
+        multi: true,
+        useFactory: (injector: Injector) => {
+            setGlobalInjector({
+                get(token: any, order?: number, originalFormConstructor?: any): any {
+                    const notFound = Symbol('notFound');
+                    const value = injector.get(token, notFound);
+                    if (value === notFound) {
+                        return;
+                    }
+                    return value;
+                }
+            });
+            return () => {
+            };
+        },
+        deps: [
+            Injector
+        ]
+    }]
+```
 
-Run `ng generate component component-name --project store` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project store`.
-> Note: Don't forget to add `--project store` or else it will be added to the default project in your `angular.json` file. 
+If you use standalone components, you may need set injector in this component,
+because injector from  main.ts/app.module will be not access.
+```typescript
 
-## Build
-
-Run `ng build store` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Publishing
-
-After building your library with `ng build store`, go to the dist folder `cd dist/store` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test store` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+constructor(protected store: StoreService, injector: Injector) {
+    setGlobalInjector(injector);
+}
+```

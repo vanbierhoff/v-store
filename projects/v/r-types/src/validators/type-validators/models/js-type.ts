@@ -1,4 +1,4 @@
-import { RTypeValidatorInterface } from '../../r-validators/models/r-type-validator.interface';
+import { RTypeValidatorInterface } from '../../r-validators';
 
 
 export type JsTypeList = keyof typeof JsType;
