@@ -31,8 +31,7 @@ export class StoreFieldInstance<T = any> {
         this.policyFn = config.policy || undefined;
         this.propertyName = config.propertyName;
         this.setValue(value);
-        this.eventStack.add(STORE_FIELD_EVENTS.validate)
-        this.eventStack.add(STORE_FIELD_EVENTS.changeValue)
+        this.eventStack.addMultiple([STORE_FIELD_EVENTS.changeValue, STORE_FIELD_EVENTS.validate]);
     }
 
     /**
