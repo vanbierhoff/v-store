@@ -10,8 +10,9 @@ import { RouterOutlet } from '@angular/router';
     ],
     styleUrls: ['./app.component.scss']
 })
+// yarn set registry в пайплайн сборки тестов
 export class AppComponent {
-  title = 'store_v2';
+  title = 'store_v';
 
 
 }

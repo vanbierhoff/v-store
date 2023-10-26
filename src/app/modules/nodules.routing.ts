@@ -11,6 +11,11 @@ export const MODULES_ROUTES: Route[] = [
     {
         path: 'r-type',
         loadComponent: () => import('./r-types/r-type.demo/r-type.demo.component').then(c => c.RTypeDemoComponent)
+    },
+
+    {
+        path: 'stack',
+        loadComponent: () => import('./stack/stack.demo.component').then(c => c.StackDemoComponent)
     }
 
 ];

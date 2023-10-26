@@ -3,11 +3,20 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@v/event-stack": [
+        "dist/v/event-stack"
+      ],
+      "@v/forms": [
+        "dist/v/forms"
+      ],
       "@v/short-meta-helper": [
         "projects/v/meta-helper"
       ],
       "@v/short-meta-helper/*": [
         "projects/v/meta-helper/*"
+      ],
+      "@v/short-stack/*": [
+        "projects/v/event-stack/*"
       ],
       "@v/short-types": [
         "projects/v/r-types"

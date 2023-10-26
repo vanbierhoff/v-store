@@ -1,7 +1,7 @@
-import { RTypes } from '../../validators/type-validators/models/js-type';
+import { RTypes, typeValidator } from '../../validators/type-validators';
 import set from 'lodash/set';
-import { typeValidator } from '@v/r-types';
-import { RTypeValidatorInterface } from '../../validators/r-validators/models/r-type-validator.interface';
+
+import { RTypeValidatorInterface } from '../../validators/r-validators';
 
 // Сделать weakRef реализацию
 export function RType<T, P = any>(this: any, {

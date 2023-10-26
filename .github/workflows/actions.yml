@@ -28,12 +28,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: http://potato.myfast.host/
       - name: install modules
-        run: yarn install
+        run:  npm install --force
       - name: build project
-        run: yarn run build
+        run: npm run build
       - name: build store
-        run: yarn run build:store
+        run: npm run build:store
       - name: unit test store:ci
         run: npm run test-store:ci
       - name: unit test r-type:ci
