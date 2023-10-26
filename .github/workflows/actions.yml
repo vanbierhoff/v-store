@@ -30,7 +30,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: http://potato.myfast.host/
       - name: install modules
-        run:  npm ci
+        run:  npm install --force
       - name: build project
         run: npm run build
       - name: build store
