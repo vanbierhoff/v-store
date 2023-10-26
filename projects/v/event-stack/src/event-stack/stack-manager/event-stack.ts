@@ -15,6 +15,19 @@ export class EventStackManager implements EventStackManagerInterface {
         return stackItem;
     }
 
+    public addMultiple<T>(names: Array<string | symbol | number>): Array<EventStackItemInterface<T>> {
+        const events:Array<EventStackItemInterface<T>>  = [];
+        names.forEach(name => {
+            const stackItem = new EventStackItem(this, name, this.idCounter++);
+            if (!(name in this.items)) {
+                this.items[name] = stackItem;
+                events.push(stackItem);
+            }
+        });
+        return events;
+
+    }
+
     public listen<T>(name: string | symbol, callback: StackCallback<T>): EventStackSubscription {
         if (!this.items[name]) {
             throw new Error(`event doesnt exist`);
@@ -27,7 +40,7 @@ export class EventStackManager implements EventStackManagerInterface {
         return returnedObj;
     }
 
-    public removeStackItem(item: EventStackItemInterface<any>): void {
+    public removeEventItem(item: EventStackItemInterface<any>): void {
         if (!this.items[item.name]) {
             return;
         }

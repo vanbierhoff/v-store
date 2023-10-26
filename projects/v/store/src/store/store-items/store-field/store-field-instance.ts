@@ -1,6 +1,8 @@
 import { ValidationError, ValidatorInterface } from '../../services/store/models/validation/validator.interface';
 import { StoreFieldOptionsInterface } from './models/store-field-options.interface';
 import { StoreFieldMeta } from './models/store-field-meta';
+import { EventStackManager } from '@v/event-stack';
+import { STORE_FIELD_EVENTS } from '../models/store-events';
 
 
 export class StoreFieldInstance<T = any> {
@@ -22,11 +24,15 @@ export class StoreFieldInstance<T = any> {
 
     protected policyFn: (() => Promise<boolean>) | undefined;
 
+    protected eventStack = new EventStackManager();
+
     constructor(config: StoreFieldMeta, value?: T) {
         this.validators = config.validators;
         this.policyFn = config.policy || undefined;
         this.propertyName = config.propertyName;
         this.setValue(value);
+        this.eventStack.add(STORE_FIELD_EVENTS.validate)
+        this.eventStack.add(STORE_FIELD_EVENTS.changeValue)
     }
 
     /**
@@ -49,7 +55,7 @@ export class StoreFieldInstance<T = any> {
      * Setter function for update field value
      * @return value
      */
-    setValue(value: any): void {
+    setValue<T = any>(value: any): T {
         this.storeValue = value;
         return value;
     }
