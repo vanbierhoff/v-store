@@ -4,7 +4,8 @@
   "peerDependencies": {
     "lodash": "^4.17.21",
     "@v/meta-helper": "*",
-    "@v/r-types": "*"
+    "@v/r-types": "*",
+    "@v/event-stack": "*"
 
   },
   "dependencies": {

@@ -20,11 +20,11 @@ export class EventStackManager implements EventStackManagerInterface {
             throw new Error(`event doesnt exist`);
         }
         this.items[name].addCallback(callback);
-        const returnOb = {
+        const returnedObj = {
             id: this.items[name].idCount as number,
-            unsubscribe: () => this.items[name].unsubscribe(returnOb.id)
+            unsubscribe: () => this.items[name].unsubscribe(returnedObj.id)
         };
-        return returnOb;
+        return returnedObj;
     }
 
     public removeStackItem(item: EventStackItemInterface<any>): void {
