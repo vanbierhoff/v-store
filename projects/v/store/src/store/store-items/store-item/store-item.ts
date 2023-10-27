@@ -2,6 +2,8 @@ import { ValidationError } from '../../services/store/models/validation/validato
 import { FieldManager } from '../store-field/field-manager/field-manager';
 import { StoreItemInterface } from './models/store-item.interface';
 import { StoreStrategy } from './models/store-strategy';
+import { EventStackManager } from '@v/event-stack';
+import { STORE_ITEM_EVENTS } from './models/store-item-events';
 
 
 export class StoreItem<T = any> implements StoreItemInterface<T> {
@@ -20,10 +22,13 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
      */
     protected isValidStore: boolean = false;
 
+    protected eventStackManager = new EventStackManager();
+
     constructor(protected storeStrategy: StoreStrategy<any>,
                 key: string | symbol
     ) {
         this.key = key;
+        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.validate]);
     }
 
     /**
@@ -41,6 +46,8 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
     async validate(): Promise<true | Record<string | symbol, ValidationError[]>> {
         const result = await this.storeStrategy.validate();
         this.isValidStore = result === true;
+        this.eventStackManager.emit<true | Record<string | symbol, ValidationError[]>>
+        (STORE_ITEM_EVENTS.validate, result);
         return result;
     }
 
@@ -71,6 +78,7 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
      */
     set(value: any, key?: string | symbol) {
         this.storeStrategy.set(value, key);
+        this.eventStackManager.emit<StoreItemInterface<T>>(STORE_ITEM_EVENTS.changeValue, this)
     }
 
 }

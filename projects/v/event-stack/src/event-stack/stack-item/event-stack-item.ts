@@ -1,8 +1,8 @@
 import { EventStackItemInterface } from './models/event-stack.item.interface';
 import { EventStackManager } from '../stack-manager/event-stack';
-import { StackCallback } from '@v/short-stack/src/event-stack/stack-manager/models/stack-callback';
 import forEach from 'lodash/forEach';
 import remove from 'lodash/remove';
+import { StackCallback } from '../stack-manager/models/stack-callback';
 
 
 export class EventStackItem<T> implements EventStackItemInterface<T> {

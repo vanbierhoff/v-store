@@ -2319,9 +2319,9 @@
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
 "@v/event-stack@*":
-  version "0.0.2"
-  resolved "http://potato.myfast.host/@v/event-stack/-/event-stack-0.0.2.tgz#0dcde18b35eedbc039682d53c76dd6d4f8527900"
-  integrity sha512-Z17jjLmaYhZsG0WB9HsxquQ8xNyHy48i5bnz/MyUwLrX3MkGL6RWn40p4ZrEyguvkUWCJbHoIFeqt/9AcLGBQg==
+  version "0.0.3"
+  resolved "http://potato.myfast.host/@v/event-stack/-/event-stack-0.0.3.tgz#4f02d6fc659190a63e2c829f6b8315482fe7fa49"
+  integrity sha512-vr0ox+kKSW2T9inteUsmH+YobZw45inH0F4lXmvwn8Ur4S+dIbwAxt7yfx1cBGB7hGB0TJS4fSKoZMSu5Jdoqg==
   dependencies:
     tslib "^2.3.0"
 

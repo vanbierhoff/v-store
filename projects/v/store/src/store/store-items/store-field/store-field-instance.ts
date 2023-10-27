@@ -24,14 +24,14 @@ export class StoreFieldInstance<T = any> {
 
     protected policyFn: (() => Promise<boolean>) | undefined;
 
-    protected eventStack = new EventStackManager();
+    protected eventStackManager = new EventStackManager();
 
     constructor(config: StoreFieldMeta, value?: T) {
         this.validators = config.validators;
         this.policyFn = config.policy || undefined;
         this.propertyName = config.propertyName;
         this.setValue(value);
-        this.eventStack.addMultiple([STORE_FIELD_EVENTS.changeValue, STORE_FIELD_EVENTS.validate]);
+        this.eventStackManager.addMultiple<StoreFieldInstance>([STORE_FIELD_EVENTS.changeValue, STORE_FIELD_EVENTS.validate]);
     }
 
     /**
@@ -56,6 +56,7 @@ export class StoreFieldInstance<T = any> {
      */
     setValue<T = any>(value: any): T {
         this.storeValue = value;
+        this.eventStackManager.emit<StoreFieldInstance>(STORE_FIELD_EVENTS.changeValue, this);
         return value;
     }
 
@@ -78,8 +79,10 @@ export class StoreFieldInstance<T = any> {
         }
         if (errors.length > 0) {
             this.isValidStoreValue = false;
+            this.eventStackManager.emit(STORE_FIELD_EVENTS.validate, this);
             return errors;
         }
+        this.eventStackManager.emit(STORE_FIELD_EVENTS.validate, this);
         return this.isValidStoreValue = true;
     }
 }
