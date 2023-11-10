@@ -1,6 +1,8 @@
 import { StoreFieldInstance } from '../store-field-instance';
 import find from 'lodash/find';
 import remove from 'lodash/remove';
+import { STORE_ITEM_EVENTS } from '../../store-item/models/store-item-events';
+import { EventStackManager } from '@v/event-stack';
 
 
 export class FieldManager {
@@ -10,9 +12,11 @@ export class FieldManager {
      */
     public extra: any;
 
+    protected eventStackManager = new EventStackManager();
 
     constructor(protected fields: StoreFieldInstance[], extra?: any) {
         this.extra = extra;
+        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.changeValue]);
     }
 
     /**

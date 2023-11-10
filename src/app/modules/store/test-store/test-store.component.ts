@@ -17,11 +17,6 @@ import {
 } from '@v/short-store';
 import { CUSTOM_STORE_ITEM_TOKEN } from '../../../../../projects/v/store/src/store/const/tokens/custom-store-item.token';
 import { JsonPipe } from '@angular/common';
-import { STEP_FIRST, STEP_TWO } from '../models/steps-data/steps-data';
-import { StepItem } from '../models/steps-data/step-item';
-import { stepFactory } from '../models/steps-data/step-factory';
-import { HttpClient } from '@angular/common/http';
-
 
 
 const symbolStoreKey = Symbol('storeKey');
@@ -31,9 +26,7 @@ const symbolStoreKey = Symbol('storeKey');
     standalone: true,
     templateUrl: './test-store.component.html',
     styleUrls: ['./test-store.component.scss'],
-    providers: [
-        StoreService,
-        StoreDataService,
+    providers: [StoreService, StoreDataService,
         StoreSubscribersService,
         {
             provide: CUSTOM_STORE_ITEM_TOKEN,
@@ -58,20 +51,75 @@ export class TestStoreComponent implements OnInit {
     public storeCustom: any;
     public name: Signal<string> = signal('test');
 
-    constructor(protected store: StoreService, injector: Injector, protected http: HttpClient) {
+    constructor(protected store: StoreService, injector: Injector) {
         setGlobalInjector(injector);
 
     }
 
     ngOnInit() {
-        [STEP_FIRST, STEP_TWO].forEach(step => {
-            createStore(StepItem, step.stepName);
-            this.store.mutateStore(step.stepName, store => {
-                store = stepFactory(step, this.http);
-                return store;
+        createStore(TestStore, 'store');
+        createStore(TestStore, 'customStore', true);
+        createStore(TestStore, symbolStoreKey, true);
+        createStore('TestStore', 'store1');
+        setTimeout(() => {
+            this.firstName.set('Den');
+        }, 1000);
+
+        this.name = computed(() => this.firstName() + ' Family');
+
+        this.storeItem = this.store.selectStore('store');
+        this.storeCustom = this.store.selectStore('customStore');
+        this.symbolStore = this.store.selectStore(symbolStoreKey);
+        // console.log('customStore', this.storeCustom);
+        console.log('SYMBOL STORE', this.symbolStore);
+
+        this.storeSignal = this.store.selectSignal('store');
+
+
+        console.log(this.storeSignal());
+
+        this.storeItem.data = 105;
+        this.storeItem.method();
+
+
+        // const store1 = this.store.selectStore('store1');
+        const storeInstance = this.store.selectStoreInstance('store');
+
+        this.store.listenChange<TestStore>('store').subscribe(
+            (data: TestStore) => {
+                this.storeItem = data;
             });
+
+        this.store.anyChanges$.subscribe(data => {
+            console.log('anyChanges$', data);
         });
-        console.log(this.store.selectStore('first'))
+
+        setTimeout(() => {
+            this.store.mutateStore('store', value => {
+                value.data = 99;
+                value.dataNotDec = 'update';
+                return value;
+            });
+
+            this.store.mutateStore(symbolStoreKey, value => {
+                value.dataNotDec = 'SYMBOLS STORE'
+                return value;
+            })
+        }, 2500);
+
+
+
+        storeInstance.validate().then(res => console.log(res));
+        setTimeout(() => {
+            const data = this.store.selectStore('store');
+            const symStore = this.store.selectStore(symbolStoreKey);
+            const dataSignal = this.store.selectSignal('store');
+            console.log(data);
+            console.log(dataSignal());
+            console.log('SYMBOL UPDATED', symStore);
+            console.log(data.store.selectStore('store'));
+        }, 4000);
+
     }
 
 }

@@ -9,6 +9,12 @@ export const MODULES_ROUTES: Route[] = [
     },
 
     {
+        path: 'store-sub',
+        loadComponent: () => import('./store/store-subscriber/store-subscriber.component')
+            .then(m => m.StoreSubscriberComponent)
+    },
+
+    {
         path: 'r-type',
         loadComponent: () => import('./r-types/r-type.demo/r-type.demo.component').then(c => c.RTypeDemoComponent)
     },

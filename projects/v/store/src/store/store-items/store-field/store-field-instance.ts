@@ -3,6 +3,8 @@ import { StoreFieldOptionsInterface } from './models/store-field-options.interfa
 import { StoreFieldMeta } from './models/store-field-meta';
 import { EventStackManager } from '@v/event-stack';
 import { STORE_FIELD_EVENTS } from '../models/store-events';
+import { StackCallback } from '@v/short-stack/src/event-stack/stack-manager/models/stack-callback';
+import { EventStackSubscription } from '@v/short-stack/src/event-stack';
 
 
 export class StoreFieldInstance<T = any> {
@@ -79,10 +81,15 @@ export class StoreFieldInstance<T = any> {
         }
         if (errors.length > 0) {
             this.isValidStoreValue = false;
-            this.eventStackManager.emit(STORE_FIELD_EVENTS.validate, this);
+            this.eventStackManager.emit<true | ValidationError[]>(STORE_FIELD_EVENTS.validate, errors);
             return errors;
         }
-        this.eventStackManager.emit(STORE_FIELD_EVENTS.validate, this);
+        this.eventStackManager.emit<true | ValidationError[]>(STORE_FIELD_EVENTS.validate, true);
         return this.isValidStoreValue = true;
+    }
+
+
+    public listenEvent<T = any>(event: string, cb: StackCallback<T>): EventStackSubscription {
+        return this.eventStackManager.listen(event, cb);
     }
 }

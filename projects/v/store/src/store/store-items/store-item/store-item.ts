@@ -28,7 +28,7 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
                 key: string | symbol
     ) {
         this.key = key;
-        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.validate]);
+        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.validate, STORE_ITEM_EVENTS.changeValue]);
     }
 
     /**
@@ -78,7 +78,7 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
      */
     set(value: any, key?: string | symbol) {
         this.storeStrategy.set(value, key);
-        this.eventStackManager.emit<StoreItemInterface<T>>(STORE_ITEM_EVENTS.changeValue, this)
+
     }
 
 }
