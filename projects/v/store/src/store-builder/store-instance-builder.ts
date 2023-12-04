@@ -142,7 +142,7 @@ export class StoreInstanceBuilder {
         switch (this.configuration.typeStore as string) {
             case TypeStore.INSTANCE:
                 this.createInstance();
-                this.createStoreField();
+                this.createStoreFields();
                 this.createStrategy();
                 return new StoreItem(this.storeStrategy, this.storeKey);
 
@@ -152,10 +152,8 @@ export class StoreInstanceBuilder {
                 return new StoreItem(this.storeStrategy, this.storeKey);
 
             case TypeStore.CUSTOM:
-                this.storeFields.push(new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue));
-                this.createStrategy();
                 this.createInstance();
-                this.createStoreField();
+                this.createStoreFields();
                 this.createStrategy();
                 if (this.customStoreItem) {
                     return new this.customStoreItem(this.storeStrategy, this.storeKey);
@@ -165,7 +163,7 @@ export class StoreInstanceBuilder {
     }
 
 
-    protected createStoreField(): any {
+    protected createStoreFields(): any {
         let allFields: any[] = [];
         const metaFields = getMetadata(STORE_FIELD, this.constructorInstance as object);
         allFields.push(...metaFields);

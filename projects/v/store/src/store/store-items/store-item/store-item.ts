@@ -3,10 +3,13 @@ import { FieldManager } from '../store-field/field-manager/field-manager';
 import { StoreItemInterface } from './models/store-item.interface';
 import { StoreStrategy } from './models/store-strategy';
 import { EventStackManager } from '@v/event-stack';
-import { STORE_ITEM_EVENTS } from './models/store-item-events';
+import { STORE_ITEM_EVENTS, StoreItemEventsInterface } from './models/store-item-events';
+import { STORE_FIELD_INSTANCE_EVENTS, StoreFieldInstanceEventsInterface } from '../models/store-events';
+import { StackCallback } from '@v/short-stack/src/event-stack/stack-manager/models/stack-callback';
+import { EventStackSubscription } from '@v/short-stack/src/event-stack';
 
 
-export class StoreItem<T = any> implements StoreItemInterface<T> {
+export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
 
     /**
      * Manager all fields in the store
@@ -28,7 +31,7 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
                 key: string | symbol
     ) {
         this.key = key;
-        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.validate, STORE_ITEM_EVENTS.changeValue]);
+        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.validateStoreItem, STORE_ITEM_EVENTS.changeStoreItem]);
     }
 
     /**
@@ -47,7 +50,7 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
         const result = await this.storeStrategy.validate();
         this.isValidStore = result === true;
         this.eventStackManager.emit<true | Record<string | symbol, ValidationError[]>>
-        (STORE_ITEM_EVENTS.validate, result);
+        (STORE_ITEM_EVENTS.validateStoreItem, result);
         return result;
     }
 
@@ -79,6 +82,13 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
     set(value: any, key?: string | symbol) {
         this.storeStrategy.set(value, key);
 
+    }
+
+
+    public listenEvent<T extends keyof typeof STORE_ITEM_EVENTS>(
+        event: T,
+        cb: StackCallback<StoreItemEventsInterface<TYPE>[T]>): EventStackSubscription {
+        return this.eventStackManager.listen(event, cb);
     }
 
 }

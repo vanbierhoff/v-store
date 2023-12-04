@@ -16,7 +16,7 @@ export class FieldManager {
 
     constructor(protected fields: StoreFieldInstance[], extra?: any) {
         this.extra = extra;
-        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.changeValue]);
+        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.changeStoreItem]);
     }
 
     /**

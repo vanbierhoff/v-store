@@ -9,7 +9,7 @@ import {
     StoreService, StoreSubscribersService
 } from '@v/short-store';
 import { TestStore } from '../models/test-store';
-import { STORE_FIELD_EVENTS } from '../../../../../projects/v/store/src/store/store-items/models/store-events';
+import { STORE_FIELD_INSTANCE_EVENTS } from '../../../../../projects/v/store/src/store/store-items/models/store-events';
 import { CUSTOM_STORE_ITEM_TOKEN } from '../../../../../projects/v/store/src/store/const/tokens/custom-store-item.token';
 import { StoreFieldInstance } from '../../../../../projects/v/store/src/store/store-items/store-field/store-field-instance';
 
@@ -53,7 +53,7 @@ export class StoreSubscriberComponent implements OnInit {
 
     subscribe() {
         const item = this.storeItem.get('data');
-        item?.listenEvent(STORE_FIELD_EVENTS.changeValue, (value: StoreFieldInstance) => {
+        item?.listenEvent(STORE_FIELD_INSTANCE_EVENTS.changeValue, (value: StoreFieldInstance) => {
             setTimeout(() => {
                 this.firstSub.set(value.value);
             }, 2500);
