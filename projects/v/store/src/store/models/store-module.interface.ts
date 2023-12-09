@@ -6,7 +6,7 @@ import { StoreConstructor } from '../create-store/create-store';
 export type StoreFieldInstanceType<T extends StoreFieldInstance> = T;
 
 export interface StoreModuleInterface {
-    storeItem: StoreItemInterface<any>;
-    fieldManager: any;
-    storeFieldInstance: StoreConstructor<StoreFieldInstanceType<any>>;
+    storeItem?: StoreItemInterface<any>;
+    fieldManager?: any;
+    storeFieldInstance?: StoreConstructor<StoreFieldInstanceType<any>>;
 }
