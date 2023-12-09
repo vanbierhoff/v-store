@@ -6,6 +6,8 @@ import { StoreItem } from './store-items/store-item/store-item';
 import { StoreDataService, StoreSubscribersService } from './services';
 import { FIELD_MANAGER_TOKEN } from './const';
 import { FieldManager } from './store-items/store-field/field-manager/field-manager';
+import { STORE_INSTANCE_FOR_FIELD_MANAGER } from './const/tokens/store-instance-for-field-manager';
+import { StoreFieldInstance } from './store-items/store-field/store-field-instance';
 
 
 
@@ -40,6 +42,10 @@ export class StoreModule {
                 {
                     provide: FIELD_MANAGER_TOKEN,
                     useValue: config?.fieldManager || FieldManager
+                },
+                {
+                    provide: STORE_INSTANCE_FOR_FIELD_MANAGER,
+                    useValue: config?.storeFieldInstance || StoreFieldInstance
                 }
             ]
         };

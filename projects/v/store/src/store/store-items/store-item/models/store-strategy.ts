@@ -2,9 +2,8 @@ import { ValidationError } from '../../../services';
 import { StoreFieldInstance } from '../../store-field/store-field-instance';
 import { FieldManager } from '../../store-field/field-manager/field-manager';
 
-// fields: FieldManager, protected buildInstance: any, protected args?: any[
 
-export type StoreStrategyInstance<T = any> = new(fields: FieldManager, buildInstance: any, args?: any) => StoreStrategy<T>
+export type StoreStrategyInstance<T = any> = new(fields: FieldManager<T, StoreFieldInstance>, buildInstance: any, args?: any) => StoreStrategy<T>
 
 export interface StoreStrategy<T> {
     validate(): Promise<true | Record<string | symbol, ValidationError[]>>;
