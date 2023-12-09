@@ -1,10 +1,10 @@
-import { ValidationError, ValidatorInterface } from '../../services/store/models/validation/validator.interface';
 import { StoreFieldOptionsInterface } from './models/store-field-options.interface';
 import { StoreFieldMeta } from './models/store-field-meta';
-import { EventStackManager } from '@v/event-stack';
+import { EventStackManager, EventStackSubscription } from '@v/event-stack';
 import { STORE_FIELD_INSTANCE_EVENTS, StoreFieldInstanceEventsInterface } from '../models/store-events';
-import { StackCallback } from '@v/short-stack/src/event-stack/stack-manager/models/stack-callback';
-import { EventStackSubscription } from '@v/short-stack/src/event-stack';
+import { ValidationError, ValidatorInterface } from '../../services';
+import { StackCallback } from '@v/event-stack/event-stack/stack-manager/models/stack-callback';
+
 
 
 /**

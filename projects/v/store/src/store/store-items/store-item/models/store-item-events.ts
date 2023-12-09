@@ -1,4 +1,7 @@
-import { StoreItemInterface, ValidationError } from '@v/short-store';
+import { ValidationError } from "../../../services/store/models/validation/validator.interface";
+import { StoreItemInterface } from "./store-item.interface";
+
+
 
 
 export const STORE_ITEM_EVENTS = {

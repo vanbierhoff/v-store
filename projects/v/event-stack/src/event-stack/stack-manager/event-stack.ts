@@ -1,8 +1,8 @@
-import { EventStackItemsInterface } from './models/event-stack-items.interface';
 import { EventStackManagerInterface } from './models/event-stack-manager.interface';
 import { EventStackItemInterface, EventStackSubscription } from '../stack-item/models/event-stack.item.interface';
 import { EventStackItem } from '../stack-item/event-stack-item';
 import { StackCallback } from './models/stack-callback';
+import { EventStackItemsInterface } from './models/event-stack-items.interface';
 
 
 export class EventStackManager implements EventStackManagerInterface {

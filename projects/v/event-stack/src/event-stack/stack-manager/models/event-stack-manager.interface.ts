@@ -1,4 +1,4 @@
-import { EventStackItemInterface } from '../../stack-item/models/event-stack.item.interface';
+import { EventStackItemInterface } from "../../stack-item/models/event-stack.item.interface";
 
 
 export interface EventStackManagerInterface {
