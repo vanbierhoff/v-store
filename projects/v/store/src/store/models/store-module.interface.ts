@@ -2,8 +2,10 @@ import { StoreItemInterface } from '../store-items/store-item/models/store-item.
 import { StoreFieldInstance } from '../store-items/store-field/store-field-instance';
 
 
+export type StoreFieldInstanceType<T extends StoreFieldInstance> = T;
+
 export interface StoreModuleInterface {
     storeItem: StoreItemInterface<any>;
     fieldManager: any;
-    storeFieldInstance: StoreFieldInstance;
+    storeFieldInstance: StoreFieldInstanceType<any>;
 }
