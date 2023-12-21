@@ -1,8 +1,8 @@
 import { BaseTypes } from '../models/base-types';
 import { JsType } from '@v/r-types';
-import isDate from 'validator/lib/isDate';
-import { typeStoreValidator, ValidatorInterface } from '@v/short-store';
 import { isDateStoreValidator } from './is-date-store';
+import { typeStoreValidator } from './type-validator';
+import { ValidatorInterface } from '../services';
 
 
 
