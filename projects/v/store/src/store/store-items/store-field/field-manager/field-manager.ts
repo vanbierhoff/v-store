@@ -7,17 +7,18 @@ import { InjectDepsDecorator } from '../../../../helpers';
 import { StoreConstructor } from '../../../create-store/create-store';
 import { STORE_INSTANCE_FOR_FIELD_MANAGER } from '../../../const/tokens/store-instance-for-field-manager';
 
+
 @InjectDepsDecorator([
-    {field: 'storeInstance', token: STORE_INSTANCE_FOR_FIELD_MANAGER},
+    {field: 'storeInstance', token: STORE_INSTANCE_FOR_FIELD_MANAGER}
 ])
-export class FieldManager<S,T extends StoreFieldInstance<S>> {
+export class FieldManager<S, T extends StoreFieldInstance<S>> {
 
     /**
      * Save additional data
      */
     public extra: any;
 
-    protected storeInstance:  StoreConstructor<T>
+    protected storeInstance: StoreConstructor<T>;
 
     protected eventStackManager = new EventStackManager();
 

@@ -2,7 +2,8 @@ import { StoreFieldInstance } from '../../../../store-items/store-field/store-fi
 
 
 export type ValidationError = {
-    errorMessage: string;
+    error: true,
+    errorMessage?: string;
     item: StoreFieldInstance;
 }
 

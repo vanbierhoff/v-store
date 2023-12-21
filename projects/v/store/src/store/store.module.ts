@@ -25,6 +25,10 @@ import { StoreFieldInstance } from './store-items/store-field/store-field-instan
         {
             provide: FIELD_MANAGER_TOKEN,
             useValue: FieldManager
+        },
+        {
+            provide: STORE_INSTANCE_FOR_FIELD_MANAGER,
+            useValue: StoreFieldInstance
         }
     ]
 })
@@ -64,6 +68,10 @@ export class StoreModule {
                 {
                     provide: FIELD_MANAGER_TOKEN,
                     useValue: config?.fieldManager || FieldManager
+                },
+                {
+                    provide: STORE_INSTANCE_FOR_FIELD_MANAGER,
+                    useValue: config?.storeFieldInstance || StoreFieldInstance
                 }
             ]
         };

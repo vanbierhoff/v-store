@@ -144,6 +144,7 @@ export class StoreInstanceBuilder {
                 this.createInstance();
                 this.createStoreFields();
                 this.createStrategy();
+                console.log(this.storeStrategy);
                 return new StoreItem(this.storeStrategy, this.storeKey);
 
             case TypeStore.PRIMITIVE:

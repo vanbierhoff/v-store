@@ -9,13 +9,11 @@ import {
 import { TestStore } from '../models/test-store';
 import {
     createStore,
-    FIELD_MANAGER_TOKEN, FieldManager, setGlobalInjector,
-    StoreDataService,
-    StoreItem,
-    StoreService,
-    StoreSubscribersService
+    setGlobalInjector,
+    StoreModule,
+    StoreService
+
 } from '@v/short-store';
-import { CUSTOM_STORE_ITEM_TOKEN } from '../../../../../projects/v/store/src/store/const/tokens/custom-store-item.token';
 import { JsonPipe } from '@angular/common';
 
 
@@ -26,19 +24,10 @@ const symbolStoreKey = Symbol('storeKey');
     standalone: true,
     templateUrl: './test-store.component.html',
     styleUrls: ['./test-store.component.scss'],
-    providers: [StoreService, StoreDataService,
-        StoreSubscribersService,
-        {
-            provide: CUSTOM_STORE_ITEM_TOKEN,
-            useValue: StoreItem
-        },
-        {
-            provide: FIELD_MANAGER_TOKEN,
-            useValue: FieldManager
-        }
-    ],
+    providers: [StoreService],
     imports: [
-        JsonPipe
+        JsonPipe,
+        StoreModule
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -102,9 +91,9 @@ export class TestStoreComponent implements OnInit {
             });
 
             this.store.mutateStore(symbolStoreKey, value => {
-                value.dataNotDec = 'SYMBOLS STORE'
+                value.dataNotDec = 'SYMBOLS STORE';
                 return value;
-            })
+            });
         }, 2500);
 
 

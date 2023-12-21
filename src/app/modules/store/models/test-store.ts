@@ -14,9 +14,10 @@ export class TestStore {
 
     @StoreField({
         initHook: (field) => console.log(field),
-        validators: [typeStoreValidator(JsType.string, 'errorMsh')]
+        // validators: [typeStoreValidator(JsType.string, 'errorMsh')]
     })
-    public data: any = '5';
+    // @ts-ignore
+    public data: number = 10 ;
     @StoreField({})
     public data2: number = 5;
 

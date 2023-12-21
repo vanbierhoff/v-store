@@ -25,13 +25,12 @@ export function InjectDepsDecorator(manual?: ManualInjectInterface[]): any {
                  * with ES6, such parameters aren’t supported. With this language, you need to supply a static getter for the parameter property.
                  */
                 const designedArgs: any[] = Reflect.getMetadata('design:paramtypes', target) || [];
-                if (injector && designedArgs.length > 0) {
+                if (injector && designedArgs.length > 0 && args.length === 0) {
                     args = map(designedArgs, (arg, index) => {
                         let deps = injector.get(arg, index, target);
                         if (deps) {
                             return deps;
                         }
-                        return arg;
                     });
                 }
                 super(...args);

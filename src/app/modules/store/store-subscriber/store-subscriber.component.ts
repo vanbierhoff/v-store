@@ -5,7 +5,7 @@ import {
     setGlobalInjector,
     StoreDataService, StoreItem,
     StoreItemInstance,
-    StoreItemInterface,
+    StoreItemInterface, StoreModule,
     StoreService, StoreSubscribersService
 } from '@v/short-store';
 import { TestStore } from '../models/test-store';
@@ -17,17 +17,8 @@ import { StoreFieldInstance } from '../../../../../projects/v/store/src/store/st
 @Component({
     selector: 'app-store-subscriber',
     standalone: true,
-    imports: [CommonModule],
-    providers: [StoreService, StoreDataService,
-        StoreSubscribersService,
-        {
-            provide: CUSTOM_STORE_ITEM_TOKEN,
-            useValue: StoreItem
-        },
-        {
-            provide: FIELD_MANAGER_TOKEN,
-            useValue: FieldManager
-        }
+    imports: [CommonModule, StoreModule],
+    providers: [StoreService
     ],
     templateUrl: './store-subscriber.component.html',
     styleUrls: ['./store-subscriber.component.scss'],
