@@ -83,6 +83,7 @@ export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
 
     }
 
+    listenEvent(event: any, cb: StackCallback<any>): EventStackSubscription
     listenEvent<T extends keyof typeof STORE_ITEM_EVENTS>(
         event: T,
         cb: StackCallback<StoreItemEventsInterface<TYPE>[T]>): EventStackSubscription {
