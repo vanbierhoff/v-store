@@ -2,7 +2,7 @@ import { ValidatorInterface } from '../../../services';
 import { StoreFieldInstance } from '../../../store-items/store-field/store-field-instance';
 
 
-export interface StoreFieldDecoratorInterface<V = any> {
+export interface StoreFieldDecoratorInterface<V = any, F = StoreFieldInstance> {
     /**
      * A set of validator functions for a specific field
      */
@@ -12,6 +12,6 @@ export interface StoreFieldDecoratorInterface<V = any> {
      */
     policy?: () => Promise<boolean>;
 
-    initHook?(field: StoreFieldInstance) : any;
+    initHook?(field: F): any;
 
 }
