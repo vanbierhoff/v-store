@@ -2318,10 +2318,10 @@
   resolved "http://potato.myfast.host/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@v/event-stack@*":
-  version "0.0.3"
-  resolved "http://potato.myfast.host/@v/event-stack/-/event-stack-0.0.3.tgz#4f02d6fc659190a63e2c829f6b8315482fe7fa49"
-  integrity sha512-vr0ox+kKSW2T9inteUsmH+YobZw45inH0F4lXmvwn8Ur4S+dIbwAxt7yfx1cBGB7hGB0TJS4fSKoZMSu5Jdoqg==
+"@v/event-stack@0.0.5":
+  version "0.0.5"
+  resolved "http://potato.myfast.host/@v/event-stack/-/event-stack-0.0.5.tgz#654369ab3c73856cbfa293ce251a7b7c250aec30"
+  integrity sha512-kycpU024tDsmWRVJpg6DLN6ZKUW/p/r03nU8YdNmMrLLGzEOnEN/kxItpkhiqXAMdyN+MbiOplWHlSc8f5vX2w==
   dependencies:
     tslib "^2.3.0"
 
