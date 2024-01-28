@@ -4,6 +4,7 @@ import forEach from 'lodash/forEach';
 import concat from 'lodash/concat';
 import { StoreStrategy } from '../store-item/models/store-strategy';
 import { StoreFieldInstance } from '../store-field/store-field-instance';
+import { StoreFieldInstanceInterface } from '../store-field/models/store-field-instance.interface';
 
 
 export class DecoratedStoreStrategy<T = any> implements StoreStrategy<T> {
@@ -11,14 +12,14 @@ export class DecoratedStoreStrategy<T = any> implements StoreStrategy<T> {
     /**
      * Manager all fields in the store
      */
-    public fieldsManager: FieldManager<T, StoreFieldInstance>;
+    public fieldsManager: FieldManager<T, StoreFieldInstanceInterface>;
 
     /**
      * Shows if all fields are valid. false if at least one field is invalid
      */
     protected isValidStore: boolean = false;
 
-    constructor(fields: FieldManager<T, StoreFieldInstance>, protected buildInstance: any, protected args?: any[]) {
+    constructor(fields: FieldManager<T, StoreFieldInstanceInterface>, protected buildInstance: any, protected args?: any[]) {
         this.fieldsManager = fields;
     }
 

@@ -2,6 +2,7 @@ import { FieldManager } from '../store-field/field-manager/field-manager';
 import { ValidationError } from '../../services';
 import { StoreStrategy } from '../store-item/models/store-strategy';
 import { StoreFieldInstance } from '../store-field/store-field-instance';
+import { StoreFieldInstanceInterface } from '../store-field/models/store-field-instance.interface';
 
 
 
@@ -10,7 +11,7 @@ export const PRIMITIVE_KEY = 'prim';
 
 export class PrimitiveStoreStrategy<T> implements StoreStrategy<T> {
 
-    public fieldsManager: FieldManager<T, StoreFieldInstance>;
+    public fieldsManager: FieldManager<T, StoreFieldInstanceInterface>;
 
     /**
      * Initial instance from which created in storeItem
@@ -22,7 +23,7 @@ export class PrimitiveStoreStrategy<T> implements StoreStrategy<T> {
      */
     protected isValidStore: boolean = false;
 
-    constructor(fields: FieldManager<T, StoreFieldInstance>, _args: any[]) {
+    constructor(fields: FieldManager<T, StoreFieldInstanceInterface>, _args: any[]) {
         this.fieldsManager = fields;
     }
 

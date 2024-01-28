@@ -1,6 +1,7 @@
 import { TypeEvent } from '@v/event-stack';
 import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
-import {  ValidationError } from '@v/short-store';
+import { ValidationError } from '../../../services/store/models/validation/validator.interface';
+
 
 
 export interface StoreFieldInstanceInterface<T = any, I_EVENTS = any> {

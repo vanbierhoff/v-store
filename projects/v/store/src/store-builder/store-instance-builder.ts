@@ -13,6 +13,7 @@ import { StoreItemInstance } from '../store/store-items/store-item/models/store-
 import { getMetadata } from '@v/meta-helper';
 import { InjectDepsDecorator } from '../helpers/inject-deps/inject-deps.decorator';
 import { StoreConstructor } from '../store/create-store/create-store';
+import { StoreFieldInstanceInterface } from '../store/store-items/store-field/models/store-field-instance.interface';
 
 
 @InjectDepsDecorator([
@@ -85,7 +86,7 @@ export class StoreInstanceBuilder {
      * @protected
      * StoreFieldsInstance list
      */
-    protected storeFields: StoreFieldInstance[] = [];
+    protected storeFields: StoreFieldInstanceInterface[] = [];
 
     /**
      *
@@ -171,7 +172,7 @@ export class StoreInstanceBuilder {
 
         for(let i = 0; allFields.length > i; i++) {
             const fieldValue = this.instance[allFields[i].propertyName] || undefined;
-            const field = new StoreFieldInstance({
+            const field: StoreFieldInstanceInterface = new StoreFieldInstance({
                     validators: allFields[i].validators ?? undefined,
                     policy: allFields[i].policy ?? undefined,
                     propertyName: allFields[i].propertyName

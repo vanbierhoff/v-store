@@ -2,17 +2,18 @@ import concat from 'lodash/concat';
 
 import { FieldManager } from '../store-field/field-manager/field-manager';
 import { ValidationError } from '../../services';
-import { StoreStrategy } from '../store-item/models/store-strategy';
+import { StoreStrategy, StoreStrategyInstance } from '../store-item/models/store-strategy';
 import some from 'lodash/some';
 import { isPrimitive } from '@v/r-types';
 import { StoreFieldInstance } from '../store-field/store-field-instance';
+import { StoreFieldInstanceInterface } from '../store-field/models/store-field-instance.interface';
 
 
 export class BaseStoreStrategy<T> implements StoreStrategy<T> {
 
-    protected fieldsManager: FieldManager<T, StoreFieldInstance>;
+    protected fieldsManager: FieldManager<T, StoreFieldInstanceInterface>;
 
-    constructor(fields: FieldManager<T, StoreFieldInstance>, protected buildInstance: any, protected args?: any[]) {
+    constructor(fields: FieldManager<T, StoreFieldInstanceInterface>, protected buildInstance: any, protected args?: any[]) {
         this.fieldsManager = fields;
     }
 

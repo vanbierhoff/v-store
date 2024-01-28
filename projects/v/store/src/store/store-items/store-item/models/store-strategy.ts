@@ -1,14 +1,15 @@
 import { ValidationError } from '../../../services';
 import { StoreFieldInstance } from '../../store-field/store-field-instance';
 import { FieldManager } from '../../store-field/field-manager/field-manager';
+import { StoreFieldInstanceInterface } from '../../store-field/models/store-field-instance.interface';
 
 
-export type StoreStrategyInstance<T = any> = new(fields: FieldManager<T, StoreFieldInstance>, buildInstance: any, args?: any) => StoreStrategy<T>
+export type StoreStrategyInstance<T = any> = new(fields: FieldManager<T, StoreFieldInstanceInterface>, buildInstance: any, args?: any) => StoreStrategy<T>
 
 export interface StoreStrategy<T> {
     validate(): Promise<true | Record<string | symbol, ValidationError[]>>;
 
-    get(field?: string | symbol): StoreFieldInstance<T> | null;
+    get(field?: string | symbol): StoreFieldInstanceInterface<T> | null;
 
     selectForStore<S = any>(): S;
 
