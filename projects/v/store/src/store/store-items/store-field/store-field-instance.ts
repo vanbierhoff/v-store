@@ -4,6 +4,7 @@ import { STORE_FIELD_INSTANCE_EVENTS, StoreFieldInstanceEventsInterface } from '
 import { ValidationError, ValidatorInterface } from '../../services';
 import { EventStackManager, TypeEvent } from '@v/event-stack';
 import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
+import { StoreFieldInstanceInterface } from './models/store-field-instance.interface';
 
 
 /**
@@ -11,7 +12,7 @@ import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/mo
  *
  * The lowest level layer. Basic unit for FieldsManager
  */
-export class StoreFieldInstance<T = any, I_EVENTS = StoreFieldInstanceEventsInterface> {
+export class StoreFieldInstance<T = any, I_EVENTS = StoreFieldInstanceEventsInterface> implements StoreFieldInstanceInterface<T, I_EVENTS> {
 
     /**
      * @protected
