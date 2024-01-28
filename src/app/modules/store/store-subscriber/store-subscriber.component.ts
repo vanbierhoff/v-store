@@ -44,7 +44,7 @@ export class StoreSubscriberComponent implements OnInit {
 
     subscribe() {
         const item = this.storeItem.get('data');
-        item?.listenEvent(STORE_FIELD_INSTANCE_EVENTS.changeValue, (value: StoreFieldInstance) => {
+        item?.listenEvent(STORE_FIELD_INSTANCE_EVENTS.changeValue, (value) => {
             setTimeout(() => {
                 this.firstSub.set(value.value);
             }, 2500);

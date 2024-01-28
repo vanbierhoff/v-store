@@ -3,7 +3,11 @@ import { ValidationError } from '../services/store/models/validation/validator.i
 import { JsType, typeValidator } from '@v/r-types';
 
 
+class rex {
 
+}
+
+const rex2: rex = new rex();
 
 export function typeStoreValidator(type: keyof typeof JsType, errorMsg?: string) {
     const validator = typeValidator(type);

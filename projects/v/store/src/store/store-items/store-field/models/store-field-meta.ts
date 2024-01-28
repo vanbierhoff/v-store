@@ -2,7 +2,7 @@ import { StoreFieldDecoratorInterface } from '../../../decorators/store-field/mo
 import { BaseTypes } from '../../../models/base-types';
 
 
-export interface StoreFieldMeta extends StoreFieldDecoratorInterface {
+export interface StoreFieldMeta<V = any> extends StoreFieldDecoratorInterface<V> {
     type?: BaseTypes | any;
     propertyName: string | symbol;
 }

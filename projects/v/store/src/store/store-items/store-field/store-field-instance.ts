@@ -3,7 +3,8 @@ import { StoreFieldMeta } from './models/store-field-meta';
 import { EventStackManager, EventStackSubscription } from '@v/event-stack';
 import { STORE_FIELD_INSTANCE_EVENTS, StoreFieldInstanceEventsInterface } from '../models/store-events';
 import { ValidationError, ValidatorInterface } from '../../services';
-import { StackCallback } from '@v/event-stack/event-stack/stack-manager/models/stack-callback';
+import { TypeEvent } from '@v/short-stack/src/event-stack/stack-manager/models/type-event.type';
+
 
 
 
@@ -12,7 +13,7 @@ import { StackCallback } from '@v/event-stack/event-stack/stack-manager/models/s
  *
  * The lowest level layer. Basic unit for FieldsManager
  */
-export class StoreFieldInstance<T = any> {
+export class StoreFieldInstance<T = any, I_EVENTS = StoreFieldInstanceEventsInterface> {
 
     /**
      * @protected
@@ -27,7 +28,7 @@ export class StoreFieldInstance<T = any> {
      * @protected
      * Validators responsible for checking the value of a field
      */
-    protected validators: ValidatorInterface[] | undefined;
+    protected validators: ValidatorInterface<this>[] | undefined;
 
     protected policyFn: (() => Promise<boolean>) | undefined;
 
@@ -38,7 +39,7 @@ export class StoreFieldInstance<T = any> {
         this.policyFn = config.policy || undefined;
         this.propertyName = config.propertyName;
         this.setValue(value);
-        this.eventStackManager.addMultiple<StoreFieldInstance>([STORE_FIELD_INSTANCE_EVENTS.changeValue, STORE_FIELD_INSTANCE_EVENTS.validate]);
+        this.eventStackManager.addMultiple<this>([STORE_FIELD_INSTANCE_EVENTS.changeValue, STORE_FIELD_INSTANCE_EVENTS.validate]);
     }
 
     /**
@@ -63,7 +64,7 @@ export class StoreFieldInstance<T = any> {
      */
     setValue<T = any>(value: any): T {
         this.storeValue = value;
-        this.eventStackManager.emit<StoreFieldInstance>(STORE_FIELD_INSTANCE_EVENTS.changeValue, this);
+        this.eventStackManager.emit<this>(STORE_FIELD_INSTANCE_EVENTS.changeValue, this);
         return value;
     }
 
@@ -93,9 +94,9 @@ export class StoreFieldInstance<T = any> {
         return this.isValidStoreValue = true;
     }
 
-    public listenEvent<T extends keyof typeof STORE_FIELD_INSTANCE_EVENTS>(
-        event: T,
-        cb: StackCallback<StoreFieldInstanceEventsInterface[T]>): EventStackSubscription {
-        return this.eventStackManager.listen(event, cb);
+    public listenEvent<E_TYPE extends keyof I_EVENTS>(
+        event: E_TYPE,
+        cb: TypeEvent<I_EVENTS, E_TYPE>): EventStackSubscription {
+        return this.eventStackManager.listen(event as string | symbol, cb);
     }
 }

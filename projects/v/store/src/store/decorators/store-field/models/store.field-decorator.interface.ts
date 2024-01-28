@@ -2,11 +2,11 @@ import { ValidatorInterface } from '../../../services';
 import { StoreFieldInstance } from '../../../store-items/store-field/store-field-instance';
 
 
-export interface StoreFieldDecoratorInterface {
+export interface StoreFieldDecoratorInterface<V = any> {
     /**
      * A set of validator functions for a specific field
      */
-    validators?: ValidatorInterface[] | [];
+    validators?: ValidatorInterface<V>[] | [];
     /**
      * Function for check access the store
      */

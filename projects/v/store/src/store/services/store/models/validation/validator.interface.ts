@@ -1,11 +1,11 @@
 import { StoreFieldInstance } from '../../../../store-items/store-field/store-field-instance';
 
 
-export type ValidationError = {
+export type ValidationError<T = StoreFieldInstance<any, any>> = {
     error: true,
     errorMessage?: string;
-    item: StoreFieldInstance;
+    item: T;
 }
 
-export type ValidatorInterface = (item: StoreFieldInstance) =>
+export type ValidatorInterface<I = StoreFieldInstance> = (item: I) =>
     Promise<true | ValidationError>
