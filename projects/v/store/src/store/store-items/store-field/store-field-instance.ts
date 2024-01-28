@@ -1,11 +1,9 @@
 import { StoreFieldOptionsInterface } from './models/store-field-options.interface';
 import { StoreFieldMeta } from './models/store-field-meta';
-import { EventStackManager, EventStackSubscription } from '@v/event-stack';
 import { STORE_FIELD_INSTANCE_EVENTS, StoreFieldInstanceEventsInterface } from '../models/store-events';
 import { ValidationError, ValidatorInterface } from '../../services';
-import { TypeEvent } from '@v/short-stack/src/event-stack/stack-manager/models/type-event.type';
-
-
+import { EventStackManager, TypeEvent } from '@v/event-stack';
+import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
 
 
 /**

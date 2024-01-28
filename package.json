@@ -35,7 +35,7 @@
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
     "@types/validator": "^13.11.1",
-    "@v/event-stack": "0.0.6",
+    "@v/event-stack": "0.0.7",
     "@v/meta-helper": "^0.0.3",
     "@v/r-types": "^0.0.4",
     "lodash": "^4.17.21",
