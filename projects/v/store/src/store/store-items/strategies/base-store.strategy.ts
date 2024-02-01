@@ -11,9 +11,9 @@ import { StoreFieldInstanceInterface } from '../store-field/models/store-field-i
 
 export class BaseStoreStrategy<T> implements StoreStrategy<T> {
 
-    protected fieldsManager: FieldManager<T, StoreFieldInstanceInterface>;
+    protected fieldsManager: FieldManager;
 
-    constructor(fields: FieldManager<T, StoreFieldInstanceInterface>, protected buildInstance: any, protected args?: any[]) {
+    constructor(fields: FieldManager, protected buildInstance: any, protected args?: any[]) {
         this.fieldsManager = fields;
     }
 

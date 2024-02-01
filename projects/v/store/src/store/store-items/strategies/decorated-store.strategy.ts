@@ -12,14 +12,14 @@ export class DecoratedStoreStrategy<T = any> implements StoreStrategy<T> {
     /**
      * Manager all fields in the store
      */
-    public fieldsManager: FieldManager<T, StoreFieldInstanceInterface>;
+    public fieldsManager: FieldManager;
 
     /**
      * Shows if all fields are valid. false if at least one field is invalid
      */
     protected isValidStore: boolean = false;
 
-    constructor(fields: FieldManager<T, StoreFieldInstanceInterface>, protected buildInstance: any, protected args?: any[]) {
+    constructor(fields: FieldManager, protected buildInstance: any, protected args?: any[]) {
         this.fieldsManager = fields;
     }
 

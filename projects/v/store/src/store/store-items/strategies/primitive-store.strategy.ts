@@ -11,7 +11,7 @@ export const PRIMITIVE_KEY = 'prim';
 
 export class PrimitiveStoreStrategy<T> implements StoreStrategy<T> {
 
-    public fieldsManager: FieldManager<T, StoreFieldInstanceInterface>;
+    public fieldsManager: FieldManager;
 
     /**
      * Initial instance from which created in storeItem
@@ -23,7 +23,7 @@ export class PrimitiveStoreStrategy<T> implements StoreStrategy<T> {
      */
     protected isValidStore: boolean = false;
 
-    constructor(fields: FieldManager<T, StoreFieldInstanceInterface>, _args: any[]) {
+    constructor(fields: FieldManager, _args: any[]) {
         this.fieldsManager = fields;
     }
 

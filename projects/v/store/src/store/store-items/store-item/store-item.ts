@@ -6,7 +6,6 @@ import { EventStackManager } from '@v/event-stack';
 import { STORE_ITEM_EVENTS, StoreItemEventsInterface } from './models/store-item-events';
 import { StackCallback } from '@v/event-stack/event-stack/stack-manager/models/stack-callback';
 import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
-import { StoreFieldInstanceInterface } from '../store-field/models/store-field-instance.interface';
 
 
 export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
@@ -14,7 +13,7 @@ export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
     /**
      * Manager all fields in the store
      */
-    public fieldsManager: FieldManager<TYPE, StoreFieldInstanceInterface>;
+    public fieldsManager: FieldManager;
 
     public readonly key: string | symbol;
 
