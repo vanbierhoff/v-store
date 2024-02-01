@@ -1,4 +1,3 @@
-import { StoreFieldInstance } from '../store-field-instance';
 import find from 'lodash/find';
 import remove from 'lodash/remove';
 import { STORE_ITEM_EVENTS } from '../../store-item/models/store-item-events';
@@ -12,18 +11,18 @@ import { StoreFieldInstanceInterface } from '../models/store-field-instance.inte
 @InjectDepsDecorator([
     {field: 'storeInstance', token: STORE_INSTANCE_FOR_FIELD_MANAGER}
 ])
-export class FieldManager<S, T extends StoreFieldInstanceInterface> {
+export class FieldManager {
 
     /**
      * Save additional data
      */
     public extra: any;
 
-    protected storeInstance: StoreConstructor<T>;
+    protected storeInstance: StoreConstructor<any>;
 
     protected eventStackManager = new EventStackManager();
 
-    constructor(protected fields: T[],
+    constructor(protected fields: Array<StoreFieldInstanceInterface>,
                 extra?: any) {
         this.extra = extra;
         this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.changeStoreItem]);
@@ -34,7 +33,7 @@ export class FieldManager<S, T extends StoreFieldInstanceInterface> {
      * @param key string
      * Get field from store by key
      */
-    get(key: string | symbol): T | null {
+    get(key: string | symbol): StoreFieldInstanceInterface | null {
         return find(this.fields, field => field.propertyName === key) ?? null;
     }
 
