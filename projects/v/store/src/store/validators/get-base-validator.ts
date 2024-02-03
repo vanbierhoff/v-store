@@ -7,21 +7,21 @@ import { ValidatorInterface } from '../services';
 
 
 
-export const getBaseValidator = (type: BaseTypes | any, errorMsg?: string):
+export const getBaseValidator = (type: BaseTypes | any, errorMsg: string = 'INVALID_TYPE'):
     ValidatorInterface | false => {
     switch (type) {
         case String:
-            return typeStoreValidator(JsType.string);
+            return typeStoreValidator(JsType.string, errorMsg);
         case Number:
-            return typeStoreValidator(JsType.number);
+            return typeStoreValidator(JsType.number, errorMsg);
         case Boolean:
-            return typeStoreValidator(JsType.boolean);
+            return typeStoreValidator(JsType.boolean, errorMsg);
         case Date:
             return isDateStoreValidator(errorMsg);
         case Symbol:
-            return typeStoreValidator(JsType.symbol);
+            return typeStoreValidator(JsType.symbol, errorMsg);
         case Array:
-            return typeStoreValidator(JsType.array);
+            return typeStoreValidator(JsType.array, errorMsg);
         default:
             return false;
 

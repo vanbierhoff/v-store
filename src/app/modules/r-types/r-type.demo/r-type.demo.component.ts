@@ -27,7 +27,7 @@ export class RTypeDemoComponent implements OnInit {
         typeOrValidator: REmailValidator,
         defaultValue: 'data'
     })
-    email: TypeDecoratorInterface<number>;
+    email: TypeDecoratorInterface<string>;
 
 
     ngOnInit() {
