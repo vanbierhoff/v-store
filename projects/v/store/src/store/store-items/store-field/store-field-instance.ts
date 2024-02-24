@@ -1,10 +1,10 @@
-import { StoreFieldOptionsInterface } from './models/store-field-options.interface';
 import { StoreFieldMeta } from './models/store-field-meta';
 import { STORE_FIELD_INSTANCE_EVENTS, StoreFieldInstanceEventsInterface } from '../models/store-events';
 import { ValidationError, ValidatorInterface } from '../../services';
 import { EventStackManager, TypeEvent } from '@v/event-stack';
 import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
 import { StoreFieldInstanceInterface } from './models/store-field-instance.interface';
+import { ExtraProvider } from '../../../extra-provider/extra-provider';
 
 
 /**
@@ -21,7 +21,7 @@ export class StoreFieldInstance<T = any, I_EVENTS = StoreFieldInstanceEventsInte
      */
     public propertyName: string | symbol;
     protected storeValue: T;
-    protected extra: StoreFieldOptionsInterface = {} as StoreFieldOptionsInterface;
+    public  readonly extra: ExtraProvider = new ExtraProvider();
     protected isValidStoreValue: boolean = false;
     /**
      * @protected

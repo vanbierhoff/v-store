@@ -9,7 +9,7 @@ import { StoreFieldInstanceInterface } from '../../store-field/models/store-fiel
 export interface StoreItemInterface<T> {
     validate(): Promise<true | Record<string | symbol, ValidationError[]>>;
 
-    get(field?: string | symbol): StoreFieldInstanceInterface<T> | null;
+    get(field?: string | symbol): StoreFieldInstanceInterface<T>;
 
     selectForStore<S = any>(): S;
 
@@ -19,7 +19,7 @@ export interface StoreItemInterface<T> {
 
     asyncSet?(value: any, key?: string | symbol): Promise<void>;
 
-    listenEvent(event: any, cb: StackCallback<any>): EventStackSubscription
+    listenEvent(event: any, cb: StackCallback<any>): EventStackSubscription;
 
     key: string | symbol;
 

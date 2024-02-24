@@ -9,7 +9,7 @@ export type StoreStrategyInstance<T = any> = new(fields: FieldManager, buildInst
 export interface StoreStrategy<T> {
     validate(): Promise<true | Record<string | symbol, ValidationError[]>>;
 
-    get(field?: string | symbol): StoreFieldInstanceInterface<T> | null;
+    get(field?: string | symbol): StoreFieldInstanceInterface<T>;
 
     selectForStore<S = any>(): S;
 

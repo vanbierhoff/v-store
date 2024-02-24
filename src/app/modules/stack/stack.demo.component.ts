@@ -65,7 +65,7 @@ export class StackDemoComponent implements OnInit {
         });
         field.updateValue(100);
         field.updateValue(200);
-        sub.unsubscribe();
+        // sub.unsubscribe();
         field.updateValue(300);
         sub2.unsubscribe()
     }

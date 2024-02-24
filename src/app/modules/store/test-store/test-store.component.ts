@@ -6,7 +6,7 @@ import {
     Signal,
     signal, WritableSignal
 } from '@angular/core';
-import { TestStore } from '../models/test-store';
+import { ExtraFalseValueSym, ExtraValue, ExtraValueSym, TestStore } from '../models/test-store';
 import {
     createStore,
     setGlobalInjector,
@@ -71,8 +71,12 @@ export class TestStoreComponent implements OnInit {
         this.storeItem.method();
 
 
+
         // const store1 = this.store.selectStore('store1');
         const storeInstance = this.store.selectStoreInstance('store');
+        const filed = storeInstance.get('data');
+        const filed2 = storeInstance.get('data2');
+        storeInstance.validate().then(res => console.log('storeInstance', res));
 
         this.store.listenChange<TestStore>('store').subscribe(
             (data: TestStore) => {

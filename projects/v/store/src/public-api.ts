@@ -14,7 +14,6 @@ export * from './store/decorators/store-instance/models/store-instance/store-ins
 // models store items
 export * from './store/store-items/models/store-events';
 export * from './store/store-items/store-field/models/store-field-meta';
-export * from './store/store-items/store-field/models/store-field-options.interface';
 
 
 
@@ -59,3 +58,6 @@ export * from './store/store-items/strategies/primitive-store.strategy';
 // VALIDATORS
 export * from './store/validators';
 
+
+// EXTRA PROVIDERS
+export * from './extra-provider';

@@ -31,6 +31,7 @@ export function createStore<T = any>(storeInstance: StoreConstructor<T> | Primit
         storeBuilder.setStrategy(PrimitiveStoreStrategy);
         storeBuilder.setStoreValue(storeInstance);
     } else {
+        // use key from decorator!
         const meta = getMetadata(STORE_META_KEY, storeInstance as object);
         if (!meta) {
             throw new Error(`instance ${storeInstance as string} doesn't have StoreInstanceDecorator decorator`);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
     createStore, FIELD_MANAGER_TOKEN, FieldManager,
@@ -31,11 +31,12 @@ export class StoreSubscriberComponent implements OnInit {
 
     }
 
-    public firstSub = signal('first value');
+    public firstSub: WritableSignal<any> = signal('first value');
     public storeItem: StoreItemInterface<TestStore>;
 
 
     ngOnInit(): void {
+        console.log(this.firstSub());
         createStore(TestStore, 'store');
         this.storeItem = this.store.selectStoreInstance('store');
         this.subscribe();
