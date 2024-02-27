@@ -21,7 +21,7 @@ export interface StoreItemInterface<T> {
 
     listenEvent(event: any, cb: StackCallback<any>): EventStackSubscription;
 
-    key: string | symbol;
+    key: string | symbol | object;
 
     isValid?: boolean;
 }

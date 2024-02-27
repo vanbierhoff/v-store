@@ -32,7 +32,7 @@ export class TestStore {
 
     dataNotDec = 'notDecotr';
 
-    constructor(protected store: StoreDataService, protected http: HttpClient) {
+    constructor(protected http: HttpClient) {
     }
 
     method() {

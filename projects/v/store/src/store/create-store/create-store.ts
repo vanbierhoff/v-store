@@ -2,11 +2,12 @@ import { StoreInstanceBuilder } from '../../store-builder/store-instance-builder
 import { TypeStore } from '../../store-builder/models/build-config/build-configuration';
 import { STORE_META_KEY } from '../const/meta-keys/store-instance/store-isnatnce';
 import { getMetadata } from '@v/meta-helper';
-import { StoreDataService } from '../services';
+import { STORE_DATA_SERVICE_TOKEN, StoreDataService } from '../services';
 import { isPrimitive, PrimitiveType } from '@v/r-types';
 import { PrimitiveStoreStrategy } from '../store-items/strategies/primitive-store.strategy';
 import { BaseStoreStrategy } from '../store-items/strategies/base-store.strategy';
 import { getGlobalInjector } from '../injector/injector';
+import { StoreItemInterface } from '../store-items/store-item/models/store-item.interface';
 
 
 export type StoreConstructor<T> = new(...args: any[]) => T;
@@ -14,16 +15,21 @@ export type StoreConstructor<T> = new(...args: any[]) => T;
 /**
  *  Created store from decorated instance for created of [[createStore]] for sync operations.
  */
-export function createStore<T = any>(storeInstance: StoreConstructor<T> | PrimitiveType,
-                                     key: string | symbol, custom = false,
-                                     args?: any[]): void {
+export function createStore<T = any>(storeInstance: StoreConstructor<T> | PrimitiveType | any,
+                                     key?: string | symbol, custom = false,
+                                     args?: any[]): StoreItemInterface<T> {
 
+    const constructorInstance = typeof storeInstance === 'function' ? storeInstance as StoreConstructor<T> : storeInstance['constructor'];
     const storeBuilder = new StoreInstanceBuilder()
-        .setConstructorInstance<T>(storeInstance as StoreConstructor<T>)
-        .setKey(key);
+        .setConstructorInstance<T>(constructorInstance)
+        .setKey(key ?? storeInstance);
 
     if (args) {
         storeBuilder.setArgs(args);
+    }
+    console.log('st freat');
+    if (!isPrimitive(storeInstance) && typeof storeInstance !== 'function') {
+        storeBuilder.setStoreValue(storeInstance);
     }
 
     if (isPrimitive(storeInstance)) {
@@ -32,7 +38,7 @@ export function createStore<T = any>(storeInstance: StoreConstructor<T> | Primit
         storeBuilder.setStoreValue(storeInstance);
     } else {
         // use key from decorator!
-        const meta = getMetadata(STORE_META_KEY, storeInstance as object);
+        const meta = getMetadata(STORE_META_KEY, constructorInstance as object);
         if (!meta) {
             throw new Error(`instance ${storeInstance as string} doesn't have StoreInstanceDecorator decorator`);
         }
@@ -43,6 +49,9 @@ export function createStore<T = any>(storeInstance: StoreConstructor<T> | Primit
     if (!injector) {
         throw new Error(`Injector doesn't' exist`);
     }
-    const storeData = injector.get(StoreDataService);
-    storeData.addStore(storeBuilder.build());
+
+    const storeItem = storeBuilder.build();
+    const storeData: StoreDataService = injector.get(STORE_DATA_SERVICE_TOKEN);
+    storeData.addStore(storeItem);
+    return storeItem;
 }

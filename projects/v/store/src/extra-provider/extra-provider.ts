@@ -11,6 +11,7 @@ export class ExtraProvider {
 
     get(token: ExtraToken<any>) {
         if (!(token instanceof ExtraToken)) {
+            console.error('token is not instance of ExtraToken');
             return;
         }
         if (this.#list[token.name]) {

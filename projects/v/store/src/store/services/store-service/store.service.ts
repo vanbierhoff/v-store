@@ -1,7 +1,7 @@
-import { StoreDataService } from '../store/store-data.service';
+import { STORE_DATA_SERVICE_TOKEN, StoreDataService } from '../store/store-data.service';
 import { StoreSubscribersService } from '../store-subscribers/store-subscribers.service';
 import { StoreItemInterface } from '../../store-items/store-item/models/store-item.interface';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 
 
@@ -11,22 +11,40 @@ export class StoreService {
     public readonly anyChanges$ = this.storeSubscribers.anyChanges$;
 
     constructor(
-        protected storeData: StoreDataService,
+         @Inject(STORE_DATA_SERVICE_TOKEN) protected storeData: StoreDataService,
         protected storeSubscribers: StoreSubscribersService
     ) {
     }
 
-    public selectStore<T = any>(storeKey: string | symbol): T {
-        return this.storeData.selectStore(storeKey);
+    public selectStore<T = any>(storeKey: string | symbol | object): T {
+        const store = this.storeData.getStoreByKey(storeKey);
+        if (store) {
+            return store.selectForStore<T>();
+        }
+        throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
     }
 
+    /**
+     *
+     * @param storeKey - key for access to store
+     * method returns a StoreItem. This is a "functional wrapper" for the data added to the storage.
+     * Instance have methods for: validation, get any field, serialized for other operations on data
+     */
     public selectStoreInstance<T = any>(storeKey: string | symbol): StoreItemInterface<T> {
-        return this.storeData.selectStoreInstance(storeKey);
+        const store = this.storeData.getStoreByKey(storeKey);
+        if (store) {
+            return store;
+        }
+        throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
     }
 
-    public mutateStore<T = any>(storeKey: string | symbol, fn: (oldValue: T) => T) {
-        this.storeData.mutateStore(storeKey, fn);
-        this.storeSubscribers.emitChange$.next(storeKey);
+    public mutateStore<T = any>(storeKey: string | symbol | object, fn: (oldValue: T) => T) {
+        let store: StoreItemInterface<T> | null = this.storeData.getStoreByKey(storeKey);
+        if (!store) {
+            throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
+        }
+        const newStore = fn(store.selectForStore<T>());
+        store.set(newStore);
     }
 
     public selectSignal(key: string | symbol) {
