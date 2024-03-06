@@ -1,5 +1,6 @@
-import { StoreField, StoreInstanceDecorator } from '@v/short-store';
+
 import { HttpClient } from '@angular/common/http';
+import { StoreField, StoreInstanceDecorator } from 'projects/v/store/src/public-api';
 
 
 

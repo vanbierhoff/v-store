@@ -1,10 +1,11 @@
 {
   "name": "@v/store",
-  "version": "0.1.4",
+  "version": "0.1.22",
   "peerDependencies": {
     "lodash": "^4.17.21",
     "@v/meta-helper": "*",
-    "@v/r-types": "*"
+    "@v/r-types": "*",
+    "@v/event-stack": "*"
 
   },
   "dependencies": {

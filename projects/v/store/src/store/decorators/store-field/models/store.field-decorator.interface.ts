@@ -2,16 +2,16 @@ import { ValidatorInterface } from '../../../services';
 import { StoreFieldInstance } from '../../../store-items/store-field/store-field-instance';
 
 
-export interface StoreFieldDecoratorInterface {
+export interface StoreFieldDecoratorInterface<V = any, F = StoreFieldInstance> {
     /**
      * A set of validator functions for a specific field
      */
-    validators?: ValidatorInterface[] | [];
+    validators?: ValidatorInterface<V>[] | [];
     /**
      * Function for check access the store
      */
     policy?: () => Promise<boolean>;
 
-    initHook?(field: StoreFieldInstance) : any;
+    initHook?(field: F): any;
 
 }

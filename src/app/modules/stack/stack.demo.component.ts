@@ -1,9 +1,9 @@
 import {
     EventStackManager,
-    EventStackSubscription
 } from 'projects/v/event-stack/src/event-stack';
 import { StackCallback } from 'projects/v/event-stack/src/event-stack/stack-manager/models/stack-callback';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
 
 
 class AbstractField {
@@ -65,7 +65,7 @@ export class StackDemoComponent implements OnInit {
         });
         field.updateValue(100);
         field.updateValue(200);
-        sub.unsubscribe();
+        // sub.unsubscribe();
         field.updateValue(300);
         sub2.unsubscribe()
     }

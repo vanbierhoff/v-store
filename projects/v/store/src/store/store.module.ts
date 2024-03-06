@@ -1,11 +1,13 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { Injector, ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModuleInterface } from './models/store-module.interface';
 import { CUSTOM_STORE_ITEM_TOKEN } from './const/tokens/custom-store-item.token';
 import { StoreItem } from './store-items/store-item/store-item';
-import { StoreDataService, StoreSubscribersService } from './services';
+import { STORE_DATA_SERVICE_TOKEN, StoreDataService, StoreSubscribersService } from './services';
 import { FIELD_MANAGER_TOKEN } from './const';
 import { FieldManager } from './store-items/store-field/field-manager/field-manager';
+import { STORE_INSTANCE_FOR_FIELD_MANAGER } from './const/tokens/store-instance-for-field-manager';
+import { StoreFieldInstance } from './store-items/store-field/store-field-instance';
 
 
 
@@ -23,11 +25,20 @@ import { FieldManager } from './store-items/store-field/field-manager/field-mana
         {
             provide: FIELD_MANAGER_TOKEN,
             useValue: FieldManager
+        },
+        {
+            provide: STORE_INSTANCE_FOR_FIELD_MANAGER,
+            useValue: StoreFieldInstance
+        },
+        {
+            provide: STORE_DATA_SERVICE_TOKEN,
+            useClass: StoreDataService
         }
     ]
 })
 export class StoreModule {
-    static forChild(config?: StoreModuleInterface): StoreModule {
+
+    static forChild(config?: StoreModuleInterface): any {
         return {
             ngModule: StoreModule,
             providers: [
@@ -40,12 +51,20 @@ export class StoreModule {
                 {
                     provide: FIELD_MANAGER_TOKEN,
                     useValue: config?.fieldManager || FieldManager
+                },
+                {
+                    provide: STORE_INSTANCE_FOR_FIELD_MANAGER,
+                    useValue: config?.storeFieldInstance || StoreFieldInstance
+                },
+                {
+                    provide: STORE_DATA_SERVICE_TOKEN,
+                    useClass: config?.storeData || StoreDataService
                 }
             ]
         };
     }
 
-    static forRoot(config?: StoreModuleInterface): ModuleWithProviders<StoreModule> {
+    static forRoot(config?: StoreModuleInterface): any{
         return {
             ngModule: StoreModule,
             providers: [
@@ -58,6 +77,14 @@ export class StoreModule {
                 {
                     provide: FIELD_MANAGER_TOKEN,
                     useValue: config?.fieldManager || FieldManager
+                },
+                {
+                    provide: STORE_INSTANCE_FOR_FIELD_MANAGER,
+                    useValue: config?.storeFieldInstance || StoreFieldInstance
+                },
+                {
+                    provide: STORE_DATA_SERVICE_TOKEN,
+                    useClass: config?.storeData || StoreDataService
                 }
             ]
         };

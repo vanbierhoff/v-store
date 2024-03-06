@@ -1,8 +1,8 @@
-import { EventStackItemsInterface } from './models/event-stack-items.interface';
 import { EventStackManagerInterface } from './models/event-stack-manager.interface';
 import { EventStackItemInterface, EventStackSubscription } from '../stack-item/models/event-stack.item.interface';
 import { EventStackItem } from '../stack-item/event-stack-item';
 import { StackCallback } from './models/stack-callback';
+import { EventStackItemsInterface } from './models/event-stack-items.interface';
 
 
 export class EventStackManager implements EventStackManagerInterface {
@@ -15,19 +15,32 @@ export class EventStackManager implements EventStackManagerInterface {
         return stackItem;
     }
 
+    public addMultiple<T>(names: Array<string | symbol | number>): Array<EventStackItemInterface<T>> {
+        const events:Array<EventStackItemInterface<T>>  = [];
+        names.forEach(name => {
+            const stackItem = new EventStackItem(this, name, this.idCounter++);
+            if (!(name in this.items)) {
+                this.items[name] = stackItem;
+                events.push(stackItem);
+            }
+        });
+        return events;
+
+    }
+
     public listen<T>(name: string | symbol, callback: StackCallback<T>): EventStackSubscription {
         if (!this.items[name]) {
             throw new Error(`event doesnt exist`);
         }
         this.items[name].addCallback(callback);
-        const returnOb = {
+        const returnedObj = {
             id: this.items[name].idCount as number,
-            unsubscribe: () => this.items[name].unsubscribe(returnOb.id)
+            unsubscribe: () => this.items[name].unsubscribe(returnedObj.id)
         };
-        return returnOb;
+        return returnedObj;
     }
 
-    public removeStackItem(item: EventStackItemInterface<any>): void {
+    public removeEventItem(item: EventStackItemInterface<any>): void {
         if (!this.items[item.name]) {
             return;
         }

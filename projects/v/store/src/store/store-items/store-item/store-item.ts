@@ -2,9 +2,13 @@ import { ValidationError } from '../../services/store/models/validation/validato
 import { FieldManager } from '../store-field/field-manager/field-manager';
 import { StoreItemInterface } from './models/store-item.interface';
 import { StoreStrategy } from './models/store-strategy';
+import { EventStackManager } from '@v/event-stack';
+import { STORE_ITEM_EVENTS, StoreItemEventsInterface } from './models/store-item-events';
+import { StackCallback } from '@v/event-stack/event-stack/stack-manager/models/stack-callback';
+import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
 
 
-export class StoreItem<T = any> implements StoreItemInterface<T> {
+export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
 
     /**
      * Manager all fields in the store
@@ -20,10 +24,13 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
      */
     protected isValidStore: boolean = false;
 
+    protected eventStackManager = new EventStackManager();
+
     constructor(protected storeStrategy: StoreStrategy<any>,
                 key: string | symbol
     ) {
         this.key = key;
+        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.validateStoreItem, STORE_ITEM_EVENTS.changeStoreItem]);
     }
 
     /**
@@ -41,6 +48,8 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
     async validate(): Promise<true | Record<string | symbol, ValidationError[]>> {
         const result = await this.storeStrategy.validate();
         this.isValidStore = result === true;
+        this.eventStackManager.emit<true | Record<string | symbol, ValidationError[]>>
+        (STORE_ITEM_EVENTS.validateStoreItem, result);
         return result;
     }
 
@@ -71,6 +80,14 @@ export class StoreItem<T = any> implements StoreItemInterface<T> {
      */
     set(value: any, key?: string | symbol) {
         this.storeStrategy.set(value, key);
+
+    }
+
+    listenEvent(event: any, cb: StackCallback<any>): EventStackSubscription
+    listenEvent<T extends keyof typeof STORE_ITEM_EVENTS>(
+        event: T,
+        cb: StackCallback<StoreItemEventsInterface<TYPE>[T]>): EventStackSubscription {
+        return this.eventStackManager.listen(event, cb);
     }
 
 }
