@@ -27,7 +27,6 @@ export function createStore<T = any>(storeInstance: StoreConstructor<T> | Primit
     if (args) {
         storeBuilder.setArgs(args);
     }
-    console.log('st freat');
     if (!isPrimitive(storeInstance) && typeof storeInstance !== 'function') {
         storeBuilder.setStoreValue(storeInstance);
     }
@@ -42,8 +41,12 @@ export function createStore<T = any>(storeInstance: StoreConstructor<T> | Primit
         if (!meta) {
             throw new Error(`instance ${storeInstance as string} doesn't have StoreInstanceDecorator decorator`);
         }
-        storeBuilder.setStrategy(BaseStoreStrategy);
-        storeBuilder.setTypeStore(custom ? TypeStore.CUSTOM : TypeStore.INSTANCE);
+        if (custom) {
+            storeBuilder.setTypeStore(TypeStore.CUSTOM);
+        } else {
+            storeBuilder.setTypeStore(TypeStore.INSTANCE);
+            storeBuilder.setStrategy(BaseStoreStrategy);
+        }
     }
     const injector = getGlobalInjector();
     if (!injector) {
