@@ -6,6 +6,7 @@ import { EventStackManager } from '@v/event-stack';
 import { STORE_ITEM_EVENTS, StoreItemEventsInterface } from './models/store-item-events';
 import { StackCallback } from '@v/event-stack/event-stack/stack-manager/models/stack-callback';
 import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
+import { ExtraProvider } from '../../../extra-provider';
 
 
 export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
@@ -17,7 +18,7 @@ export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
 
     public readonly key: string | symbol;
 
-    extra: any;
+    extra: ExtraProvider = new ExtraProvider();
 
     /**
      * Shows if all fields are valid. false if at least one field is invalid
