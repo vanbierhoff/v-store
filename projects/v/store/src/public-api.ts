@@ -38,15 +38,15 @@ export * from './helpers';
 
 // MODELS
 export * from './store/models/store-module.interface';
-export * from './store/store-items/store-item/models/store-item.interface';
-export * from './store/store-items/store-item/models/store-strategy';
+export * from './store/store-items/store-instance/models/store-instance-impl.interface';
+export * from './store/store-items/store-instance/models/store-strategy';
 export * from './store/models';
 
 // instances
 export * from './store/store-items/store-field/field-manager/field-manager';
-export * from './store/store-items/store-item/store-item';
+export * from './store/store-items/store-instance/store-instance';
 export * from './store/store.module';
-export * from './store/store-items/store-item/store-item';
+export * from './store/store-items/store-instance/store-instance';
 export * from './store/store-items/store-field/store-field-instance';
 
 // STRATEGIES

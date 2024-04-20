@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import {
     createStore, FIELD_MANAGER_TOKEN, FieldManager,
     setGlobalInjector,
-    StoreDataService, StoreItem,
+    StoreDataService, StoreInstance,
     StoreItemInstance,
-    StoreItemInterface, StoreModule,
+    StoreInstanceImplInterface, StoreModule,
     StoreService, StoreSubscribersService
 } from '@v/short-store';
 import { TestStore } from '../models/test-store';
@@ -32,7 +32,7 @@ export class StoreSubscriberComponent implements OnInit {
     }
 
     public firstSub: WritableSignal<any> = signal('first value');
-    public storeItem: StoreItemInterface<TestStore>;
+    public storeItem: StoreInstanceImplInterface<TestStore>;
 
 
     ngOnInit(): void {

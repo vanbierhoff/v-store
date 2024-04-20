@@ -7,7 +7,7 @@ import { isPrimitive, PrimitiveType } from '@v/r-types';
 import { PrimitiveStoreStrategy } from '../store-items/strategies/primitive-store.strategy';
 import { BaseStoreStrategy } from '../store-items/strategies/base-store.strategy';
 import { getGlobalInjector } from '../injector/injector';
-import { StoreItemInterface } from '../store-items/store-item/models/store-item.interface';
+import { StoreInstanceImplInterface } from '../store-items/store-instance/models/store-instance-impl.interface';
 
 
 export type StoreConstructor<T> = new(...args: any[]) => T;
@@ -17,7 +17,7 @@ export type StoreConstructor<T> = new(...args: any[]) => T;
  */
 export function createStore<T = any>(storeInstance: StoreConstructor<T> | PrimitiveType | any,
                                      key?: string | symbol, custom = false,
-                                     args?: any[]): StoreItemInterface<T> {
+                                     args?: any[]): StoreInstanceImplInterface<T> {
 
     const constructorInstance = typeof storeInstance === 'function' ? storeInstance as StoreConstructor<T> : storeInstance['constructor'];
     const storeBuilder = new StoreInstanceBuilder()

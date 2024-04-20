@@ -11,9 +11,9 @@ export class ExtraProvider {
 
     get<T>(token: ExtraToken<T>, defaultValue = null): T | null {
         if (this.#extraList.has(token)) {
-            return defaultValue as T | null;
+            return this.#extraList.get(token);
         }
-        return this.#extraList.get(token);
+        return defaultValue as T | null;
     }
 
 }

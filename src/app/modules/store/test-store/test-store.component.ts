@@ -49,6 +49,7 @@ export class TestStoreComponent implements OnInit {
 
     ngOnInit() {
         const defStore = createStore(TestStore, 'store');
+        console.log('extra value:', defStore.get('data').extra.get(ExtraValue));
         const newStore = new TestStore(this.http);
         const newStore2 = new TestStore(this.http);
         console.log(newStore);

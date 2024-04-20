@@ -1,6 +1,6 @@
 import { STORE_DATA_SERVICE_TOKEN, StoreDataService } from '../store/store-data.service';
 import { StoreSubscribersService } from '../store-subscribers/store-subscribers.service';
-import { StoreItemInterface } from '../../store-items/store-item/models/store-item.interface';
+import { StoreInstanceImplInterface } from '../../store-items/store-instance/models/store-instance-impl.interface';
 import { Inject, Injectable } from '@angular/core';
 
 
@@ -30,7 +30,7 @@ export class StoreService {
      * method returns a StoreItem. This is a "functional wrapper" for the data added to the storage.
      * Instance have methods for: validation, get any field, serialized for other operations on data
      */
-    public selectStoreInstance<T = any>(storeKey: string | symbol): StoreItemInterface<T> {
+    public selectStoreInstance<T = any>(storeKey: string | symbol): StoreInstanceImplInterface<T> {
         const store = this.storeData.getStoreByKey(storeKey);
         if (store) {
             return store;
@@ -39,7 +39,7 @@ export class StoreService {
     }
 
     public mutateStore<T = any>(storeKey: string | symbol | object, fn: (oldValue: T) => T) {
-        let store: StoreItemInterface<T> | null = this.storeData.getStoreByKey(storeKey);
+        let store: StoreInstanceImplInterface<T> | null = this.storeData.getStoreByKey(storeKey);
         if (!store) {
             throw new Error(`Store with key ${storeKey.toString()} doesn't exist`);
         }

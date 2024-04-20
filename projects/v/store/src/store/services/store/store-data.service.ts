@@ -1,6 +1,6 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import find from 'lodash/find';
-import { StoreItemInterface } from '../../store-items/store-item/models/store-item.interface';
+import { StoreInstanceImplInterface } from '../../store-items/store-instance/models/store-instance-impl.interface';
 import remove from 'lodash/remove';
 import { StoreDataServiceInterface } from './models/store-data-service.interface';
 
@@ -12,12 +12,12 @@ export const STORE_DATA_SERVICE_TOKEN =
 @Injectable({providedIn: 'root'})
 export class StoreDataService implements StoreDataServiceInterface {
 
-    protected store: StoreItemInterface<any>[] = [];
+    protected store: StoreInstanceImplInterface<any>[] = [];
 
     constructor() {
     }
 
-    public addStore(item: StoreItemInterface<any>) {
+    public addStore(item: StoreInstanceImplInterface<any>) {
         let storeItem = find(this.store, storeItem => storeItem.key === item.key);
         if (storeItem) {
             console.warn(`Item with ${item.key.toString()} exist`);
@@ -27,10 +27,10 @@ export class StoreDataService implements StoreDataServiceInterface {
         this.store.push(item);
     }
 
-    public getStoreByKey<T = any>(key: string | symbol | object): StoreItemInterface<T> | null {
+    public getStoreByKey<T = any>(key: string | symbol | object): StoreInstanceImplInterface<T> | null {
         const store = find(this.store, item => item.key === key);
         if (store) {
-            return store as StoreItemInterface<T>;
+            return store as StoreInstanceImplInterface<T>;
         }
         return null;
     }

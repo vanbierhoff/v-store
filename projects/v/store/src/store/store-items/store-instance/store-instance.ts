@@ -1,6 +1,6 @@
 import { ValidationError } from '../../services/store/models/validation/validator.interface';
 import { FieldManager } from '../store-field/field-manager/field-manager';
-import { StoreItemInterface } from './models/store-item.interface';
+import { StoreInstanceImplInterface } from './models/store-instance-impl.interface';
 import { StoreStrategy } from './models/store-strategy';
 import { EventStackManager } from '@v/event-stack';
 import { STORE_ITEM_EVENTS, StoreItemEventsInterface } from './models/store-item-events';
@@ -9,7 +9,7 @@ import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/mo
 import { ExtraProvider } from '../../../extra-provider';
 
 
-export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
+export class StoreInstance<TYPE = any> implements StoreInstanceImplInterface<TYPE> {
 
     /**
      * Manager all fields in the store
@@ -31,7 +31,7 @@ export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
                 key: string | symbol
     ) {
         this.key = key;
-        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.validateStoreItem, STORE_ITEM_EVENTS.changeStoreItem]);
+        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.validateStoreInstance, STORE_ITEM_EVENTS.changeStoreInstance]);
     }
 
     /**
@@ -50,7 +50,7 @@ export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
         const result = await this.storeStrategy.validate();
         this.isValidStore = result === true;
         this.eventStackManager.emit<true | Record<string | symbol, ValidationError[]>>
-        (STORE_ITEM_EVENTS.validateStoreItem, result);
+        (STORE_ITEM_EVENTS.validateStoreInstance, result);
         return result;
     }
 
@@ -62,7 +62,7 @@ export class StoreItem<TYPE = any> implements StoreItemInterface<TYPE> {
      *  get all fields from store
      */
     getAll() {
-        return this.fieldsManager.getAll();
+        return this.storeStrategy.getAll();
     }
 
     /**

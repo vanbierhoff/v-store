@@ -11,6 +11,8 @@ export interface StoreStrategy<T> {
 
     get(field?: string | symbol): StoreFieldInstanceInterface<T>;
 
+    getAll(): StoreFieldInstanceInterface<T>[] | null;
+
     selectForStore<S = any>(): S;
 
     set(value: any, key?: string | symbol): void;
