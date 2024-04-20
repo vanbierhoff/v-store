@@ -1,8 +1,7 @@
-import {
-    getGlobalInjector,
-    STORE_DATA_SERVICE_TOKEN,
-    StoreInstanceImplInterface, VInjectionProvider
-} from '@v/short-store';
+import { getGlobalInjector, VInjectionProvider } from '../../injector/injector';
+import { STORE_DATA_SERVICE_TOKEN } from '../store/store-data.service';
+import { StoreInstanceImplInterface } from '../../store-items/store-instance/models/store-instance-impl.interface';
+
 
 
 export const mutateStore = <T = any>(storeKey: string | symbol | object,
