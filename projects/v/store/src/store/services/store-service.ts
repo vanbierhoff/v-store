@@ -1,12 +1,9 @@
-import {
-    getGlobalInjector,
-    STORE_DATA_SERVICE_TOKEN,
-    STORE_SUBSCRIBERS_TOKEN, StoreDataService,
-    StoreInstanceImplInterface, StoreSubscribersService,
-    ValidationError,
-    VInjectionProvider
-} from '@v/short-store';
 import { Observable } from 'rxjs';
+import { getGlobalInjector, VInjectionProvider } from '../injector/injector';
+import { STORE_DATA_SERVICE_TOKEN, StoreDataService } from './store/store-data.service';
+import { STORE_SUBSCRIBERS_TOKEN, StoreSubscribersService } from './store-subscribers/store-subscribers.service';
+import { StoreInstanceImplInterface } from '../store-items/store-instance/models/store-instance-impl.interface';
+import { ValidationError } from './store/models';
 
 
 export const storeService = <T>(injectorItem?: VInjectionProvider) => {

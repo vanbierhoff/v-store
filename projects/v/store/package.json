@@ -5,8 +5,8 @@
     "lodash": "^4.17.21",
     "@v/meta-helper": "*",
     "@v/r-types": "*",
-    "@v/event-stack": "*"
-
+    "@v/event-stack": "*",
+    "rxjs": "~7.8.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
