@@ -3,6 +3,7 @@ import { filter, Observable, of, Subject, Subscription, switchMap, tap } from 'r
 import { STORE_DATA_SERVICE_TOKEN, StoreDataService } from '../store/store-data.service';
 import find from 'lodash/find';
 import concat from 'lodash/concat';
+import { getGlobalInjector } from '../../injector/injector';
 
 
 export const STORE_SUBSCRIBERS_TOKEN =
@@ -13,6 +14,7 @@ export class StoreSubscribersService implements OnDestroy {
 
     constructor(
         @Inject(STORE_DATA_SERVICE_TOKEN) protected storeData: StoreDataService) {
+
         this.emitChange$ = new Subject<string | symbol | object>();
         this.anyChanges$ = this.emitChange$.pipe(
             switchMap((key: string | symbol | object) => {

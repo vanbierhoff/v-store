@@ -1,22 +1,19 @@
 import {
     ChangeDetectionStrategy,
-    Component,
-    computed, Inject, Injector,
+    Component, Inject, Injector,
     OnInit,
     Signal,
     signal, WritableSignal
 } from '@angular/core';
-import { ExtraFalseValueSym, ExtraValue, ExtraValueSym, TestStore } from '../models/test-store';
+import { ExtraValue, TestStore } from '../models/test-store';
 import {
     createStore,
     setGlobalInjector, STORE_DATA_SERVICE_TOKEN, StoreDataService,
-    StoreModule,
-    StoreService
-
+    StoreModule, storeService
 } from '@v/short-store';
 import { JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-
+import { mutateStore } from '../../../../../projects/v/store/src/store/services/mutate-store/mutate-store';
 
 const symbolStoreKey = Symbol('storeKey');
 
@@ -25,7 +22,7 @@ const symbolStoreKey = Symbol('storeKey');
     standalone: true,
     templateUrl: './test-store.component.html',
     styleUrls: ['./test-store.component.scss'],
-    providers: [StoreService],
+    providers: [],
     imports: [
         JsonPipe,
         StoreModule
@@ -40,12 +37,15 @@ export class TestStoreComponent implements OnInit {
     public symbolStore: TestStore;
     public storeCustom: any;
     public name: Signal<string> = signal('test');
+    public store: any;
 
-    constructor(protected store: StoreService, injector: Injector, protected http: HttpClient,
+    constructor( protected injector: Injector, protected http: HttpClient,
                 @Inject(STORE_DATA_SERVICE_TOKEN) protected storeData: StoreDataService) {
         setGlobalInjector(injector);
-
+        this.store = storeService();
     }
+
+
 
     ngOnInit() {
         const defStore = createStore(TestStore, 'store');
@@ -57,26 +57,31 @@ export class TestStoreComponent implements OnInit {
         newStore2.data2 = 'DATA_NEWSTORE_2!!!!!!!!!!';
         const storeAsFirstObject = createStore(newStore);
         const storeAsTowObject = createStore(newStore2);
-        console.log('getByInstance', this.store.selectStore(newStore));
-        console.log('getByInstance2', this.store.selectStore(newStore2));
-        console.log('getByKey', this.store.selectStore('store'));
 
 
-        this.store.mutateStore(newStore2, (oldValue) => {
+        console.log('getByInstance2', this.store.getStore(newStore2));
+        console.log('getByKey', this.store.getStore('store'));
+
+        console.log('store fn Service Call', storeService(this.injector).getStore(newStore));
+
+
+        mutateStore(newStore2, (oldValue) => {
             return {
                 ...oldValue,
                 data2: 'MUTATE_NEW_STORE2'
             };
         });
 
-        console.log('getByInstance after mutate', this.store.selectStore(newStore));
-        console.log('getByInstance2 after mutate', this.store.selectStore(newStore2));
+        console.log('getByInstance after mutate', this.store.getStore(newStore));
+        console.log('getByInstance2 after mutate', this.store.getStore(newStore2));
 
 
         createStore('TestStore', 'store1');
         setTimeout(() => {
             this.firstName.set('Den');
         }, 1000);
+
+
 
         // this.name = computed(() => this.firstName() + ' Family');
         //

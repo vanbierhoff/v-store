@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 import find from 'lodash/find';
 import { StoreInstanceImplInterface } from '../../store-items/store-instance/models/store-instance-impl.interface';
 import remove from 'lodash/remove';
@@ -9,7 +9,6 @@ export const STORE_DATA_SERVICE_TOKEN =
     new InjectionToken<StoreDataServiceInterface>('store:storeDataService');
 
 
-@Injectable({providedIn: 'root'})
 export class StoreDataService implements StoreDataServiceInterface {
 
     protected store: StoreInstanceImplInterface<any>[] = [];
@@ -46,6 +45,5 @@ export class StoreDataService implements StoreDataServiceInterface {
             console.error(`Failed to delete store by key ${keyStore}. Make sure such a store exists`);
             return false;
         }
-
     }
 }
