@@ -4,16 +4,19 @@ import { StoreFieldInstanceInterface } from '../store-items/store-field/models/s
 
 
 export function isDateStoreValidator(errorMsg?: string) {
-    return async (field: StoreFieldInstanceInterface): Promise<true | ValidationError> => {
-        const res = isDate(field.value);
-        if (res) {
-            return true;
+    return {
+        name: 'dateValidator',
+        validate: async (field: StoreFieldInstanceInterface): Promise<true | ValidationError> => {
+            const res = isDate(field.value);
+            if (res) {
+                return true;
+            }
+            return {
+                item: field,
+                error: true,
+                errorMessage: errorMsg || ''
+            };
         }
-        return {
-            item: field,
-            error: true,
-            errorMessage: errorMsg || ''
-        };
     };
 }
 

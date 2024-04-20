@@ -7,5 +7,9 @@ export type ValidationError<T = StoreFieldInstanceInterface<any, any>> = {
     item: T;
 }
 
-export type ValidatorInterface<I = StoreFieldInstanceInterface> = (item: I) =>
-    Promise<true | ValidationError>
+
+export interface ValidatorInterface<I = StoreFieldInstanceInterface> {
+    name: string,
+    validate: (field: I) => Promise<true | ValidationError>;
+}
+

@@ -5,6 +5,7 @@ import { EventStackManager, TypeEvent } from '@v/event-stack';
 import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
 import { StoreFieldInstanceInterface } from './models/store-field-instance.interface';
 import { ExtraProvider } from '../../../extra-provider/extra-provider';
+import remove from 'lodash/remove';
 
 
 /**
@@ -21,7 +22,7 @@ export class StoreFieldInstance<T = any, I_EVENTS = StoreFieldInstanceEventsInte
      */
     public propertyName: string | symbol;
     protected storeValue: T;
-    public  readonly extra: ExtraProvider = new ExtraProvider();
+    public readonly extra: ExtraProvider = new ExtraProvider();
     protected isValidStoreValue: boolean = false;
     /**
      * @protected
@@ -78,7 +79,7 @@ export class StoreFieldInstance<T = any, I_EVENTS = StoreFieldInstanceEventsInte
         }
 
         for await (let validator of this.validators) {
-            let res = await validator(this);
+            let res = await validator.validate(this);
             if (res !== true) {
                 this.isValidStoreValue = false;
                 errors.push(res);
@@ -91,6 +92,17 @@ export class StoreFieldInstance<T = any, I_EVENTS = StoreFieldInstanceEventsInte
         }
         this.eventStackManager.emit<true | ValidationError[]>(STORE_FIELD_INSTANCE_EVENTS.validate, true);
         return this.isValidStoreValue = true;
+    }
+
+    public addValidator(validator: ValidatorInterface<this>) {
+        this.validators?.push(validator);
+    }
+
+    public removeValidator(name: string) {
+        if (!this.validators) {
+            return;
+        }
+        remove(this.validators, name);
     }
 
     public listenEvent<E_TYPE extends keyof I_EVENTS>(
