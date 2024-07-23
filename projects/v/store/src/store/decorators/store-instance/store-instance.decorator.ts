@@ -12,6 +12,7 @@ export function StoreInstanceDecorator(options?: StoreInstanceInterface): any {
     ) {
         addMetaField(target, STORE_META_KEY, options);
         return class extends target {
+
             constructor(...args: any[]) {
                 const injector = getGlobalInjector();
                 /**
