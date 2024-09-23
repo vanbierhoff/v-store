@@ -16,7 +16,7 @@ export class StoreDataService implements StoreDataServiceInterface {
     constructor() {
     }
 
-    public addStore(item: StoreInstanceImplInterface<any>) {
+    public addToStore(item: StoreInstanceImplInterface<any>) {
         let storeItem = find(this.store, storeItem => storeItem.key === item.key);
         if (storeItem) {
             console.warn(`Item with ${item.key.toString()} exist`);

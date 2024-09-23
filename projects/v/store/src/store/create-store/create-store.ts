@@ -55,6 +55,6 @@ export function createStore<T = any>(storeInstance: StoreConstructor<T> | Primit
 
     const storeItem = storeBuilder.build();
     const storeData: StoreDataService = injector.get(STORE_DATA_SERVICE_TOKEN);
-    storeData.addStore(storeItem);
+    storeData.addToStore(storeItem);
     return storeItem;
 }

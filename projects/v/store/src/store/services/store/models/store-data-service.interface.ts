@@ -3,7 +3,7 @@ import { StoreInstanceImplInterface } from "../../../store-items/store-instance/
 
 
 export interface StoreDataServiceInterface {
-    addStore(item: StoreInstanceImplInterface<any>): void;
+    addToStore(item: StoreInstanceImplInterface<any>): void;
     destroyStore(key: string | symbol): boolean;
     getStoreByKey<T = any>(key: string | symbol | object): StoreInstanceImplInterface<T> | null;
 }

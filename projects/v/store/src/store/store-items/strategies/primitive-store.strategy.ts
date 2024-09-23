@@ -7,7 +7,7 @@ import { StoreFieldInstanceInterface } from '../store-field/models/store-field-i
 
 
 
-export const PRIMITIVE_KEY = 'prim';
+export const PRIMITIVE_KEY = 'primKeyValue';
 
 export class PrimitiveStoreStrategy<T> implements StoreStrategy<T> {
 
