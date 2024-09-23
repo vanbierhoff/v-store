@@ -2,10 +2,9 @@ import concat from 'lodash/concat';
 
 import { FieldManager } from '../store-field/field-manager/field-manager';
 import { ValidationError } from '../../services';
-import { StoreStrategy } from '../store-item/models/store-strategy';
+import { StoreStrategy } from '../store-instance/models/store-strategy';
 import some from 'lodash/some';
 import { isPrimitive } from '@v/r-types';
-
 
 export class BaseStoreStrategy<T> implements StoreStrategy<T> {
 
@@ -20,7 +19,7 @@ export class BaseStoreStrategy<T> implements StoreStrategy<T> {
     get isValid() {
         return this.isValidStore;
     }
- // делать сет по метадате для филдов без иницйиализации(филд без значения не сщуествует в классе
+
     public selectForStore<T = any>(): T {
         let originalState;
         if (this.args) {
@@ -29,7 +28,7 @@ export class BaseStoreStrategy<T> implements StoreStrategy<T> {
             originalState = new this.buildInstance();
 
         }
-       // цикл по полям мета если они есть, проставлять им def value?
+        // цикл по полям мета если они есть, проставлять им def value?
         const origInstanceKeys = concat<string | symbol>(
             Object.keys(originalState),
             Object.getOwnPropertySymbols(originalState));
@@ -44,6 +43,10 @@ export class BaseStoreStrategy<T> implements StoreStrategy<T> {
 
     public get(field: string | symbol) {
         return this.fieldsManager.get(field);
+    }
+
+    public getAll() {
+        return this.fieldsManager.getAll();
     }
 
 
@@ -91,7 +94,7 @@ export class BaseStoreStrategy<T> implements StoreStrategy<T> {
                 continue;
             }
             // if value[key] is deps injectable, field not created
-            if(designedArgs && !isPrimitive(value[key]) &&
+            if (designedArgs && !isPrimitive(value[key]) &&
                 some(designedArgs, arg => arg === value[key].constructor)) {
                 continue;
             }

@@ -1,11 +1,12 @@
 {
   "name": "@v/store",
-  "version": "0.1.4",
+  "version": "0.1.27",
   "peerDependencies": {
     "lodash": "^4.17.21",
     "@v/meta-helper": "*",
-    "@v/r-types": "*"
-
+    "@v/r-types": "*",
+    "@v/event-stack": "*",
+    "rxjs": "~7.8.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

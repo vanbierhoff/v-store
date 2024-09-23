@@ -2,7 +2,8 @@ import { ValidationError } from '../../services/store/models/validation/validato
 import { FieldManager } from '../store-field/field-manager/field-manager';
 import forEach from 'lodash/forEach';
 import concat from 'lodash/concat';
-import { StoreStrategy } from '../store-item/models/store-strategy';
+import { StoreStrategy } from '../store-instance/models/store-strategy';
+import { StoreFieldInstanceInterface } from '../store-field/models/store-field-instance.interface';
 
 
 export class DecoratedStoreStrategy<T = any> implements StoreStrategy<T> {
@@ -44,6 +45,10 @@ export class DecoratedStoreStrategy<T = any> implements StoreStrategy<T> {
 
     get(field: string) {
         return this.fieldsManager.get(field);
+    }
+
+    getAll(): StoreFieldInstanceInterface<T>[] | null {
+        return this.fieldsManager.getAll();
     }
 
     /**

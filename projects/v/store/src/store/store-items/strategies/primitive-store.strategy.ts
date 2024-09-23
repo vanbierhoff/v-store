@@ -1,11 +1,13 @@
 import { FieldManager } from '../store-field/field-manager/field-manager';
 import { ValidationError } from '../../services';
-import { StoreStrategy } from '../store-item/models/store-strategy';
+import { StoreStrategy } from '../store-instance/models/store-strategy';
+import { StoreFieldInstance } from '../store-field/store-field-instance';
+import { StoreFieldInstanceInterface } from '../store-field/models/store-field-instance.interface';
 
 
 
 
-export const PRIMITIVE_KEY = 'prim';
+export const PRIMITIVE_KEY = 'primKeyValue';
 
 export class PrimitiveStoreStrategy<T> implements StoreStrategy<T> {
 

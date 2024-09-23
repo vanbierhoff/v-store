@@ -1,18 +1,24 @@
-import { StoreFieldInstance } from '../store-field-instance';
 import find from 'lodash/find';
 import remove from 'lodash/remove';
+import { STORE_ITEM_EVENTS } from '../../store-instance/models/store-item-events';
+import { EventStackManager } from '@v/event-stack';
+import { InjectDepsDecorator } from '../../../../helpers';
+import { StoreConstructor } from '../../../create-store/create-store';
+import { STORE_INSTANCE_FOR_FIELD_MANAGER } from '../../../const/tokens/store-instance-for-field-manager';
+import { StoreFieldInstanceInterface } from '../models/store-field-instance.interface';
 
+@InjectDepsDecorator([
+    {field: 'storeInstance', token: STORE_INSTANCE_FOR_FIELD_MANAGER}
+])
+export class FieldManager<T extends StoreFieldInstanceInterface = any> {
 
-export class FieldManager {
+    protected storeInstance: StoreConstructor<any>;
 
-    /**
-     * Save additional data
-     */
-    public extra: any;
+    protected eventStackManager = new EventStackManager();
 
+    constructor(protected fields: Array<T>) {
 
-    constructor(protected fields: StoreFieldInstance[], extra?: any) {
-        this.extra = extra;
+        this.eventStackManager.addMultiple([STORE_ITEM_EVENTS.changeStoreInstance]);
     }
 
     /**
@@ -20,11 +26,11 @@ export class FieldManager {
      * @param key string
      * Get field from store by key
      */
-    get(key: string | symbol): StoreFieldInstance | null {
+    get(key: string | symbol): T | null {
         return find(this.fields, field => field.propertyName === key) ?? null;
     }
 
-    getAll() {
+    getAll(): Array<T> {
         return this.fields ?? null;
     }
 
@@ -58,7 +64,7 @@ export class FieldManager {
      * For dynamic added new fields in manager
      */
     public pushField(value: any, key: string | symbol) {
-        const field = new StoreFieldInstance({
+        const field = new this.storeInstance({
             propertyName: key
         }, value);
         this.fields.push(field);

@@ -1,18 +1,19 @@
 import { BuildConfiguration, TypeStore } from './models/build-config/build-configuration';
-
 import { StoreFieldInstance } from '../store/store-items/store-field/store-field-instance';
 import { STORE_FIELD } from '../store/const/meta-keys/store-field/store-field';
-import { StoreStrategy, StoreStrategyInstance } from '../store/store-items/store-item/models/store-strategy';
+import { StoreStrategy, StoreStrategyInstance } from '../store/store-items/store-instance/models/store-strategy';
 import { FieldManager } from '../store/store-items/store-field/field-manager/field-manager';
-import { StoreItem } from '../store/store-items/store-item/store-item';
+import { StoreInstance } from '../store/store-items/store-instance/store-instance';
 import { PRIMITIVE_KEY } from '../store/const/primitive-store-key';
 import { Inject, Optional } from '@angular/core';
 import { FIELD_MANAGER_TOKEN } from '../store/const';
 import { CUSTOM_STORE_ITEM_TOKEN } from '../store/const/tokens/custom-store-item.token';
-import { StoreItemInstance } from '../store/store-items/store-item/models/store-item.interface';
+import { StoreItemInstance } from '../store/store-items/store-instance/models/store-instance-impl.interface';
 import { getMetadata } from '@v/meta-helper';
 import { InjectDepsDecorator } from '../helpers/inject-deps/inject-deps.decorator';
 import { StoreConstructor } from '../store/create-store/create-store';
+import { StoreFieldInstanceInterface } from '../store/store-items/store-field/models/store-field-instance.interface';
+import forEach from 'lodash/forEach';
 
 
 @InjectDepsDecorator([
@@ -67,7 +68,7 @@ export class StoreInstanceBuilder {
      * @protected
      * Storage key that can be used to access the storage
      */
-    protected storeKey: string | symbol;
+    protected storeKey: string | symbol | any;
 
     /**
      * @protected
@@ -85,7 +86,7 @@ export class StoreInstanceBuilder {
      * @protected
      * StoreFieldsInstance list
      */
-    protected storeFields: StoreFieldInstance[] = [];
+    protected storeFields: StoreFieldInstanceInterface[] = [];
 
     /**
      *
@@ -129,7 +130,7 @@ export class StoreInstanceBuilder {
      * @param key - string | symbol
      * Set storage key, that can be used to access the storage
      */
-    public setKey(key: string | symbol) {
+    public setKey(key: string | symbol | any) {
         this.storeKey = key;
         return this;
     }
@@ -142,20 +143,19 @@ export class StoreInstanceBuilder {
         switch (this.configuration.typeStore as string) {
             case TypeStore.INSTANCE:
                 this.createInstance();
-                this.createStoreField();
+                this.setValueToInstance();
+                this.createStoreFields();
                 this.createStrategy();
-                return new StoreItem(this.storeStrategy, this.storeKey);
+                return new StoreInstance(this.storeStrategy, this.storeKey);
 
             case TypeStore.PRIMITIVE:
                 this.storeFields.push(new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue));
                 this.createStrategy();
-                return new StoreItem(this.storeStrategy, this.storeKey);
+                return new StoreInstance(this.storeStrategy, this.storeKey);
 
             case TypeStore.CUSTOM:
-                this.storeFields.push(new StoreFieldInstance({propertyName: PRIMITIVE_KEY}, this.storeValue));
-                this.createStrategy();
                 this.createInstance();
-                this.createStoreField();
+                this.createStoreFields();
                 this.createStrategy();
                 if (this.customStoreItem) {
                     return new this.customStoreItem(this.storeStrategy, this.storeKey);
@@ -165,14 +165,14 @@ export class StoreInstanceBuilder {
     }
 
 
-    protected createStoreField(): any {
+    protected createStoreFields(): any {
         let allFields: any[] = [];
         const metaFields = getMetadata(STORE_FIELD, this.constructorInstance as object);
         allFields.push(...metaFields);
 
         for(let i = 0; allFields.length > i; i++) {
             const fieldValue = this.instance[allFields[i].propertyName] || undefined;
-            const field = new StoreFieldInstance({
+            const field: StoreFieldInstanceInterface = new StoreFieldInstance({
                     validators: allFields[i].validators ?? undefined,
                     policy: allFields[i].policy ?? undefined,
                     propertyName: allFields[i].propertyName
@@ -187,7 +187,8 @@ export class StoreInstanceBuilder {
     }
 
     protected createStrategy() {
-        const fieldManager = new this.fieldManager!(this.storeFields);
+        const fieldManager =
+            new this.fieldManager!(this.storeFields);
         this.storeStrategy = new this.storeStrategyInstance(
             fieldManager, this.constructorInstance, this.args);
     }
@@ -198,5 +199,24 @@ export class StoreInstanceBuilder {
             return;
         }
         this.instance = new this.constructorInstance();
+    }
+
+    /**
+     * set a value to created instance
+     * @protected
+     */
+    protected setValueToInstance() {
+        if (!this.storeValue) {
+            return;
+        }
+        const keys = Object.keys(this.storeValue);
+        if (!keys || keys.length === 0) {
+            return;
+        }
+        forEach(keys, key => {
+            if (this.instance.hasOwnProperty(key)) {
+                this.instance[key] = this.storeValue[key];
+            }
+        });
     }
 }

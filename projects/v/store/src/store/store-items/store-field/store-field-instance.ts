@@ -1,9 +1,19 @@
-import { ValidationError, ValidatorInterface } from '../../services/store/models/validation/validator.interface';
-import { StoreFieldOptionsInterface } from './models/store-field-options.interface';
 import { StoreFieldMeta } from './models/store-field-meta';
+import { STORE_FIELD_INSTANCE_EVENTS, StoreFieldInstanceEventsInterface } from '../models/store-events';
+import { ValidationError, ValidatorInterface } from '../../services';
+import { EventStackManager, TypeEvent } from '@v/event-stack';
+import { EventStackSubscription } from '@v/event-stack/event-stack/stack-item/models/event-stack.item.interface';
+import { StoreFieldInstanceInterface } from './models/store-field-instance.interface';
+import { ExtraProvider } from '../../../extra-provider/extra-provider';
+import remove from 'lodash/remove';
 
 
-export class StoreFieldInstance<T = any> {
+/**
+ * Base structure in this lib.
+ *
+ * The lowest level layer. Basic unit for FieldsManager
+ */
+export class StoreFieldInstance<T = any, I_EVENTS = StoreFieldInstanceEventsInterface> implements StoreFieldInstanceInterface<T, I_EVENTS> {
 
     /**
      * @protected
@@ -12,21 +22,24 @@ export class StoreFieldInstance<T = any> {
      */
     public propertyName: string | symbol;
     protected storeValue: T;
-    protected extra: StoreFieldOptionsInterface = {} as StoreFieldOptionsInterface;
+    public readonly extra: ExtraProvider = new ExtraProvider();
     protected isValidStoreValue: boolean = false;
     /**
      * @protected
      * Validators responsible for checking the value of a field
      */
-    protected validators: ValidatorInterface[] | undefined;
+    protected validators: ValidatorInterface<this>[] | undefined;
 
     protected policyFn: (() => Promise<boolean>) | undefined;
+
+    protected eventStackManager = new EventStackManager();
 
     constructor(config: StoreFieldMeta, value?: T) {
         this.validators = config.validators;
         this.policyFn = config.policy || undefined;
         this.propertyName = config.propertyName;
         this.setValue(value);
+        this.eventStackManager.addMultiple<this>([STORE_FIELD_INSTANCE_EVENTS.changeValue, STORE_FIELD_INSTANCE_EVENTS.validate]);
     }
 
     /**
@@ -49,8 +62,9 @@ export class StoreFieldInstance<T = any> {
      * Setter function for update field value
      * @return value
      */
-    setValue(value: any): void {
+    setValue<T = any>(value: any): T {
         this.storeValue = value;
+        this.eventStackManager.emit<this>(STORE_FIELD_INSTANCE_EVENTS.changeValue, this);
         return value;
     }
 
@@ -65,7 +79,7 @@ export class StoreFieldInstance<T = any> {
         }
 
         for await (let validator of this.validators) {
-            let res = await validator(this);
+            let res = await validator.validate(this);
             if (res !== true) {
                 this.isValidStoreValue = false;
                 errors.push(res);
@@ -73,8 +87,27 @@ export class StoreFieldInstance<T = any> {
         }
         if (errors.length > 0) {
             this.isValidStoreValue = false;
+            this.eventStackManager.emit<true | ValidationError[]>(STORE_FIELD_INSTANCE_EVENTS.validate, errors);
             return errors;
         }
+        this.eventStackManager.emit<true | ValidationError[]>(STORE_FIELD_INSTANCE_EVENTS.validate, true);
         return this.isValidStoreValue = true;
+    }
+
+    public addValidator(validator: ValidatorInterface<this>) {
+        this.validators?.push(validator);
+    }
+
+    public removeValidator(name: string) {
+        if (!this.validators) {
+            return;
+        }
+        remove(this.validators, name);
+    }
+
+    public listenEvent<E_TYPE extends keyof I_EVENTS>(
+        event: E_TYPE,
+        cb: TypeEvent<I_EVENTS, E_TYPE>): EventStackSubscription {
+        return this.eventStackManager.listen(event as string | symbol, cb);
     }
 }

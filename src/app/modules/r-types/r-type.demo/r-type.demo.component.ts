@@ -5,8 +5,6 @@ import {
     TypeDecoratorInterface
 } from '../../../../../projects/v/r-types/src/decorators/type-decorator/models/type-decorator.interface';
 import { REmailValidator } from '../../../../../projects/v/r-types/src/validators/r-validators/r-email.validator';
-import { EventStackItemInterface, EventStackManager } from '../../../../../projects/v/event-stack/src/event-stack';
-import { StackCallback } from '../../../../../projects/v/event-stack/src/event-stack/stack-manager/models/stack-callback';
 
 
 @Component({
@@ -29,7 +27,7 @@ export class RTypeDemoComponent implements OnInit {
         typeOrValidator: REmailValidator,
         defaultValue: 'data'
     })
-    email: TypeDecoratorInterface<number>;
+    email: TypeDecoratorInterface<string>;
 
 
     ngOnInit() {

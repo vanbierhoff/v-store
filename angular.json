@@ -244,48 +244,6 @@
         }
       }
     },
-    "@v/forms": {
-      "projectType": "library",
-      "root": "projects/v/forms",
-      "sourceRoot": "projects/v/forms/src",
-      "prefix": "v",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/v/forms/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/v/forms/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/v/forms/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "tsConfig": "projects/v/forms/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/v/forms/**/*.ts",
-              "projects/v/forms/**/*.html"
-            ]
-          }
-        }
-      }
-    },
     "@v/event-stack": {
       "projectType": "library",
       "root": "projects/v/event-stack",
